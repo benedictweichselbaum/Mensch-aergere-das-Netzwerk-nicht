@@ -18,3 +18,10 @@ Abschlussprojekt für die C++-Vorlesung. Ziel ist ein Mensch ärgere dich nicht 
 - [ ] fancy Grafik
 - [ ] Statistiken
 - [ ] Mini-Game beim Warten
+
+## Kompilieren
+Final sollte es möglich sein, dass das Projekt einfach mit dem Makefile kompiliert wird. </br>
+Momentaner Stand (UNIX/LINUX): </br>
+<pre><code>
+make && ./src/main
+</code></pre>
