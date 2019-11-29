@@ -21,7 +21,7 @@ Abschlussprojekt für die C++-Vorlesung. Ziel ist ein Mensch ärgere dich nicht 
 
 ## Kompilieren
 Final sollte es möglich sein, dass das Projekt einfach mit dem Makefile kompiliert wird. </br>
-Momentaner Stand (UNIX/LINUX): </br>
+Momentaner Stand (UNIX/LINUX):
 <pre><code>
 make && ./src/main
 </code></pre>
