@@ -30,9 +30,10 @@ make && ./src/main
 Für den Netzwerkverkehr zwischen Client und Server soll ein Protokoll definiert werden. </br>
 Es besteht über das ganze Spiel hinweg eine Verbindung zwischen Client und Server. </br>
 Sämtliche Berechnung der Spiels erfolgt beim Server. Der Client bekommt ausschließlich Spielinformationen übermittelt.
-Der Client selbst tätigt nur zwei Dinge:
+Der Client selbst tätigt nur drei Dinge:
 1. Einen Befehl übermitteln, um den Würfel zu werfen. (Übermittlung "[Spielernummer]D")
-2. Bei einer Wahl mehrerer Spielfiguren, soll er/sie die wählen mit der er/sie ziehen will. (Übermittlung "[Spielernummer]Figurnummer")
+2. Bei einer Wahl mehrerer Spielfiguren, soll er/sie die wählen mit der er/sie ziehen will. (Übermittlung "[Spielernummer][Figurnummer]")
+3. Nachfrage nach einem aktuellen Spielfeld. (Übermittlung "N")
 Nach jedem dieser Schritte wird dem Client vom Server ein aktueller Stand des Spielbretts, bzw. des Würfels, mitgeteilt. </br>
 Auch nach und während des Zuges eines anderen Spielers wird jedem Client ein aktuelles Spielfeld übermittelt. </br></br>
 ### Spielbrettinformationen
@@ -50,4 +51,6 @@ Nachrichtenformat:
 // Aktueller Spieler </br>
 [1-6] </br>
 // Aktuelle Würfelzahl
+[0-4]
+// Gewinner: 0 = keiner bisher gewonnen.
 </code></pre>

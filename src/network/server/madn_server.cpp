@@ -25,6 +25,7 @@ void ServerMadn::handlePlayerInput (connection_madn_ptr con_ptr) {
             std::cout << "Log[" << getCurrentDate() << "]: "
             << "Communication was successfull."
             << std::endl;
+            this->welcomeNewClient(con_ptr);
         }
     });
 }
@@ -38,7 +39,7 @@ void ServerMadn::getClientPlayerInput (connection_madn_ptr con_ptr) {
 }
 
 void ServerMadn::welcomeNewClient (connection_madn_ptr con_ptr) {
-    std::string greeting = "You succsessfully established a connection. Let's Play!\n";
+    std::string greeting = "Enter new input";
     char welcomeMessage[MSG_SIZE];
     strcpy(welcomeMessage, greeting.c_str());
 
@@ -51,6 +52,7 @@ void ServerMadn::welcomeNewClient (connection_madn_ptr con_ptr) {
 void ServerMadn::handleAcceptedConnection (connection_madn_ptr con_ptr) {
     std::cout << "Log[" << getCurrentDate() << "]: " << "New established connection got accepted." << std::endl;
     welcomeNewClient (con_ptr);
+
     // Create new connection in order to continue the event loop.
     auto newConPtr = std::make_shared<connection_madn>(io_service);
     acceptor.async_accept(newConPtr->socket, [this, newConPtr](const boost::system::error_code& errorCode){
