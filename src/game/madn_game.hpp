@@ -44,8 +44,24 @@ class MenschAergereDichNichtGame {
         }
         int8_t* getBoard () {return board;};
         std::string getBoardAsString ();
-        void movePlayerByPlayerNumberAndDiceNumberAndMeepleNumber (int8_t playerNumber, int8_t meepleNumber);
+        std::string movePlayerByPlayerNumberAndDiceNumberAndMeepleNumber (int8_t playerNumber, int8_t meepleNumber);
         // Meeple number is determined by the position on the field. 0 = meeple in starting house. 1-4 = meeple in clockwise order
         // on the field, beginning with the yellow starting field.
         void saveGameInFile ();
+};
+
+int8_t addOnBoard (int8_t sum1, int8_t sum2);
+
+class MeepleNumberNotFoundException : std::exception {
+    public:
+        virtual const char* what() const throw() override {
+            return "The chosen meeple number is not available.\n";
+        }
+};
+
+class MoveNotPossibleException : std::exception {
+    public:
+        virtual const char* what() const throw() override {
+            return "This move vialates the rules of the game.\n";
+        }
 };
