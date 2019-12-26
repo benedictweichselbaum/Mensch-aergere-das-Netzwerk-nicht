@@ -120,6 +120,9 @@ std::string MenschAergereDichNichtGame::movePlayerByPlayerNumberAndDiceNumberAnd
             MeepleNumberNotFoundException e;
             throw e;
         }
+
+        if (board[62] = checkWinner() != 0) return "win";
+        else return "success";
     } catch (MeepleNumberNotFoundException& e) {
         return e.what();
     } catch (MoveNotPossibleException& e) {
