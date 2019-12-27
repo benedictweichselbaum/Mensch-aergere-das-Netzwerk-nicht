@@ -1,4 +1,5 @@
-#pragma once
+#ifndef H_SERVERMADN
+#define H_SERVERMADN
 
 #include "../connection/connection.hpp"
 
@@ -19,3 +20,7 @@ class ServerMadn {
         void handleAcceptedConnection (connection_madn_ptr con_ptr);
         void startServer (ushort port);
 };
+
+std::string getCurrentDateWithTime ();
+
+#endif

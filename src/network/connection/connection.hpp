@@ -1,4 +1,5 @@
-#pragma once
+#ifndef H_CONNECTION
+#define H_CONNECTION
 
 #include <boost/asio.hpp>
 #include <iostream>
@@ -21,9 +22,4 @@ typedef struct client_server_connection_madn {
 
 using connection_madn_ptr = std::shared_ptr<connection_madn>;
 
-std::string getCurrentDate () {
-    auto currentTime_t = std::chrono::system_clock::to_time_t(std::chrono::system_clock::now());
-    char stringDateBuffer[100] = {0};
-    std::strftime(stringDateBuffer, sizeof(stringDateBuffer), "%Y-%m-%d %H:%M:%S", std::localtime(&currentTime_t));
-    return stringDateBuffer;
-}
+#endif

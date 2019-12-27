@@ -1,6 +1,10 @@
+#ifndef H_MADNGAME
+#define H_MADNGAME
+
 #include <iostream>
 #include <set>
 #include <fstream>
+#include <random>
 
 class MenschAergereDichNichtGame {
     private:
@@ -28,13 +32,13 @@ class MenschAergereDichNichtGame {
                             break;
                     }
                 }
-
-                if (gelb == 4) return 1;
+            }
+            if (gelb == 4) return 1;
                 else if (blau == 4) return 2;
                 else if (rot == 4) return 3;
                 else if (gruen == 4) return 4;
-                else return 0;
-            }
+                
+                return 0;
         };
     public:
         MenschAergereDichNichtGame ();
@@ -48,6 +52,7 @@ class MenschAergereDichNichtGame {
         // Meeple number is determined by the position on the field. 0 = meeple in starting house. 1-4 = meeple in clockwise order
         // on the field, beginning with the yellow starting field.
         void saveGameInFile ();
+        void rollTheDice ();
 };
 
 int8_t addOnBoard (int8_t sum1, int8_t sum2);
@@ -65,3 +70,5 @@ class MoveNotPossibleException : std::exception {
             return "This move vialates the rules of the game.\n";
         }
 };
+
+#endif

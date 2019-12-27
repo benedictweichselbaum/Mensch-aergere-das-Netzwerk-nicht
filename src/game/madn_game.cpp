@@ -1,5 +1,6 @@
 #include "madn_game.hpp"
 
+// Create new game with default values.
 MenschAergereDichNichtGame::MenschAergereDichNichtGame () : board (new int8_t[63]) {
     std::set<int> startingHouses = {0, 5, 10, 15};
     std::set<int> currentPlayerDiceNumber = {61, 62};
@@ -15,6 +16,7 @@ MenschAergereDichNichtGame::MenschAergereDichNichtGame () : board (new int8_t[63
     }
 }
 
+// Create game from a save game file.
 MenschAergereDichNichtGame::MenschAergereDichNichtGame (std::string filePath) : board (new int8_t[63]) {
     std::ifstream fileInputStream (filePath);
     std::string boardString;
@@ -39,7 +41,8 @@ std::string MenschAergereDichNichtGame::getBoardAsString () {
     return returnString;
 }
 
-// Returns "succsess" when everything is ok and "win" if one player won. Overwise something different (e.g. a exception message).
+// Returns "succsess" when everything is ok, "again" when a player put a meeple out of his house
+// and "win" if one player won. Overwise something different (e.g. a exception message).
 std::string MenschAergereDichNichtGame::movePlayerByPlayerNumberAndDiceNumberAndMeepleNumber (int8_t playerNumber, int8_t meepleNumber) {
     // Meeple = "Spielfigur"
     // Dice number is readable from the board inforamtion array. board[62]
@@ -53,6 +56,7 @@ std::string MenschAergereDichNichtGame::movePlayerByPlayerNumberAndDiceNumberAnd
                 board[(board[playerStartingIndex] - 1) * 5]++;
             }
             board[playerStartingIndex] = playerNumber;
+            return "again";
         } else if (meepleNumber >= 1 && meepleNumber <= 4) { // Normal move of meeple on field.
             //Search for right index.
             int index;
@@ -139,6 +143,14 @@ void MenschAergereDichNichtGame::saveGameInFile () {
     for (int boardIndex = 0; boardIndex < 63; ++boardIndex)
         fileOut << board[boardIndex];
     fileOut.close();
+}
+
+// Special function for a random dice number.
+// Has no bias toward lower numbers.
+void MenschAergereDichNichtGame::rollTheDice () {
+    std::mt19937 rng(time(NULL));
+    std::uniform_int_distribution<int8_t> gen(1, 6);
+    board[61] = gen(rng);
 }
 
 // Adding index numbers. Never a higher number than 60; Never lower than 20

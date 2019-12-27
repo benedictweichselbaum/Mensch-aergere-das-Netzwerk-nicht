@@ -16,3 +16,5 @@ class ClientMadn {
         // void connectionHandler (connection_madn_ptr connection_ptr);
         void startClient (std::string ip, std::string port);
 };
+
+std::string getCurrentDateWithTime ();
