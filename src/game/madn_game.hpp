@@ -5,6 +5,7 @@
 #include <set>
 #include <fstream>
 #include <random>
+#include <memory>
 
 class MenschAergereDichNichtGame {
     private:
@@ -70,5 +71,7 @@ class MoveNotPossibleException : std::exception {
             return "This move vialates the rules of the game.\n";
         }
 };
+
+using MadnGame_Ptr = std::shared_ptr<MenschAergereDichNichtGame>;
 
 #endif

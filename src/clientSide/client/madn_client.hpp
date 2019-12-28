@@ -1,9 +1,11 @@
 #pragma once
 
-#include "../connection/connection.hpp"
+#include "../../client_server_connection/connection.hpp"
 
 using tcp = boost::asio::ip::tcp;
 using errorCode = boost::system::error_code;
+
+std::string getCurrentDateWithTime ();
 
 class ClientMadn {
     private:
@@ -16,5 +18,3 @@ class ClientMadn {
         // void connectionHandler (connection_madn_ptr connection_ptr);
         void startClient (std::string ip, std::string port);
 };
-
-std::string getCurrentDateWithTime ();

@@ -1,7 +1,9 @@
 #ifndef H_SERVERMADN
 #define H_SERVERMADN
 
-#include "../connection/connection.hpp"
+#include "../../client_server_connection/connection.hpp"
+#include "../communicator/communicator.hpp"
+
 
 using tcp = boost::asio::ip::tcp;
 
@@ -12,11 +14,13 @@ class ServerMadn {
         boost::asio::io_service io_service;
         tcp::acceptor acceptor;
         std::unique_ptr<std::thread> thread_ptr;
+        ServerGameCommunicator_Ptr serverGameCommunicator;
     public:
         ServerMadn ();
+        ServerMadn (std::string saveGameFile);
         void handlePlayerInput (connection_madn_ptr con_ptr);
         void getClientPlayerInput (connection_madn_ptr con_ptr);
-        void welcomeNewClient (connection_madn_ptr con_ptr);
+        void askForNewInput (connection_madn_ptr con_ptr);
         void handleAcceptedConnection (connection_madn_ptr con_ptr);
         void startServer (ushort port);
 };

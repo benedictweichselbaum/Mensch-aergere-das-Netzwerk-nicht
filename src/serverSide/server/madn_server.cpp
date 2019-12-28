@@ -2,7 +2,13 @@
 
 #define MSG_SIZE 100
 
-ServerMadn::ServerMadn () : acceptor (io_service) {}
+ServerMadn::ServerMadn () : acceptor (io_service) {
+    serverGameCommunicator = std::make_shared<ServerGameCommunicator>();
+}
+
+ServerMadn::ServerMadn (std::string saveGameFile) : acceptor (io_service) {
+    serverGameCommunicator = std::make_shared<ServerGameCommunicator>(saveGameFile);
+} 
 
 void ServerMadn::handlePlayerInput (connection_madn_ptr con_ptr) {
     std::cout << "Log[" << getCurrentDateWithTime() << "]: " << "Player sent the following message: "
@@ -10,10 +16,7 @@ void ServerMadn::handlePlayerInput (connection_madn_ptr con_ptr) {
         << std::endl;
     
     std::string clientMessage (con_ptr->connection_buffer);
-    std::string dummyAnswer1 = "This is the first answer!";
-    std::string dummyAnswer2 = "This is the second answer!";
-    std::string returnString = (clientMessage == "First") ? dummyAnswer1 : dummyAnswer2;
-
+    std::string returnString = serverGameCommunicator->reactToPlayerInput(clientMessage);
     char returnStringBuffer[MSG_SIZE];
     strcpy(returnStringBuffer, returnString.c_str());
 
@@ -23,7 +26,7 @@ void ServerMadn::handlePlayerInput (connection_madn_ptr con_ptr) {
             std::cout << "Log[" << getCurrentDateWithTime() << "]: "
             << "Communication was successfull."
             << std::endl;
-            this->welcomeNewClient(con_ptr);
+            this->askForNewInput(con_ptr);
         }
     });
 }
@@ -36,8 +39,8 @@ void ServerMadn::getClientPlayerInput (connection_madn_ptr con_ptr) {
     });
 }
 
-void ServerMadn::welcomeNewClient (connection_madn_ptr con_ptr) {
-    std::string greeting = "Enter new input";
+void ServerMadn::askForNewInput (connection_madn_ptr con_ptr) {
+    std::string greeting = "Enter new input:";
     char welcomeMessage[MSG_SIZE];
     strcpy(welcomeMessage, greeting.c_str());
 
@@ -49,7 +52,7 @@ void ServerMadn::welcomeNewClient (connection_madn_ptr con_ptr) {
 
 void ServerMadn::handleAcceptedConnection (connection_madn_ptr con_ptr) {
     std::cout << "Log[" << getCurrentDateWithTime() << "]: " << "New established connection got accepted." << std::endl;
-    welcomeNewClient (con_ptr);
+    askForNewInput (con_ptr);
 
     // Create new connection in order to continue the event loop.
     auto newConPtr = std::make_shared<connection_madn>(io_service);
@@ -61,7 +64,7 @@ void ServerMadn::handleAcceptedConnection (connection_madn_ptr con_ptr) {
 void ServerMadn::startServer (ushort port) {
     auto endpoint = tcp::endpoint (tcp::v4(), port);
     
-    std::cout << "Log[" << getCurrentDateWithTime() << "]: " << "Server started." << std::endl;
+    std::cout << "Log[" << getCurrentDateWithTime() << "]: " << "Server started on port " << port << "." << std::endl;
 
     acceptor.open(endpoint.protocol());
     acceptor.bind(endpoint);
@@ -85,9 +88,3 @@ std::string getCurrentDateWithTime () {
     std::strftime(stringDateBuffer, sizeof(stringDateBuffer), "%Y-%m-%d %H:%M:%S", std::localtime(&currentTime_t));
     return stringDateBuffer;
 }
-
-/*int main () {
-    ServerMadn serverMadn;
-    serverMadn.startServer(8999);
-    return 0x00;
-}*/

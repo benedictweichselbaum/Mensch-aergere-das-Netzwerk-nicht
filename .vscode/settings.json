@@ -70,6 +70,8 @@
         "io_context": "cpp",
         "netfwd": "cpp",
         "socket": "cpp",
-        "timer": "cpp"
+        "timer": "cpp",
+        "regex": "cpp",
+        "shared_mutex": "cpp"
     }
 }

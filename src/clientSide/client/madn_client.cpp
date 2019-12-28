@@ -3,6 +3,13 @@
 ClientMadn::ClientMadn() {
 }
 
+std::string getCurrentDateWithTime () {
+    auto currentTime_t = std::chrono::system_clock::to_time_t(std::chrono::system_clock::now());
+    char stringDateBuffer[100] = {0};
+    std::strftime(stringDateBuffer, sizeof(stringDateBuffer), "%Y-%m-%d %H:%M:%S", std::localtime(&currentTime_t));
+    return stringDateBuffer;
+}
+
 void ClientMadn::readHandler2 (connection_madn_ptr connection_ptr) {
     std::cout << "Log[" << getCurrentDateWithTime() << "]: " << "Server answer: " << connection_ptr->connection_buffer << std::endl;
     auto boostBuffer = boost::asio::buffer(connection_ptr->connection_buffer, 100);
@@ -58,15 +65,8 @@ void ClientMadn::startClient (std::string ip, std::string port) {
     std::cout << "Log[" << getCurrentDateWithTime() << "]: " << "Client stopped." << std::endl;
 }
 
-std::string getCurrentDateWithTimeWithTime () {
-    auto currentTime_t = std::chrono::system_clock::to_time_t(std::chrono::system_clock::now());
-    char stringDateBuffer[100] = {0};
-    std::strftime(stringDateBuffer, sizeof(stringDateBuffer), "%Y-%m-%d %H:%M:%S", std::localtime(&currentTime_t));
-    return stringDateBuffer;
-}
-
-/* int main () {
+int main () {
     ClientMadn client;
     client.startClient("localhost", "8999");
     return 0x00;
-} */
+}
