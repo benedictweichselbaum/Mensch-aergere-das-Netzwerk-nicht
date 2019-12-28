@@ -8,17 +8,17 @@
 
 class GameCommunicatorState {
     public:
-        virtual std::string reactToPlayerInput (std::string input, MadnGame_Ptr game) = 0;
+        virtual std::string reactToPlayerInput (const std::string& input, MadnGame_Ptr game) = 0;
 };
 
 class GameStartState : public GameCommunicatorState {
     public:
-        virtual std::string reactToPlayerInput (std::string input, MadnGame_Ptr game) override;
+        virtual std::string reactToPlayerInput (const std::string& input, MadnGame_Ptr game) override;
 };
 
 class PlayingState : public GameCommunicatorState {
     public:
-        virtual std::string reactToPlayerInput (std::string input, MadnGame_Ptr game) override;
+        virtual std::string reactToPlayerInput (const std::string& input, MadnGame_Ptr game) override;
 };
 
 using GameCommunicatorState_Ptr = std::shared_ptr<GameCommunicatorState>;

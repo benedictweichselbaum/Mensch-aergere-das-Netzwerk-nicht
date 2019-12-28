@@ -1,23 +1,23 @@
 #include "config.h"
-#include <SFML\Graphics.hpp>
+#include <SFML/Graphics.hpp>
 #include "view.h"
 #include <iostream>
 
 //PlaygroundField NewPlayground()
 //{
-//	sf::RenderWindow window(sf::VideoMode(990, 990), "Mensch ärgere dich nicht");
+//	sf::RenderWindow window(sf::VideoMode(990, 990), "Mensch ï¿½rgere dich nicht");
 //
 //	std::vector<std::vector<sf::CircleShape>> listOfCircles = InitializePlayground();
 //
 //	PlaygroundField playgroundField = PlaygroundField();
-//	//playgroundField.window = new sf::RenderWindow::RenderWindow(sf::VideoMode(990, 990), "Mensch ärgere dich nicht");
+//	//playgroundField.window = new sf::RenderWindow::RenderWindow(sf::VideoMode(990, 990), "Mensch ï¿½rgere dich nicht");
 //	//playgroundField.window;
 //	return playgroundField;
 //}
 
 //sf::RenderWindow NewWindow()
 //{
-//	sf::RenderWindow window(sf::VideoMode(PLAYGROUNDINTERVAL * 11 + SIDEPANEL, PLAYGROUNDINTERVAL * 11), "Mensch ärgere dich nicht");
+//	sf::RenderWindow window(sf::VideoMode(PLAYGROUNDINTERVAL * 11 + SIDEPANEL, PLAYGROUNDINTERVAL * 11), "Mensch ï¿½rgere dich nicht");
 //	return window;
 //}
 
@@ -165,7 +165,7 @@ std::vector<std::vector<sf::CircleShape>> InitializePlayground()
 	ColorizeCircle(PLAYGROUNDCOLORNORMALSHAPE, listOfCircles.at(0).at(5));
 	ColorizeCircle(PLAYGROUNDCOLORPLAYER2, listOfCircles.at(0).at(6));
 
-	//Grüne Start
+	//Grï¿½ne Start
 	ColorizeCircle(PLAYGROUNDCOLORPLAYER2, listOfCircles.at(0).at(9));
 	ColorizeCircle(PLAYGROUNDCOLORPLAYER2, listOfCircles.at(0).at(10));
 	ColorizeCircle(PLAYGROUNDCOLORPLAYER2, listOfCircles.at(1).at(9));

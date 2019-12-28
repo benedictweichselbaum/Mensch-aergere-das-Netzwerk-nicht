@@ -1,4 +1,4 @@
-#include <SFML\Graphics.hpp>
+#include<SFML/Graphics.hpp>
 #include "main.h"
 #include "config.h"
 #include "view.h"
@@ -8,7 +8,7 @@
 
 int main()
 {
-	sf::RenderWindow window(sf::VideoMode(PLAYGROUNDINTERVAL * 11 + SIDEPANEL, PLAYGROUNDINTERVAL * 11), "Mensch ärgere dich nicht");
+	sf::RenderWindow window(sf::VideoMode(PLAYGROUNDINTERVAL * 11 + SIDEPANEL, PLAYGROUNDINTERVAL * 11), "Mensch ï¿½rgere dich nicht");
 	View view = InitializeView();
 	//view.sidebar.dice.Set(5);
 	//view.setPositions("4000040000400004000000000000000000000000000000000000000000002360");
@@ -19,7 +19,7 @@ int main()
 
 
 
-	//sf::RenderWindow window(sf::VideoMode(990, 990), "Mensch ärgere dich nicht");
+	//sf::RenderWindow window(sf::VideoMode(990, 990), "Mensch ï¿½rgere dich nicht");
 
 	//std::vector<std::vector<sf::CircleShape>> listOfCircles = FeldInitialisieren();
 
@@ -74,93 +74,93 @@ int main()
 //	std::vector<std::vector<sf::CircleShape>> listOfCircles = FeldErstellen();
 //
 //	//Gelbe Start
-//	KreisFärben(sf::Color::Yellow, listOfCircles.at(0).at(0));
-//	KreisFärben(sf::Color::Yellow, listOfCircles.at(0).at(1));
-//	KreisFärben(sf::Color::Yellow, listOfCircles.at(1).at(0));
-//	KreisFärben(sf::Color::Yellow, listOfCircles.at(1).at(1));
+//	KreisFï¿½rben(sf::Color::Yellow, listOfCircles.at(0).at(0));
+//	KreisFï¿½rben(sf::Color::Yellow, listOfCircles.at(0).at(1));
+//	KreisFï¿½rben(sf::Color::Yellow, listOfCircles.at(1).at(0));
+//	KreisFï¿½rben(sf::Color::Yellow, listOfCircles.at(1).at(1));
 //
-//	KreisFärben(sf::Color::White, listOfCircles.at(0).at(4));
-//	KreisFärben(sf::Color::White, listOfCircles.at(0).at(5));
-//	KreisFärben(sf::Color::Green, listOfCircles.at(0).at(6));
+//	KreisFï¿½rben(sf::Color::White, listOfCircles.at(0).at(4));
+//	KreisFï¿½rben(sf::Color::White, listOfCircles.at(0).at(5));
+//	KreisFï¿½rben(sf::Color::Green, listOfCircles.at(0).at(6));
 //
-//	//Grüne Start
-//	KreisFärben(sf::Color::Green, listOfCircles.at(0).at(9));
-//	KreisFärben(sf::Color::Green, listOfCircles.at(0).at(10));
-//	KreisFärben(sf::Color::Green, listOfCircles.at(1).at(9));
-//	KreisFärben(sf::Color::Green, listOfCircles.at(1).at(10));
+//	//Grï¿½ne Start
+//	KreisFï¿½rben(sf::Color::Green, listOfCircles.at(0).at(9));
+//	KreisFï¿½rben(sf::Color::Green, listOfCircles.at(0).at(10));
+//	KreisFï¿½rben(sf::Color::Green, listOfCircles.at(1).at(9));
+//	KreisFï¿½rben(sf::Color::Green, listOfCircles.at(1).at(10));
 //
-//	KreisFärben(sf::Color::White, listOfCircles.at(1).at(4));
-//	KreisFärben(sf::Color::Green, listOfCircles.at(1).at(5));
-//	KreisFärben(sf::Color::White, listOfCircles.at(1).at(6));
+//	KreisFï¿½rben(sf::Color::White, listOfCircles.at(1).at(4));
+//	KreisFï¿½rben(sf::Color::Green, listOfCircles.at(1).at(5));
+//	KreisFï¿½rben(sf::Color::White, listOfCircles.at(1).at(6));
 //
-//	KreisFärben(sf::Color::White, listOfCircles.at(2).at(4));
-//	KreisFärben(sf::Color::Green, listOfCircles.at(2).at(5));
-//	KreisFärben(sf::Color::White, listOfCircles.at(2).at(6));
+//	KreisFï¿½rben(sf::Color::White, listOfCircles.at(2).at(4));
+//	KreisFï¿½rben(sf::Color::Green, listOfCircles.at(2).at(5));
+//	KreisFï¿½rben(sf::Color::White, listOfCircles.at(2).at(6));
 //
-//	KreisFärben(sf::Color::White, listOfCircles.at(3).at(4));
-//	KreisFärben(sf::Color::Green, listOfCircles.at(3).at(5));
-//	KreisFärben(sf::Color::White, listOfCircles.at(3).at(6));
+//	KreisFï¿½rben(sf::Color::White, listOfCircles.at(3).at(4));
+//	KreisFï¿½rben(sf::Color::Green, listOfCircles.at(3).at(5));
+//	KreisFï¿½rben(sf::Color::White, listOfCircles.at(3).at(6));
 //
-//	KreisFärben(sf::Color::Yellow, listOfCircles.at(4).at(0));
-//	KreisFärben(sf::Color::White, listOfCircles.at(4).at(1));
-//	KreisFärben(sf::Color::White, listOfCircles.at(4).at(2));
-//	KreisFärben(sf::Color::White, listOfCircles.at(4).at(3));
-//	KreisFärben(sf::Color::White, listOfCircles.at(4).at(4));
-//	KreisFärben(sf::Color::Green, listOfCircles.at(4).at(5));
-//	KreisFärben(sf::Color::White, listOfCircles.at(4).at(6));
-//	KreisFärben(sf::Color::White, listOfCircles.at(4).at(7));
-//	KreisFärben(sf::Color::White, listOfCircles.at(4).at(8));
-//	KreisFärben(sf::Color::White, listOfCircles.at(4).at(9));
-//	KreisFärben(sf::Color::White, listOfCircles.at(4).at(10));
+//	KreisFï¿½rben(sf::Color::Yellow, listOfCircles.at(4).at(0));
+//	KreisFï¿½rben(sf::Color::White, listOfCircles.at(4).at(1));
+//	KreisFï¿½rben(sf::Color::White, listOfCircles.at(4).at(2));
+//	KreisFï¿½rben(sf::Color::White, listOfCircles.at(4).at(3));
+//	KreisFï¿½rben(sf::Color::White, listOfCircles.at(4).at(4));
+//	KreisFï¿½rben(sf::Color::Green, listOfCircles.at(4).at(5));
+//	KreisFï¿½rben(sf::Color::White, listOfCircles.at(4).at(6));
+//	KreisFï¿½rben(sf::Color::White, listOfCircles.at(4).at(7));
+//	KreisFï¿½rben(sf::Color::White, listOfCircles.at(4).at(8));
+//	KreisFï¿½rben(sf::Color::White, listOfCircles.at(4).at(9));
+//	KreisFï¿½rben(sf::Color::White, listOfCircles.at(4).at(10));
 //
-//	KreisFärben(sf::Color::White, listOfCircles.at(5).at(0));
-//	KreisFärben(sf::Color::Yellow, listOfCircles.at(5).at(1));
-//	KreisFärben(sf::Color::Yellow, listOfCircles.at(5).at(2));
-//	KreisFärben(sf::Color::Yellow, listOfCircles.at(5).at(3));
-//	KreisFärben(sf::Color::Yellow, listOfCircles.at(5).at(4));
-//	KreisFärben(sf::Color::Red, listOfCircles.at(5).at(6));
-//	KreisFärben(sf::Color::Red, listOfCircles.at(5).at(7));
-//	KreisFärben(sf::Color::Red, listOfCircles.at(5).at(8));
-//	KreisFärben(sf::Color::Red, listOfCircles.at(5).at(9));
-//	KreisFärben(sf::Color::White, listOfCircles.at(5).at(10));
+//	KreisFï¿½rben(sf::Color::White, listOfCircles.at(5).at(0));
+//	KreisFï¿½rben(sf::Color::Yellow, listOfCircles.at(5).at(1));
+//	KreisFï¿½rben(sf::Color::Yellow, listOfCircles.at(5).at(2));
+//	KreisFï¿½rben(sf::Color::Yellow, listOfCircles.at(5).at(3));
+//	KreisFï¿½rben(sf::Color::Yellow, listOfCircles.at(5).at(4));
+//	KreisFï¿½rben(sf::Color::Red, listOfCircles.at(5).at(6));
+//	KreisFï¿½rben(sf::Color::Red, listOfCircles.at(5).at(7));
+//	KreisFï¿½rben(sf::Color::Red, listOfCircles.at(5).at(8));
+//	KreisFï¿½rben(sf::Color::Red, listOfCircles.at(5).at(9));
+//	KreisFï¿½rben(sf::Color::White, listOfCircles.at(5).at(10));
 //
-//	KreisFärben(sf::Color::White, listOfCircles.at(6).at(0));
-//	KreisFärben(sf::Color::White, listOfCircles.at(6).at(1));
-//	KreisFärben(sf::Color::White, listOfCircles.at(6).at(2));
-//	KreisFärben(sf::Color::White, listOfCircles.at(6).at(3));
-//	KreisFärben(sf::Color::White, listOfCircles.at(6).at(4));
-//	KreisFärben(sf::Color::Blue, listOfCircles.at(6).at(5));
-//	KreisFärben(sf::Color::White, listOfCircles.at(6).at(6));
-//	KreisFärben(sf::Color::White, listOfCircles.at(6).at(7));
-//	KreisFärben(sf::Color::White, listOfCircles.at(6).at(8));
-//	KreisFärben(sf::Color::White, listOfCircles.at(6).at(9));
-//	KreisFärben(sf::Color::Red, listOfCircles.at(6).at(10));
+//	KreisFï¿½rben(sf::Color::White, listOfCircles.at(6).at(0));
+//	KreisFï¿½rben(sf::Color::White, listOfCircles.at(6).at(1));
+//	KreisFï¿½rben(sf::Color::White, listOfCircles.at(6).at(2));
+//	KreisFï¿½rben(sf::Color::White, listOfCircles.at(6).at(3));
+//	KreisFï¿½rben(sf::Color::White, listOfCircles.at(6).at(4));
+//	KreisFï¿½rben(sf::Color::Blue, listOfCircles.at(6).at(5));
+//	KreisFï¿½rben(sf::Color::White, listOfCircles.at(6).at(6));
+//	KreisFï¿½rben(sf::Color::White, listOfCircles.at(6).at(7));
+//	KreisFï¿½rben(sf::Color::White, listOfCircles.at(6).at(8));
+//	KreisFï¿½rben(sf::Color::White, listOfCircles.at(6).at(9));
+//	KreisFï¿½rben(sf::Color::Red, listOfCircles.at(6).at(10));
 //
-//	KreisFärben(sf::Color::White, listOfCircles.at(7).at(4));
-//	KreisFärben(sf::Color::Blue, listOfCircles.at(7).at(5));
-//	KreisFärben(sf::Color::White, listOfCircles.at(7).at(6));
+//	KreisFï¿½rben(sf::Color::White, listOfCircles.at(7).at(4));
+//	KreisFï¿½rben(sf::Color::Blue, listOfCircles.at(7).at(5));
+//	KreisFï¿½rben(sf::Color::White, listOfCircles.at(7).at(6));
 //
-//	KreisFärben(sf::Color::White, listOfCircles.at(8).at(4));
-//	KreisFärben(sf::Color::Blue, listOfCircles.at(8).at(5));
-//	KreisFärben(sf::Color::White, listOfCircles.at(8).at(6));
+//	KreisFï¿½rben(sf::Color::White, listOfCircles.at(8).at(4));
+//	KreisFï¿½rben(sf::Color::Blue, listOfCircles.at(8).at(5));
+//	KreisFï¿½rben(sf::Color::White, listOfCircles.at(8).at(6));
 //
-//	KreisFärben(sf::Color::White, listOfCircles.at(9).at(4));
-//	KreisFärben(sf::Color::Blue, listOfCircles.at(9).at(5));
-//	KreisFärben(sf::Color::White, listOfCircles.at(9).at(6));
+//	KreisFï¿½rben(sf::Color::White, listOfCircles.at(9).at(4));
+//	KreisFï¿½rben(sf::Color::Blue, listOfCircles.at(9).at(5));
+//	KreisFï¿½rben(sf::Color::White, listOfCircles.at(9).at(6));
 //
-//	KreisFärben(sf::Color::Blue, listOfCircles.at(10).at(4));
-//	KreisFärben(sf::Color::White, listOfCircles.at(10).at(5));
-//	KreisFärben(sf::Color::White, listOfCircles.at(10).at(6));
+//	KreisFï¿½rben(sf::Color::Blue, listOfCircles.at(10).at(4));
+//	KreisFï¿½rben(sf::Color::White, listOfCircles.at(10).at(5));
+//	KreisFï¿½rben(sf::Color::White, listOfCircles.at(10).at(6));
 //
-//	KreisFärben(sf::Color::Blue, listOfCircles.at(9).at(0));
-//	KreisFärben(sf::Color::Blue, listOfCircles.at(9).at(1));
-//	KreisFärben(sf::Color::Blue, listOfCircles.at(10).at(0));
-//	KreisFärben(sf::Color::Blue, listOfCircles.at(10).at(1));
+//	KreisFï¿½rben(sf::Color::Blue, listOfCircles.at(9).at(0));
+//	KreisFï¿½rben(sf::Color::Blue, listOfCircles.at(9).at(1));
+//	KreisFï¿½rben(sf::Color::Blue, listOfCircles.at(10).at(0));
+//	KreisFï¿½rben(sf::Color::Blue, listOfCircles.at(10).at(1));
 //
-//	KreisFärben(sf::Color::Red, listOfCircles.at(9).at(9));
-//	KreisFärben(sf::Color::Red, listOfCircles.at(9).at(10));
-//	KreisFärben(sf::Color::Red, listOfCircles.at(10).at(9));
-//	KreisFärben(sf::Color::Red, listOfCircles.at(10).at(10));
+//	KreisFï¿½rben(sf::Color::Red, listOfCircles.at(9).at(9));
+//	KreisFï¿½rben(sf::Color::Red, listOfCircles.at(9).at(10));
+//	KreisFï¿½rben(sf::Color::Red, listOfCircles.at(10).at(9));
+//	KreisFï¿½rben(sf::Color::Red, listOfCircles.at(10).at(10));
 //
 //
 //
@@ -178,7 +178,7 @@ int main()
 //	}
 //}
 //
-//void KreisFärben(sf::Color farbe, sf::CircleShape& circle)//--
+//void KreisFï¿½rben(sf::Color farbe, sf::CircleShape& circle)//--
 //{
 //	circle.setFillColor(farbe);
 //}
