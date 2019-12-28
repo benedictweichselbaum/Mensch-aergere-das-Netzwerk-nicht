@@ -1,0 +1,11 @@
+﻿C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\MSBuild\Microsoft\VC\v160\Microsoft.CppBuild.targets(459,5): warning MSB8028: The intermediate directory (Debug\) contains files shared from another project (sfml.vcxproj).  This can lead to incorrect clean and rebuild behavior.
+  view.cpp
+C:\Users\DKrau\source\repos\Mensch-aergere-das-Netzwerk-nicht\sfml\view.cpp(37,20): warning C4018: "<": Konflikt zwischen "signed" und "unsigned"
+C:\Users\DKrau\source\repos\Mensch-aergere-das-Netzwerk-nicht\sfml\view.cpp(39,21): warning C4018: "<": Konflikt zwischen "signed" und "unsigned"
+C:\Users\DKrau\source\repos\Mensch-aergere-das-Netzwerk-nicht\sfml\view.cpp(54,20): warning C4018: "<": Konflikt zwischen "signed" und "unsigned"
+C:\Users\DKrau\source\repos\Mensch-aergere-das-Netzwerk-nicht\sfml\view.cpp(116,34): warning C4244: "Argument": Konvertierung von "int" in "float", möglicher Datenverlust
+C:\Users\DKrau\source\repos\Mensch-aergere-das-Netzwerk-nicht\sfml\view.cpp(116,31): warning C4244: "Argument": Konvertierung von "int" in "float", möglicher Datenverlust
+C:\Users\DKrau\source\repos\Mensch-aergere-das-Netzwerk-nicht\sfml\view.cpp(295,42): warning C4244: "Argument": Konvertierung von "int" in "float", möglicher Datenverlust
+C:\Users\DKrau\source\repos\Mensch-aergere-das-Netzwerk-nicht\sfml\view.cpp(295,39): warning C4244: "Argument": Konvertierung von "int" in "float", möglicher Datenverlust
+C:\Users\DKrau\source\repos\Mensch-aergere-das-Netzwerk-nicht\sfml\view.cpp(331,20): warning C4018: "<": Konflikt zwischen "signed" und "unsigned"
+  sfml.vcxproj -> C:\Users\DKrau\source\repos\Mensch-aergere-das-Netzwerk-nicht\Debug\Mensch-ärgere-das-netzwerk-nicht.exe
