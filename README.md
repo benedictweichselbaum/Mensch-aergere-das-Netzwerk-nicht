@@ -47,8 +47,8 @@ Nachrichtenformat:
 // Hausinformationen von Gelb bis Grün. Erste Zahl: Anzahl der Figuren im Starthaus. 4 Bit: Von außen nach innen besetztes Haus <br/>
 [0-4][0-4][0-4][0-4] ... [0-4] <br/>
 // 40 Zahlen von 0 bis 4 für das Spielfeld. Angefangen bei Index 20. Ende bei Index 59. <br/>
-[1-4] <br/>
-// Aktueller Spieler <br/>
+[0-4] <br/>
+// Aktueller Spieler. 0 = Spiel noch nicht gestartet. <br/>
 [1-6] <br/>
 // Aktuelle Würfelzahl
 [0-4]
