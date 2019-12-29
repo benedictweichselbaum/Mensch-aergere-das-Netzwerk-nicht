@@ -18,6 +18,25 @@
       <Platform>x64</Platform>
     </ProjectConfiguration>
   </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="..\src\clientSide\client\madn_client.hpp" />
+    <ClInclude Include="..\src\client_server_connection\connection.hpp" />
+    <ClInclude Include="..\src\game\madn_game.hpp" />
+    <ClInclude Include="..\src\main.h" />
+    <ClInclude Include="..\src\serverSide\communicator\communicator.hpp" />
+    <ClInclude Include="..\src\serverSide\server\madn_server.hpp" />
+    <ClInclude Include="..\src\view\config.h" />
+    <ClInclude Include="..\src\view\view.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="..\src\clientSide\client\madn_client.cpp" />
+    <ClCompile Include="..\src\game\madn_game.cpp" />
+    <ClCompile Include="..\src\main.cpp" />
+    <ClCompile Include="..\src\serverSide\communicator\communicator.cpp" />
+    <ClCompile Include="..\src\serverSide\server\madn_server.cpp" />
+    <ClCompile Include="..\src\serverSide\server_main.cpp" />
+    <ClCompile Include="..\src\view\view.cpp" />
+  </ItemGroup>
   <PropertyGroup Label="Globals">
     <ProjectGuid>{FC5BC12B-74CB-4F93-AB62-9F6985C02A58}</ProjectGuid>
     <Keyword>Win32Proj</Keyword>
@@ -152,16 +171,6 @@
       <OptimizeReferences>true</OptimizeReferences>
     </Link>
   </ItemDefinitionGroup>
-  <ItemGroup>
-    <ClCompile Include="controller.cpp" />
-    <ClCompile Include="main.cpp" />
-    <ClCompile Include="view.cpp" />
-  </ItemGroup>
-  <ItemGroup>
-    <ClInclude Include="config.h" />
-    <ClInclude Include="main.h" />
-    <ClInclude Include="view.h" />
-  </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
   </ImportGroup>

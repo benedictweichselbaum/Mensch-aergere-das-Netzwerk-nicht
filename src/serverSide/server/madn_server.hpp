@@ -22,7 +22,7 @@ class ServerMadn {
         void getClientPlayerInput (connection_madn_ptr con_ptr);
         void askForNewInput (connection_madn_ptr con_ptr);
         void handleAcceptedConnection (connection_madn_ptr con_ptr);
-        void startServer (ushort port);
+        void startServer (unsigned short port);
 };
 
 std::string getCurrentDateWithTime ();

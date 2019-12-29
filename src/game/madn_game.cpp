@@ -1,4 +1,7 @@
 #include "madn_game.hpp"
+#include <string>
+#include <fstream>
+#include <time.h>
 
 // Create new game with default values.
 MenschAergereDichNichtGame::MenschAergereDichNichtGame () : board (new int8_t[63]) {
@@ -148,9 +151,11 @@ void MenschAergereDichNichtGame::saveGameInFile () {
 // Special function for a random dice number.
 // Has no bias toward lower numbers.
 void MenschAergereDichNichtGame::rollTheDice () {
-    std::mt19937 rng(time(NULL));
-    std::uniform_int_distribution<int8_t> gen(1, 6);
-    board[61] = gen(rng);
+    //std::mt19937 rng(time(NULL));
+    //std::uniform_int_distribution<int8_t> gen(1, 6);
+    //board[61] = gen(rng);
+    srand((unsigned)time(NULL));
+    board[61] = rand() % 6 + 1;
 }
 
 // Adding index numbers. Never a higher number than 60; Never lower than 20

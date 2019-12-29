@@ -61,7 +61,7 @@ void ServerMadn::handleAcceptedConnection (connection_madn_ptr con_ptr) {
     });
 }
 
-void ServerMadn::startServer (ushort port) {
+void ServerMadn::startServer (unsigned short port) {
     auto endpoint = tcp::endpoint (tcp::v4(), port);
     
     std::cout << "Log[" << getCurrentDateWithTime() << "]: " << "Server started on port " << port << "." << std::endl;
