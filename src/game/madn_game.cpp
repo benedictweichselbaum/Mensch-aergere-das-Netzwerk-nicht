@@ -3,13 +3,12 @@
 // Create new game with default values.
 MenschAergereDichNichtGame::MenschAergereDichNichtGame () : board (new int8_t[63]) {
     std::set<int> startingHouses = {0, 5, 10, 15};
-    std::set<int> currentPlayerDiceNumber = {61, 62};
 
     // Fill in default values for starting a new game into the board array.
     for (int boardIndex = 0; boardIndex < 63; ++boardIndex) {
         if (startingHouses.count(boardIndex) != 0)
             board[boardIndex] = 4;
-        else if (currentPlayerDiceNumber.count(boardIndex) != 0)
+        else if (boardIndex == 60) // Current player
             board[boardIndex] = 1;
         else
             board[boardIndex] = 0;
@@ -35,7 +34,7 @@ std::string MenschAergereDichNichtGame::getBoardAsString () {
     std::string returnString = "";
 
     for (int boardIndex = 0; boardIndex < 63; ++boardIndex) {
-        returnString += (board[boardIndex]);
+        returnString.append(std::to_string(board[boardIndex]));
     }
 
     return returnString;

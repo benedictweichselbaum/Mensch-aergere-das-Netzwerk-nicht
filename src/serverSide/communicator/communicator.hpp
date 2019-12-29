@@ -4,6 +4,7 @@
 #include "../../game/madn_game.hpp"
 #include <memory>
 #include <regex>
+#include <string>
 
 
 class GameCommunicatorState {
@@ -16,7 +17,62 @@ class GameStartState : public GameCommunicatorState {
         virtual std::string reactToPlayerInput (std::string input, MadnGame_Ptr game) override;
 };
 
-class PlayingState : public GameCommunicatorState {
+class PlayingPlayerOneDiceState : public GameCommunicatorState {
+    public:
+        virtual std::string reactToPlayerInput (std::string input, MadnGame_Ptr game) override;
+};
+
+class PlayingPlayerTwoDiceState : public GameCommunicatorState {
+    public:
+        virtual std::string reactToPlayerInput (std::string input, MadnGame_Ptr game) override;
+};
+
+class PlayingPlayerThreeDiceState : public GameCommunicatorState {
+    public:
+        virtual std::string reactToPlayerInput (std::string input, MadnGame_Ptr game) override;
+};
+
+class PlayingPlayerFourDiceState : public GameCommunicatorState {
+    public:
+        virtual std::string reactToPlayerInput (std::string input, MadnGame_Ptr game) override;
+};
+
+class PlayingPlayerOneMeepleState : public GameCommunicatorState {
+    public:
+        virtual std::string reactToPlayerInput (std::string input, MadnGame_Ptr game) override;
+};
+
+class PlayingPlayerTwoMeepleState : public GameCommunicatorState {
+    public:
+        virtual std::string reactToPlayerInput (std::string input, MadnGame_Ptr game) override;
+};
+
+class PlayingPlayerThreeMeepleState : public GameCommunicatorState {
+    public:
+        virtual std::string reactToPlayerInput (std::string input, MadnGame_Ptr game) override;
+};
+
+class PlayingPlayerFourMeepleState : public GameCommunicatorState {
+    public:
+        virtual std::string reactToPlayerInput (std::string input, MadnGame_Ptr game) override;
+};
+
+class PlayingComOneState : public GameCommunicatorState {
+    public:
+        virtual std::string reactToPlayerInput (std::string input, MadnGame_Ptr game) override;
+};
+
+class PlayingComTwoState : public GameCommunicatorState {
+    public:
+        virtual std::string reactToPlayerInput (std::string input, MadnGame_Ptr game) override;
+};
+
+class PlayingComThreeState : public GameCommunicatorState {
+    public:
+        virtual std::string reactToPlayerInput (std::string input, MadnGame_Ptr game) override;
+};
+
+class PlayingComFourState : public GameCommunicatorState {
     public:
         virtual std::string reactToPlayerInput (std::string input, MadnGame_Ptr game) override;
 };
