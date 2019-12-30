@@ -29,6 +29,7 @@ std::string ServerGameCommunicator::reactToPlayerInput (std::string input) {
     std::regex playerJoin("[1-4]");
     std::regex stateChangeMeeple("[1-4]m");
     std::regex stateChangeNextPlayer("[1-4]n");
+    std::regex stateChangeOutOfHouse("[1-4]h");
 
     if (statePrefix.compare("xx") == 0) {
         if (std::regex_match(realAnswer, playerJoin)) {
@@ -42,6 +43,7 @@ std::string ServerGameCommunicator::reactToPlayerInput (std::string input) {
                 if (players[pI] == 1) numberOfNaturalPlayers++;
             
             if (numberOfNaturalPlayers == 4) {
+                game->getBoard()[60] = 1;
                 state = std::make_shared<PlayingPlayerOneDiceState>();
                 return game->getBoardAsString();
             }
@@ -51,17 +53,107 @@ std::string ServerGameCommunicator::reactToPlayerInput (std::string input) {
         int playerNumber = std::stoi(statePrefix.substr(0, 1));
         switch (playerNumber) {
             case 1:
-                state = std::make_shared<PlayingPlayerOneMeepleState>();
+                if (game->getBoard()[(playerNumber - 1) * 5] == 4 && players[playerNumber - 1] < 3) { // All Meeples are in house --> Dice up to 3x.
+                    if (game->getCurrentDiceNumber() == 6) {
+                        players[playerNumber - 1] = 1;
+                        state = std::make_shared<PlayingPlayerOneMeepleState>();
+                    } else {
+                        players[playerNumber - 1]++;
+                        // State does not change.
+                    }
+                } else if (players[playerNumber - 1] == 3) {
+                    players[playerNumber - 1] = 1;
+                    if (game->getCurrentDiceNumber() == 6) {
+                        state = std::make_shared<PlayingPlayerOneMeepleState>();
+                    } else {
+                        if (players[playerNumber] == 0)
+                            state = std::make_shared<PlayingComTwoState>();
+                        else {
+                            game->getBoard()[60] = 2;
+                            state = std::make_shared<PlayingPlayerTwoDiceState>();
+                            return game->getBoardAsString();
+                        }
+                    }
+                } else 
+                    state = std::make_shared<PlayingPlayerOneMeepleState>();
                 break;
             case 2:
-                state = std::make_shared<PlayingPlayerTwoMeepleState>();
+                if (game->getBoard()[(playerNumber - 1) * 5] == 4 && players[playerNumber - 1] < 3) { // All Meeples are in house --> Dice up to 3x.
+                    if (game->getCurrentDiceNumber() == 6) {
+                        players[playerNumber - 1] = 1;
+                        state = std::make_shared<PlayingPlayerTwoMeepleState>();
+                    } else {
+                        players[playerNumber - 1]++;
+                        // State does not change.
+                    }
+                } else if (players[playerNumber - 1] == 3) {
+                    players[playerNumber - 1] = 1;
+                    if (game->getCurrentDiceNumber() == 6) {
+                        state = std::make_shared<PlayingPlayerTwoMeepleState>();
+                    } else {
+                        if (players[playerNumber] == 0)
+                            state = std::make_shared<PlayingComThreeState>();
+                        else {
+                            game->getBoard()[60] = 3;
+                            state = std::make_shared<PlayingPlayerThreeDiceState>();
+                            return game->getBoardAsString();
+                        }
+                    }
+                } else 
+                    state = std::make_shared<PlayingPlayerTwoMeepleState>();
                 break;
             case 3:
-                state = std::make_shared<PlayingPlayerThreeMeepleState>();
+                if (game->getBoard()[(playerNumber - 1) * 5] == 4 && players[playerNumber - 1] < 3) { // All Meeples are in house --> Dice up to 3x.
+                    if (game->getCurrentDiceNumber() == 6) {
+                        players[playerNumber - 1] = 1;
+                        state = std::make_shared<PlayingPlayerThreeMeepleState>();
+                    } else {
+                        players[playerNumber - 1]++;
+                        // State does not change.
+                    }
+                } else if (players[playerNumber - 1] == 3) {
+                    players[playerNumber - 1] = 1;
+                    if (game->getCurrentDiceNumber() == 6) {
+                        state = std::make_shared<PlayingPlayerThreeMeepleState>();
+                    } else {
+                        if (players[playerNumber] == 0)
+                            state = std::make_shared<PlayingComFourState>();
+                        else {
+                            game->getBoard()[60] = 4;
+                            state = std::make_shared<PlayingPlayerFourDiceState>();
+                            return game->getBoardAsString();
+                        }
+                    }
+                } else 
+                    state = std::make_shared<PlayingPlayerThreeMeepleState>();
                 break;
             case 4:
-                state = std::make_shared<PlayingPlayerFourMeepleState>();
+                if (game->getBoard()[(playerNumber - 1) * 5] == 4 && players[playerNumber - 1] < 3) { // All Meeples are in house --> Dice up to 3x.
+                    if (game->getCurrentDiceNumber() == 6) {
+                        players[playerNumber - 1] = 1;
+                        state = std::make_shared<PlayingPlayerFourMeepleState>();
+                    } else {
+                        players[playerNumber - 1]++;
+                        // State does not change.
+                    }
+                } else if (players[playerNumber - 1] == 3) {
+                    players[playerNumber - 1] = 1;
+                    if (game->getCurrentDiceNumber() == 6) {
+                        state = std::make_shared<PlayingPlayerFourMeepleState>();
+                    } else {
+                        if (players[0] == 0)
+                            state = std::make_shared<PlayingComOneState>();
+                        else {
+                            game->getBoard()[60] = 1;
+                            state = std::make_shared<PlayingPlayerOneDiceState>();
+                            return game->getBoardAsString();
+                        }
+                    }
+                } else 
+                    state = std::make_shared<PlayingPlayerFourMeepleState>();
                 break;
+
+            default: return realAnswer;
         }
         return realAnswer;
     } else if (std::regex_match(statePrefix, stateChangeNextPlayer)) {
@@ -69,29 +161,46 @@ std::string ServerGameCommunicator::reactToPlayerInput (std::string input) {
         game->getBoard()[60] = playerNumber;
         switch (playerNumber) {
             case 1:
-                if (players[playerNumber - 1] == 1)
+                if (players[playerNumber - 1] == 1) {
                     state = std::make_shared<PlayingPlayerOneDiceState>();
-                else
+                } else
                     state = std::make_shared<PlayingComOneState>(); // If a non natural player is following, the COM player gets called.
-                break;
+                return game->getBoardAsString();
             case 2:
-                if (players[playerNumber - 1] == 1)
+                if (players[playerNumber - 1] == 1) {
                     state = std::make_shared<PlayingPlayerTwoDiceState>();
-                else
+                } else
                     state = std::make_shared<PlayingComTwoState>();
-                break;
+                return game->getBoardAsString();
             case 3:
                 if (players[playerNumber - 1] == 1)
                     state = std::make_shared<PlayingPlayerThreeDiceState>();
                 else
                     state = std::make_shared<PlayingComThreeState>();
-                break;
+                return game->getBoardAsString();
             case 4:
                 if (players[playerNumber - 1] == 1)
                     state = std::make_shared<PlayingPlayerFourDiceState>();
                 else
                     state = std::make_shared<PlayingComFourState>();
+                return game->getBoardAsString();
+        }
+        return realAnswer;
+    } else if (std::regex_match(statePrefix, stateChangeOutOfHouse)) {
+        int playerNumber = std::stoi(statePrefix.substr(0, 1));
+        switch (playerNumber) {
+            case 1:
+                state = std::make_shared<PlayingPlayerOneDiceOutOfHouseState>();
                 break;
+            case 2:
+                state = std::make_shared<PlayingPlayerTwoDiceOutOfHouseState>();      
+                break;          
+            case 3:
+                state = std::make_shared<PlayingPlayerThreeDiceOutOfHouseState>();
+                break;
+            case 4:
+                 state = std::make_shared<PlayingPlayerFourDiceOutOfHouseState>();   
+                 break;            
         }
         return realAnswer;
     } else return realAnswer;
@@ -102,6 +211,7 @@ Every answer has a prefix to state if a state has to be changed after the action
 xx: No state change
 [1-4]n: Next Player [1-4]
 [1-4]m: Player [1-4] choose Meeple
+[1-4]h: Player [1-4] roll the dice again because he/she got out of the starting house.
 */
 std::string GameStartState::reactToPlayerInput (std::string input, MadnGame_Ptr game) {
     std::regex joinExpression("[1-4](join)");
@@ -113,35 +223,47 @@ std::string GameStartState::reactToPlayerInput (std::string input, MadnGame_Ptr 
 }
 
 std::string PlayingPlayerOneDiceState::reactToPlayerInput (std::string input, MadnGame_Ptr game) {
+    std::regex diceExpression("[1-4]D");
     if (input.compare("N") == 0) return "xx|" + game->getBoardAsString();
-    else if (input.compare("1D") == 0) {
-        game->rollTheDice();
-        return "1m|" + game->getBoardAsString();
-    } else return "xx|notYourTurn";
+    else if (std::regex_match(input, diceExpression)) {
+        if (input.compare("1D") == 0) {
+            game->rollTheDice();
+            return "1m|" + game->getBoardAsString();
+        } else return "xx|notYourTurn";
+    } else return "xx|inputDoesNotMatchState";
 }
 
 std::string PlayingPlayerTwoDiceState::reactToPlayerInput (std::string input, MadnGame_Ptr game) {
+    std::regex diceExpression("[1-4]D");
     if (input.compare("N") == 0) return "xx|" + game->getBoardAsString();
-    else if (input.compare("2D") == 0) {
-        game->rollTheDice();
-        return "2m|" + game->getBoardAsString();
-    } else return "xx|notYourTurn";
+    else if (std::regex_match(input, diceExpression)) {
+        if (input.compare("2D") == 0) {
+            game->rollTheDice();
+            return "2m|" + game->getBoardAsString();
+        } else return "xx|notYourTurn";
+    } else return "xx|inputDoesNotMatchState";
 }
 
 std::string PlayingPlayerThreeDiceState::reactToPlayerInput (std::string input, MadnGame_Ptr game) {
+    std::regex diceExpression("[1-4]D");
     if (input.compare("N") == 0) return "xx|" + game->getBoardAsString();
-    else if (input.compare("3D") == 0) {
-        game->rollTheDice();
-        return "2m|" + game->getBoardAsString();
-    } else return "xx|notYourTurn";
+    else if (std::regex_match(input, diceExpression)) {
+        if (input.compare("3D") == 0) {
+            game->rollTheDice();
+            return "3m|" + game->getBoardAsString();
+        } else return "xx|notYourTurn";
+    } else return "xx|inputDoesNotMatchState";
 }
 
 std::string PlayingPlayerFourDiceState::reactToPlayerInput (std::string input, MadnGame_Ptr game) {
+    std::regex diceExpression("[1-4]D");
     if (input.compare("N") == 0) return "xx|" + game->getBoardAsString();
-    else if (input.compare("4D") == 0) {
-        game->rollTheDice();
-        return "2m|" + game->getBoardAsString();
-    } else return "xx|notYourTurn";
+    else if (std::regex_match(input, diceExpression)) {
+        if (input.compare("4D") == 0) {
+            game->rollTheDice();
+            return "4m|" + game->getBoardAsString();
+        } else return "xx|notYourTurn";
+    } else return "xx|inputDoesNotMatchState";
 }
 
 std::string PlayingPlayerOneMeepleState::reactToPlayerInput (std::string input, MadnGame_Ptr game) {
@@ -158,7 +280,7 @@ std::string PlayingPlayerOneMeepleState::reactToPlayerInput (std::string input, 
             } else if (moveAnswer.compare("win") == 0) {
                 return "xx|" + game->getBoardAsString();
             } else if (moveAnswer.compare("again") == 0) {
-                return "1n|" + game->getBoardAsString();
+                return "1h|" + game->getBoardAsString();
             } else {
                 return "xx|moveNotPossible";
             }
@@ -167,7 +289,7 @@ std::string PlayingPlayerOneMeepleState::reactToPlayerInput (std::string input, 
 }
 
 std::string PlayingPlayerTwoMeepleState::reactToPlayerInput (std::string input, MadnGame_Ptr game) {
-    std::regex chooseMeeple("[1-4][1-4]");
+    std::regex chooseMeeple("[1-4][0-4]");
     if (input.compare("N") == 0) return "xx|" + game->getBoardAsString();
     else if (std::regex_match(input, chooseMeeple)) {
         int playerNumber = std::stoi(input.substr(0, 1));
@@ -180,7 +302,7 @@ std::string PlayingPlayerTwoMeepleState::reactToPlayerInput (std::string input, 
             } else if (moveAnswer.compare("win") == 0) {
                 return "xx|" + game->getBoardAsString();
             } else if (moveAnswer.compare("again") == 0) {
-                return "2n|" + game->getBoardAsString();
+                return "2h|" + game->getBoardAsString();
             } else {
                 return "xx|moveNotPossible";
             }
@@ -189,7 +311,7 @@ std::string PlayingPlayerTwoMeepleState::reactToPlayerInput (std::string input, 
 }
 
 std::string PlayingPlayerThreeMeepleState::reactToPlayerInput (std::string input, MadnGame_Ptr game) {
-    std::regex chooseMeeple("[1-4][1-4]");
+    std::regex chooseMeeple("[1-4][0-4]");
     if (input.compare("N") == 0) return "xx|" + game->getBoardAsString();
     else if (std::regex_match(input, chooseMeeple)) {
         int playerNumber = std::stoi(input.substr(0, 1));
@@ -202,7 +324,7 @@ std::string PlayingPlayerThreeMeepleState::reactToPlayerInput (std::string input
             } else if (moveAnswer.compare("win") == 0) {
                 return "xx|" + game->getBoardAsString();
             } else if (moveAnswer.compare("again") == 0) {
-                return "3n|" + game->getBoardAsString();
+                return "3h|" + game->getBoardAsString();
             } else {
                 return "xx|moveNotPossible";
             }
@@ -211,7 +333,7 @@ std::string PlayingPlayerThreeMeepleState::reactToPlayerInput (std::string input
 }
 
 std::string PlayingPlayerFourMeepleState::reactToPlayerInput (std::string input, MadnGame_Ptr game) {
-    std::regex chooseMeeple("[1-4][1-4]");
+    std::regex chooseMeeple("[1-4][0-4]");
     if (input.compare("N") == 0) return "xx|" + game->getBoardAsString();
     else if (std::regex_match(input, chooseMeeple)) {
         int playerNumber = std::stoi(input.substr(0, 1));
@@ -224,7 +346,7 @@ std::string PlayingPlayerFourMeepleState::reactToPlayerInput (std::string input,
             } else if (moveAnswer.compare("win") == 0) {
                 return "xx|" + game->getBoardAsString();
             } else if (moveAnswer.compare("again") == 0) {
-                return "4n|" + game->getBoardAsString();
+                return "4h|" + game->getBoardAsString();
             } else {
                 return "xx|moveNotPossible";
             }
@@ -247,3 +369,62 @@ std::string PlayingComThreeState::reactToPlayerInput (std::string input, MadnGam
 std::string PlayingComFourState::reactToPlayerInput (std::string input, MadnGame_Ptr game) {
     if (input.compare("N") == 0) return "xx|" + game->getBoardAsString();
 }
+
+std::string PlayingPlayerOneDiceOutOfHouseState::reactToPlayerInput (std::string input, MadnGame_Ptr game) {
+    std::cout << "In out of house 1" << std::endl;
+    std::regex diceExpression("[1-4]D");
+    if (input.compare("N") == 0) return "xx|" + game->getBoardAsString();
+    else if (std::regex_match(input, diceExpression)) {
+        int playerNumber = std::stoi(input.substr(0, 1));
+        if (input.compare("1D") == 0) {
+            game->rollTheDice();
+            game->movePlayerByPlayerNumberAndDiceNumberAndMeepleNumber(playerNumber, 5);
+            return "2n|" + game->getBoardAsString();
+        } else return "xx|notYourTurn";
+    } else return "xx|inputDoesNotMatchState";
+}
+
+std::string PlayingPlayerTwoDiceOutOfHouseState::reactToPlayerInput (std::string input, MadnGame_Ptr game) {
+        std::cout << "In out of house 2" << std::endl;
+
+    std::regex diceExpression("[1-4]D");
+    if (input.compare("N") == 0) return "xx|" + game->getBoardAsString();
+    else if (std::regex_match(input, diceExpression)) {
+        int playerNumber = std::stoi(input.substr(0, 1));
+        if (input.compare("2D") == 0) {
+            game->rollTheDice();
+            game->movePlayerByPlayerNumberAndDiceNumberAndMeepleNumber(playerNumber, 5);
+            return "3n|" + game->getBoardAsString();
+        } else return "xx|notYourTurn";
+    } else return "xx|inputDoesNotMatchState";
+} 
+
+std::string PlayingPlayerThreeDiceOutOfHouseState::reactToPlayerInput (std::string input, MadnGame_Ptr game) {
+        std::cout << "In out of house 3" << std::endl;
+
+    std::regex diceExpression("[1-4]D");
+    if (input.compare("N") == 0) return "xx|" + game->getBoardAsString();
+    else if (std::regex_match(input, diceExpression)) {
+        int playerNumber = std::stoi(input.substr(0, 1));
+        if (input.compare("3D") == 0) {
+            game->rollTheDice();
+            game->movePlayerByPlayerNumberAndDiceNumberAndMeepleNumber(playerNumber, 5);
+            return "4n|" + game->getBoardAsString();
+        } else return "xx|notYourTurn";
+    } else return "xx|inputDoesNotMatchState";
+} 
+
+std::string PlayingPlayerFourDiceOutOfHouseState::reactToPlayerInput (std::string input, MadnGame_Ptr game) {
+        std::cout << "In out of house 4" << std::endl;
+
+    std::regex diceExpression("[1-4]D");
+    if (input.compare("N") == 0) return "xx|" + game->getBoardAsString();
+    else if (std::regex_match(input, diceExpression)) {
+        int playerNumber = std::stoi(input.substr(0, 1));
+        if (input.compare("4D") == 0) {
+            game->rollTheDice();
+            game->movePlayerByPlayerNumberAndDiceNumberAndMeepleNumber(playerNumber, 5);
+            return "1n|" + game->getBoardAsString();
+        } else return "xx|notYourTurn";
+    } else return "xx|inputDoesNotMatchState";
+} 

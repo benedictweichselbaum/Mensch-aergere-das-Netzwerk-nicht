@@ -48,7 +48,22 @@ std::string MenschAergereDichNichtGame::movePlayerByPlayerNumberAndDiceNumberAnd
     int8_t diceNumber = board[61];
 
     try {
-        if (diceNumber == 6 && board[(playerNumber - 1) * 5] > 0) { // Getting a meeple out of the starting house.
+        if (meepleNumber == 5) { // Special move after a meeple left the starting house.
+            int startingIndex = (playerNumber - 1) * 10 + 20;
+            int possibleNewIndex = addOnBoard(startingIndex, diceNumber);
+            if (board[possibleNewIndex] == playerNumber) { // You can not throw yourself -> New dice roll.
+                rollTheDice();
+                return this->movePlayerByPlayerNumberAndDiceNumberAndMeepleNumber(playerNumber, 5);
+            } else if (board[possibleNewIndex] != 0) {
+                ++board[(board[possibleNewIndex] - 1) * 5]; // Put opponent meeple back in his/her starting house.
+                board[possibleNewIndex] = playerNumber;
+                board[startingIndex] = 0;
+            } else {
+                board[possibleNewIndex] = playerNumber;
+                board[startingIndex] = 0;
+            }
+            return "success";
+        } else if (diceNumber == 6 && board[(playerNumber - 1) * 5] > 0) { // Getting a meeple out of the starting house.
             --board[(playerNumber - 1) * 5]; // Take a meeple out of the players house.
             int playerStartingIndex = 20 + (playerNumber - 1) * 10;
             if (board[playerStartingIndex] != 0) {
@@ -90,7 +105,7 @@ std::string MenschAergereDichNichtGame::movePlayerByPlayerNumberAndDiceNumberAnd
                 }
 
                 board[index + diceNumber] = 1;
-                board[index] == 0;
+                board[index] = 0;
             } else if ((index + diceNumber) > addOnBoard((20 + (playerNumber - 1) * 10), 39)) { // Meeple going into the house from the field.
                 int8_t fieldIndexBeforeHouse = addOnBoard((20 + (playerNumber - 1) * 10), 39);
                 int intoTheFinishingHouse = fieldIndexBeforeHouse - (index + diceNumber);
@@ -152,8 +167,8 @@ void MenschAergereDichNichtGame::rollTheDice () {
     board[61] = gen(rng);
 }
 
-// Adding index numbers. Never a higher number than 60; Never lower than 20
+// Adding index numbers. Never a higher number than 59; Never lower than 20
 int8_t addOnBoard (int8_t sum1, int8_t sum2) {
-    if (sum1 + sum2 <= 60) return sum1 + sum2;
-    else return 20 + ((sum1 + sum2) - 61);
+    if (sum1 + sum2 <= 59) return sum1 + sum2;
+    else return 20 + ((sum1 + sum2) - 60);
 }

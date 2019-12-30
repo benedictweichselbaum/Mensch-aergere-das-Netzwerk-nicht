@@ -77,13 +77,33 @@ class PlayingComFourState : public GameCommunicatorState {
         virtual std::string reactToPlayerInput (std::string input, MadnGame_Ptr game) override;
 };
 
+class PlayingPlayerOneDiceOutOfHouseState : public GameCommunicatorState {
+    public:
+        virtual std::string reactToPlayerInput (std::string input, MadnGame_Ptr game) override;
+};
+
+class PlayingPlayerTwoDiceOutOfHouseState : public GameCommunicatorState {
+    public:
+        virtual std::string reactToPlayerInput (std::string input, MadnGame_Ptr game) override;
+};
+
+class PlayingPlayerThreeDiceOutOfHouseState : public GameCommunicatorState {
+    public:
+        virtual std::string reactToPlayerInput (std::string input, MadnGame_Ptr game) override;
+};
+
+class PlayingPlayerFourDiceOutOfHouseState : public GameCommunicatorState {
+    public:
+        virtual std::string reactToPlayerInput (std::string input, MadnGame_Ptr game) override;
+};
+
 using GameCommunicatorState_Ptr = std::shared_ptr<GameCommunicatorState>;
 
 class ServerGameCommunicator {
     private:
         MadnGame_Ptr game;
         GameCommunicatorState_Ptr state;
-        int8_t* players; // Index+1 matches playerNumber. 1 = Real Player; 0 = COM.
+        int8_t* players; // Index+1 matches playerNumber. 1 = Real player; 0 = COM.
     public:
         ServerGameCommunicator();
         ServerGameCommunicator (std::string saveGamePath);

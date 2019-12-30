@@ -54,6 +54,7 @@ class MenschAergereDichNichtGame {
         // on the field, beginning with the yellow starting field.
         void saveGameInFile ();
         void rollTheDice ();
+        int8_t getCurrentDiceNumber () {return board[61];};
 };
 
 int8_t addOnBoard (int8_t sum1, int8_t sum2);
