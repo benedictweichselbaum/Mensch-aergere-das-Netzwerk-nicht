@@ -6,7 +6,10 @@ ClientMadn::ClientMadn() {
 std::string getCurrentDateWithTime () {
     auto currentTime_t = std::chrono::system_clock::to_time_t(std::chrono::system_clock::now());
     char stringDateBuffer[100] = {0};
-    std::strftime(stringDateBuffer, sizeof(stringDateBuffer), "%Y-%m-%d %H:%M:%S", std::localtime(&currentTime_t));
+    tm timeinfo;
+    localtime_s(&timeinfo, &currentTime_t);
+    std::strftime(stringDateBuffer, sizeof(stringDateBuffer), "%Y-%m-%d %H:%M:%S", &timeinfo);
+    //std::strftime(stringDateBuffer, sizeof(stringDateBuffer), "%Y-%m-%d %H:%M:%S", std::localtime(&currentTime_t)); //Die beiden Zeilen darüber ersetzen diese Funktion auch threadsafe
     return stringDateBuffer;
 }
 
@@ -33,7 +36,7 @@ void ClientMadn::readHandler1 (connection_madn_ptr connection_ptr) {
     std::getline(std::cin, answer);
     if (answer.compare("exit") == 0) return;
     char buffer[100];
-    strcpy(buffer, answer.c_str());
+    strcpy_s(buffer, answer.c_str());
     auto boostBuffer = boost::asio::buffer(buffer);
     boost::asio::async_write(connection_ptr->socket, boostBuffer, [this, connection_ptr](errorCode errorCode, size_t length){
         if (!errorCode) this->writeHandler(connection_ptr);
