@@ -5,7 +5,7 @@
 using tcp = boost::asio::ip::tcp;
 using errorCode = boost::system::error_code;
 
-std::string getCurrentDateWithTime ();
+std::string getCurrentDateWithTime_client ();
 
 class ClientMadn {
     private:
