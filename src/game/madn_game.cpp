@@ -83,6 +83,7 @@ std::string MenschAergereDichNichtGame::movePlayerByPlayerNumberAndDiceNumberAnd
                     break;
                 }
             }
+            std::cout << "Index of chosen meeple " << index << std::endl;
             // Possible meeples in finish.
             if (numberOfFoundMeeples < meepleNumber) {
                 int houseIndexOfPlayer = (playerNumber - 1) * 5;
@@ -99,7 +100,7 @@ std::string MenschAergereDichNichtGame::movePlayerByPlayerNumberAndDiceNumberAnd
 
             MoveNotPossibleException me;
             if (index < 20) { // Moving meeple in finish house.
-                
+                std::cout << "Move in finish Field" << std::endl;
                 if ((index + diceNumber) > (((playerNumber - 1) * 5) + 4)) throw me; // Dice number to large
                 for (int jump = 1; jump <= diceNumber; ++jump) {
                     if (board[index + jump] != 0) throw me; // Another meeple in the way.
@@ -107,7 +108,8 @@ std::string MenschAergereDichNichtGame::movePlayerByPlayerNumberAndDiceNumberAnd
 
                 board[index + diceNumber] = 1;
                 board[index] = 0;
-            } else if ((index + diceNumber) > addOnBoard((20 + (playerNumber - 1) * 10), 39)) { // Meeple going into the house from the field.
+            } else if ((index + diceNumber) > addOnBoard((20 + (playerNumber - 1) * 10), 39) && index < addOnBoard((20 + (playerNumber - 1) * 10), 39)) { // Meeple going into the house from the field.
+                std::cout << "Move to finish Field" << std::endl;
                 int8_t fieldIndexBeforeHouse = addOnBoard((20 + (playerNumber - 1) * 10), 39);
                 int intoTheFinishingHouse = fieldIndexBeforeHouse - (index + diceNumber);
                 int finishHouseStartIndex = (playerNumber - 1) * 5 + 1;
@@ -123,9 +125,13 @@ std::string MenschAergereDichNichtGame::movePlayerByPlayerNumberAndDiceNumberAnd
                 board[finishHouseStartIndex + (movesInFinishingHouse - 1)] = 1;
                 board[index] = 0;
             } else { // Normal move on the field.
+                std::cout << "Normal move" << std::endl;
                 MoveNotPossibleException me;
                 int8_t possibleNewIndex = addOnBoard(index, diceNumber); 
-                if (board[possibleNewIndex] == playerNumber) throw me; // You can not throw yourself from the field.
+                if (board[possibleNewIndex] == playerNumber) {
+                    std::cout << "You are throwing yourself" << std::endl;
+                    throw me;
+                } // You can not throw yourself from the field.
                 else if (board[possibleNewIndex] != 0) { // Move with throwing an opponent from the field.
                     ++board[(board[possibleNewIndex] - 1) * 5]; // Put opponent meeple back in his/her starting house.
                     board[possibleNewIndex] = playerNumber;

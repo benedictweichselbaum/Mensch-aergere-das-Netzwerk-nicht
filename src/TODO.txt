@@ -1,0 +1,2 @@
+1. Logik für mögliche COM-Gegener (Server-Anweisung) --> Anweisung, dass nicht alle Plätze mit natürlichen Spielern gefüllt sind.
+2. Abbruch-Logik, die saveGame erstellt.
