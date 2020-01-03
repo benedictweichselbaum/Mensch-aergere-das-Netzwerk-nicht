@@ -22,11 +22,12 @@ MenschAergereDichNichtGame::MenschAergereDichNichtGame (std::string filePath) : 
     if (fileInputStream.is_open()) {
         std::getline(fileInputStream, boardString);
     }
+    std::cout << boardString << std::endl;
     fileInputStream.close();
 
     // Transfer save game file to board array.
     for (int boardIndex = 0; boardIndex < boardString.size(); ++boardIndex) {
-        board[boardIndex] = boardString.at(boardIndex);
+        board[boardIndex] = std::stoi(boardString.substr(boardIndex, 1));
     }
 }
 
