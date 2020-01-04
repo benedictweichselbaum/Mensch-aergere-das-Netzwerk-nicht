@@ -27,4 +27,6 @@ class ServerMadn {
 
 std::string getCurrentDateWithTime ();
 
+using ServerPtr = std::unique_ptr<ServerMadn>;
+
 #endif

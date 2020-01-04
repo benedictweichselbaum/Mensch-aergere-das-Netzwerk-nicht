@@ -1,2 +1,3 @@
 1. Logik für mögliche COM-Gegener (Server-Anweisung) --> Anweisung, dass nicht alle Plätze mit natürlichen Spielern gefüllt sind.
 2. Abbruch-Logik, die saveGame erstellt.
+3. Logik die dafür sorgt, dass ein Spieler seinen Zug abgibt (z.B. wenn die Würfelzahl keinen Zug zulässt.)

@@ -3,14 +3,14 @@ Abschlussprojekt für die C++-Vorlesung. Ziel ist ein Mensch ärgere dich nicht 
 
 ## Anforderungskriterien
 ### Muss-Kriterien
-- [ ] Funktionierendes Spiel
-- [ ] Netzwerk mit mindestens 2 echten Spielern
+- [X] Funktionierendes Spiel (Grundsätzlich --> Consolenausgabe über string)
+- [X] Netzwerk mit mindestens 2 echten Spielern
 - [ ] Funktionierender Com
 
 ### Soll-Kriterien
 - [ ] GUI
-- [ ] Speicherstände
-- [ ] Netzwerk mit bis zu 4 Spielern
+- [X] Speicherstände
+- [X] Netzwerk mit bis zu 4 Spielern
 - [ ] Intelligenter Com
 
 ### Wunsch-Kriterien
@@ -61,3 +61,18 @@ Hierfür wird vom Client eine Nachricht mit folgendem Format gesendet: [Spielern
 Damit später ein Client nur eine Spielernummer zu identifikation schickt, muss im Client eine Schranke
 eingebaut werden.
 Der Server kann, wann immer er will ein Spiel starten. Er nimmt dann keine neuen Spieler mehr an.
+
+### Spiel mit nicht maximaler Anzahl natürlicher Spieler starten
+Wenn alle bereits beigetretenen Spieler dem Server mitteilen, dass es losgehen soll. Werden die übrigen
+Plätze mit COMs aufgefüllt! <br/>
+Hierfür schicken die Clients '[Spielernummer]ready' an den Server in der 'Anmelde-Phase'.
+Das funktioniert auch bei einem Spieler! -> Man muss warten bis alle Spieler die mitspielen wollen
+auch gejoint sind.
+
+### Spiel unterbrechen und Save Game erstellen
+Zu jedem Zeitpunkt im Spiel können natürliche Spieler die Beendung des Spiels fordern. <br/>
+Hierfür müssen sie (in einem gleichbleibemdem Status!) dem Server '[Spielernummer]quit' senden.
+Falls alle natürlichen Spieler das gemacht haben wird das Spiel im aktuellen Status beendet und
+ein Save Game File im Order 'saveGames' hinterlegt. <br/>
+Zu beachten ist, dass ein Spiel nur ein Phasen des Spiels beendet werden kann, in denen noch gewürfelt
+werden muss, da es sonst beim laden des Spielstands zu Inkonsistenzen kommen kann.
