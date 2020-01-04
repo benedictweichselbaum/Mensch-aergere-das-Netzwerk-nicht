@@ -30,6 +30,7 @@ std::string ServerGameCommunicator::reactToPlayerInput (std::string input) {
     std::regex stateChangeMeeple("[1-4]m");
     std::regex stateChangeNextPlayer("[1-4]n");
     std::regex stateChangeOutOfHouse("[1-4]h");
+    std::regex playerWantsToStartExpression("[1-4]s");
 
     if (statePrefix.compare("xx") == 0) {
         if (std::regex_match(realAnswer, playerJoin)) {
@@ -44,10 +45,13 @@ std::string ServerGameCommunicator::reactToPlayerInput (std::string input) {
             
             if (numberOfNaturalPlayers == 4) {
                 game->getBoard()[60] = 1;
-                state = std::make_shared<PlayingPlayerOneDiceState>();
+                changeStateToNextPlayer(game->getBoard()[60]);
                 return game->getBoardAsString();
             }
             return "successfulJoin";
+        } else if (std::regex_match(realAnswer, playerWantsToStartExpression)) {
+            if (playerStartingGame(std::stoi(realAnswer.substr(0, 1)))) return game->getBoardAsString();
+            else return "sentSuccessfulStartingOrder";
         } else return realAnswer;
     } else if (std::regex_match(statePrefix, stateChangeMeeple)) {
         int playerNumber = std::stoi(statePrefix.substr(0, 1));
@@ -159,33 +163,8 @@ std::string ServerGameCommunicator::reactToPlayerInput (std::string input) {
     } else if (std::regex_match(statePrefix, stateChangeNextPlayer)) {
         int playerNumber = std::stoi(statePrefix.substr(0, 1));
         game->getBoard()[60] = playerNumber;
-        switch (playerNumber) {
-            case 1:
-                if (players[playerNumber - 1] == 1) {
-                    state = std::make_shared<PlayingPlayerOneDiceState>();
-                } else
-                    state = std::make_shared<PlayingComOneState>(); // If a non natural player is following, the COM player gets called.
-                return game->getBoardAsString();
-            case 2:
-                if (players[playerNumber - 1] == 1) {
-                    state = std::make_shared<PlayingPlayerTwoDiceState>();
-                } else
-                    state = std::make_shared<PlayingComTwoState>();
-                return game->getBoardAsString();
-            case 3:
-                if (players[playerNumber - 1] == 1)
-                    state = std::make_shared<PlayingPlayerThreeDiceState>();
-                else
-                    state = std::make_shared<PlayingComThreeState>();
-                return game->getBoardAsString();
-            case 4:
-                if (players[playerNumber - 1] == 1)
-                    state = std::make_shared<PlayingPlayerFourDiceState>();
-                else
-                    state = std::make_shared<PlayingComFourState>();
-                return game->getBoardAsString();
-        }
-        return realAnswer;
+        changeStateToNextPlayer(playerNumber);
+        return game->getBoardAsString();
     } else if (std::regex_match(statePrefix, stateChangeOutOfHouse)) {
         int playerNumber = std::stoi(statePrefix.substr(0, 1));
         switch (playerNumber) {
@@ -206,6 +185,54 @@ std::string ServerGameCommunicator::reactToPlayerInput (std::string input) {
     } else return realAnswer;
 }
 
+bool ServerGameCommunicator::playerStartingGame (int8_t playerNumber) {
+    players[playerNumber - 1] = 5; // 5 = S -> Start game.
+    bool allPlayersWantToStart = true;
+    for (int playerIndex = 0; playerIndex < 4; ++playerIndex) {
+        if (players[playerIndex] == 1) allPlayersWantToStart = false;
+    }
+    if (allPlayersWantToStart) {
+        for (int playerIndex = 0; playerIndex < 4; ++playerIndex) {
+            if (players[playerIndex] != 0) players[playerIndex] = 1;
+        }
+        changeStateToNextPlayer(game->getBoard()[60]);
+    }
+    return allPlayersWantToStart;
+}
+
+void ServerGameCommunicator::changeStateToNextPlayer (int8_t playerNumber) {
+    switch (playerNumber) {
+        case 1:
+            if (players[playerNumber - 1] == 0) {
+                state = std::make_shared<PlayingComOneState>();
+            } else {
+                state = std::make_shared<PlayingPlayerOneDiceState>();
+            }
+            break;
+        case 2:
+            if (players[playerNumber - 1] == 0) {
+                state = std::make_shared<PlayingComTwoState>();
+            } else {
+                state = std::make_shared<PlayingPlayerTwoDiceState>();
+            }
+            break;
+        case 3:
+            if (players[playerNumber - 1] == 0) {
+                state = std::make_shared<PlayingComThreeState>();
+            } else {
+                state = std::make_shared<PlayingPlayerThreeDiceState>();
+            }
+            break;
+        case 4:
+            if (players[playerNumber - 1] == 0) {
+                state = std::make_shared<PlayingComFourState>();
+            } else {
+                state = std::make_shared<PlayingPlayerFourDiceState>();
+            }
+            break;
+    }
+}
+
 /*
 Every answer has a prefix to state if a state has to be changed after the action was performed.
 xx: No state change
@@ -215,8 +242,11 @@ xx: No state change
 */
 std::string GameStartState::reactToPlayerInput (std::string input, MadnGame_Ptr game) {
     std::regex joinExpression("[1-4](join)");
+    std::regex startExpression("[1-4]start");
     if (std::regex_match(input, joinExpression)) {
         return "xx|" + input.substr(0, 1);
+    } else if (std::regex_match(input, startExpression)) {
+        return "xx|" + input.substr(0, 1) + "s";
     } else {
         return "xx|inputDoesNotMatchState";
     }
@@ -268,6 +298,7 @@ std::string PlayingPlayerFourDiceState::reactToPlayerInput (std::string input, M
 
 std::string PlayingPlayerOneMeepleState::reactToPlayerInput (std::string input, MadnGame_Ptr game) {
     std::regex chooseMeeple("[1-4][0-4]");
+    std::regex skipMove("[1-4]P");
     if (input.compare("N") == 0) return "xx|" + game->getBoardAsString();
     else if (std::regex_match(input, chooseMeeple)) {
         int playerNumber = std::stoi(input.substr(0, 1));
@@ -285,11 +316,14 @@ std::string PlayingPlayerOneMeepleState::reactToPlayerInput (std::string input, 
                 return "xx|moveNotPossible";
             }
         }
+    } else if (std::regex_match(input, skipMove)) {
+        return "2n|" + game->getBoardAsString();
     } else return "xx|inputDoesNotMatchState";
 }
 
 std::string PlayingPlayerTwoMeepleState::reactToPlayerInput (std::string input, MadnGame_Ptr game) {
     std::regex chooseMeeple("[1-4][0-4]");
+    std::regex skipMove("[1-4]P");
     if (input.compare("N") == 0) return "xx|" + game->getBoardAsString();
     else if (std::regex_match(input, chooseMeeple)) {
         int playerNumber = std::stoi(input.substr(0, 1));
@@ -307,11 +341,14 @@ std::string PlayingPlayerTwoMeepleState::reactToPlayerInput (std::string input, 
                 return "xx|moveNotPossible";
             }
         }
+    } else if (std::regex_match(input, skipMove)) {
+        return "3n|" + game->getBoardAsString();
     } else return "xx|inputDoesNotMatchState";
 }
 
 std::string PlayingPlayerThreeMeepleState::reactToPlayerInput (std::string input, MadnGame_Ptr game) {
     std::regex chooseMeeple("[1-4][0-4]");
+    std::regex skipMove("[1-4]P");
     if (input.compare("N") == 0) return "xx|" + game->getBoardAsString();
     else if (std::regex_match(input, chooseMeeple)) {
         int playerNumber = std::stoi(input.substr(0, 1));
@@ -329,11 +366,14 @@ std::string PlayingPlayerThreeMeepleState::reactToPlayerInput (std::string input
                 return "xx|moveNotPossible";
             }
         }
+    } else if (std::regex_match(input, skipMove)) {
+        return "4n|" + game->getBoardAsString();
     } else return "xx|inputDoesNotMatchState";
 }
 
 std::string PlayingPlayerFourMeepleState::reactToPlayerInput (std::string input, MadnGame_Ptr game) {
     std::regex chooseMeeple("[1-4][0-4]");
+    std::regex skipMove("[1-4]P");
     if (input.compare("N") == 0) return "xx|" + game->getBoardAsString();
     else if (std::regex_match(input, chooseMeeple)) {
         int playerNumber = std::stoi(input.substr(0, 1));
@@ -351,6 +391,8 @@ std::string PlayingPlayerFourMeepleState::reactToPlayerInput (std::string input,
                 return "xx|moveNotPossible";
             }
         }
+    } else if (std::regex_match(input, skipMove)) {
+        return "1n|" + game->getBoardAsString();
     } else return "xx|inputDoesNotMatchState";
 }
 

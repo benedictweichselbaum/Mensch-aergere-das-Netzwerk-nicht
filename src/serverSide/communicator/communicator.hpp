@@ -122,6 +122,8 @@ class ServerGameCommunicator {
         };
         std::string reactToPlayerInput (std::string input);
         MadnGame_Ptr getGame () {return game;};
+        bool playerStartingGame (int8_t playerNumber);
+        void changeStateToNextPlayer (int8_t playerNumber);
 };
 
 using ServerGameCommunicator_Ptr = std::shared_ptr<ServerGameCommunicator>;

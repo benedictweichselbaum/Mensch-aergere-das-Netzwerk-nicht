@@ -65,9 +65,10 @@ Der Server kann, wann immer er will ein Spiel starten. Er nimmt dann keine neuen
 ### Spiel mit nicht maximaler Anzahl natürlicher Spieler starten
 Wenn alle bereits beigetretenen Spieler dem Server mitteilen, dass es losgehen soll. Werden die übrigen
 Plätze mit COMs aufgefüllt! <br/>
-Hierfür schicken die Clients '[Spielernummer]ready' an den Server in der 'Anmelde-Phase'.
+Hierfür schicken die Clients '[Spielernummer]start' an den Server in der 'Anmelde-Phase'.
 Das funktioniert auch bei einem Spieler! -> Man muss warten bis alle Spieler die mitspielen wollen
-auch gejoint sind.
+auch gejoint sind. <br/>
+Mit dieser Logik wird es möglich, dass ein Spieler auch mit dem Befehl ...start joined. Er ist dann sofort als bereit gemeldet.
 
 ### Spiel unterbrechen und Save Game erstellen
 Zu jedem Zeitpunkt im Spiel können natürliche Spieler die Beendung des Spiels fordern. <br/>
@@ -76,3 +77,9 @@ Falls alle natürlichen Spieler das gemacht haben wird das Spiel im aktuellen St
 ein Save Game File im Order 'saveGames' hinterlegt. <br/>
 Zu beachten ist, dass ein Spiel nur ein Phasen des Spiels beendet werden kann, in denen noch gewürfelt
 werden muss, da es sonst beim laden des Spielstands zu Inkonsistenzen kommen kann.
+
+### Spielzug weitergeben
+Im bestimmten Situationen wird es nötig, dass ein Spieler seinen Spielzug weitergibt und nicht zieht.
+Das passiert z.B. wenn kein Zug mit der Würfelzahl gültig ist. <br/>
+Infolgedessen schickt der Spieler folgenden Befehl -> '[Spielernummer]P' (P steht für 'pass'). <br/>
+Diese Aufforderung ist auch möglich, wenn ein Spielzug theoretisch möglich ist. Es muss vorher gewürfelt worden sein.
