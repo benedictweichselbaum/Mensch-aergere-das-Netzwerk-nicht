@@ -52,7 +52,7 @@ class MenschAergereDichNichtGame {
         std::string movePlayerByPlayerNumberAndDiceNumberAndMeepleNumber (int8_t playerNumber, int8_t meepleNumber);
         // Meeple number is determined by the position on the field. 0 = meeple in starting house. 1-4 = meeple in clockwise order
         // on the field, beginning with the yellow starting field.
-        void saveGameInFile ();
+        void saveGameInFile (std::string fileName);
         void rollTheDice ();
         int8_t getCurrentDiceNumber () {return board[61];};
 };

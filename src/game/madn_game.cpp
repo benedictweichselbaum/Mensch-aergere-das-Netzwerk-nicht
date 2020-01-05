@@ -155,12 +155,9 @@ std::string MenschAergereDichNichtGame::movePlayerByPlayerNumberAndDiceNumberAnd
     }
 }
 
-void MenschAergereDichNichtGame::saveGameInFile () {
-    std::cout << "Wie soll der Speicherstand heißen?" << std::endl;
-    std::string fileName;
-    std::getline(std::cin, fileName);
+void MenschAergereDichNichtGame::saveGameInFile (std::string fileName) {
     std::ofstream fileOut;
-    fileOut.open("../saveGames/" + fileName + ".txt");
+    fileOut.open("../saveGames/" + fileName);
     for (int boardIndex = 0; boardIndex < 63; ++boardIndex)
         fileOut << board[boardIndex];
     fileOut.close();

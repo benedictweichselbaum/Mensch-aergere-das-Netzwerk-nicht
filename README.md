@@ -75,7 +75,7 @@ Zu jedem Zeitpunkt im Spiel können natürliche Spieler die Beendung des Spiels 
 Hierfür müssen sie (in einem gleichbleibemdem Status!) dem Server '[Spielernummer]quit' senden.
 Falls alle natürlichen Spieler das gemacht haben wird das Spiel im aktuellen Status beendet und
 ein Save Game File im Order 'saveGames' hinterlegt. <br/>
-Zu beachten ist, dass ein Spiel nur ein Phasen des Spiels beendet werden kann, in denen noch gewürfelt
+Zu beachten ist, dass ein Spiel nur in Phasen des Spiels beendet werden kann, in denen noch gewürfelt
 werden muss, da es sonst beim laden des Spielstands zu Inkonsistenzen kommen kann.
 
 ### Spielzug weitergeben

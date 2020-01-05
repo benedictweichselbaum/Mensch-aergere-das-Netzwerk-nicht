@@ -5,6 +5,7 @@
 #include <memory>
 #include <regex>
 #include <string>
+#include <chrono>
 
 /*
 The following header declares a class that acts as a communicator between the server that is
@@ -113,7 +114,13 @@ class ServerGameCommunicator {
     private:
         MadnGame_Ptr game;
         GameCommunicatorState_Ptr state;
-        int8_t* players; // Index+1 matches playerNumber. 1 = Real player; 0 = COM. Also used to count the times a player rolled the dice.
+        int8_t* players;
+        /* Multipurpose array to execute certain game and application logic. Playernumber - 1 = Index in Array 
+         * 1. 0 = COM; 1 = real Player
+         * 2. Roll dice up to 3 times if all your meeples are in your starting house.
+         * 3. Force starting a game when not all slots are filled with real players.
+         * 4. Force quit a game if all real players want that.
+         */
     public:
         ServerGameCommunicator();
         ServerGameCommunicator (std::string saveGamePath);
@@ -124,6 +131,8 @@ class ServerGameCommunicator {
         MadnGame_Ptr getGame () {return game;};
         bool playerStartingGame (int8_t playerNumber);
         void changeStateToNextPlayer (int8_t playerNumber);
+        void resetPlayersArrayFromQuitting ();
+        void checkQuitting ();
 };
 
 using ServerGameCommunicator_Ptr = std::shared_ptr<ServerGameCommunicator>;
