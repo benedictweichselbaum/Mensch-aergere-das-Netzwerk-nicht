@@ -1,0 +1,53 @@
+#pragma once
+
+//Größe der Kreise auf dem Spielfeld INTERVAL ist der Abstand der Kreismittelpunkte (Pixel)
+#define PLAYGROUNDCIRCLESRADIUS	30.f
+#define PLAYGROUNDINTERVAL 90.f
+#define VIEWBACKGROUNDCOLOR sf::Color(100,100,100,200)
+
+//Breite des Seitenpanels (Pixel)
+#define SIDEPANEL 400.f
+
+//Farbe der farbigen Kreise auf dem Spielfeld
+#define PLAYGROUNDCOLORPLAYER1 sf::Color(249,255,189,255) //Gelb
+#define PLAYGROUNDCOLORPLAYER2 sf::Color(126,142,231,255) // Blau
+#define PLAYGROUNDCOLORPLAYER3 sf::Color(255,122,122,255) //Rot
+#define PLAYGROUNDCOLORPLAYER4 sf::Color(137,255,160,255) //Grün
+
+#define PLAYGROUNDCOLORNORMALSHAPE sf::Color::White
+#define PLAYGROUNDCOLOROUTLINE sf::Color::Black
+#define PLAYGROUNDTHICKNESSOUTLINE 5.f
+
+#define PLAYGROUNDLINEOUTLINETHICKNESS 2.f
+#define PLAYGROUNDLINEOUTLINECOLOR sf::Color::Black
+
+//Farbe der Spielfiguren
+#define MEEPLECOLOR1 sf::Color(255, 244, 31, 255) //(243,255,107,255)
+#define MEEPLECOLOR2 sf::Color(61,90,255,255)
+#define MEEPLECOLOR3 sf::Color(255,33,26,255)
+#define MEEPLECOLOR4 sf::Color(32,173,0,255)
+#define MEEPLEOUTLINECOLOR1 sf::Color(255,218,31,255)  //(234,255,5,255)
+#define MEEPLEOUTLINEHIGHLIGHTCOLOR1 sf::Color(205,188,21,255)
+#define MEEPLEOUTLINECOLOR2 sf::Color(0,37,250,255)
+#define MEEPLEOUTLINEHIGHLIGHTCOLOR2 sf::Color(0,27,200,255)
+#define MEEPLEOUTLINECOLOR3 sf::Color(209,7,0,255)
+#define MEEPLEOUTLINEHIGHLIGHTCOLOR3 sf::Color(179,5,0,255)
+#define MEEPLEOUTLINECOLOR4 sf::Color(23,128,0,255)
+#define MEEPLEOUTLINEHIGHLIGHTCOLOR4 sf::Color(17,100,0,255)
+
+#define DICECOLOR sf::Color::Yellow
+#define DICEDOTCOLOR sf::Color::Black
+
+#define DICESIZE 100.f
+#define DICEYPLACE 100.f //Mir ist grad kein besserer Name eingefallen (Abstand des Würfels von der oberen Fensterkante)
+
+#define DICEDOTRADIUS 5.f
+#define DICEPADDING 10.f // Abstand von Würfelrand zu Punkten
+
+#define ROLLTHEDICEBUTTONCOLOR sf::Color::White
+#define ROLLTHEDICEBUTTONWIDTH SIDEPANEL / 2
+#define ROLLTHEDICEBUTTONHEIGHT 50.f
+#define ROLLTHEDICEBUTTONMARGINTOP 50.f
+
+#define MEEPLERADIUS 12.f
+#define MEEPLEOUTLINETHICKNESS 7.f

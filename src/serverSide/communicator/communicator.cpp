@@ -275,7 +275,9 @@ xx: No state change
 std::string GameStartState::reactToPlayerInput (std::string input, MadnGame_Ptr game) {
     std::regex joinExpression("[1-4](join)");
     std::regex startExpression("[1-4]start");
-    if (std::regex_match(input, joinExpression)) {
+    if (input.compare("N") == 0) {
+        return "xx|" + game->getBoardAsString();
+    } else if (std::regex_match(input, joinExpression)) {
         return "xx|" + input.substr(0, 1);
     } else if (std::regex_match(input, startExpression)) {
         return "xx|" + input.substr(0, 1) + "s";
