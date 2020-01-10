@@ -1,7 +1,4 @@
 #include "config.h"
-<<<<<<< HEAD:sfml/view.cpp
-#include <SFML/Graphics.hpp>
-=======
 #include "../clientSide/client/madn_client.hpp"
 #include <SFML\Graphics.hpp>
 >>>>>>> b894447b19f60fb6754e1067eb2102eeb781880c:src/view/view.cpp
@@ -155,7 +152,7 @@ void RunMouseEntered(sf::RenderWindow& window, View& view)
 	sf::Vector2f mousePosF(static_cast<float>(mousePos.x), static_cast<float>(mousePos.y));
 	if (view.sidebar.rollTheDiceButton.getGlobalBounds().contains(mousePosF))
 	{
-		std::cout << "In Würfeln.";
+		std::cout << "In Wï¿½rfeln.";
 	}
 	RunMouseButtonReleasedPlayerMeeples(window, view, mousePosF);
 }
@@ -338,7 +335,7 @@ std::vector<sf::RectangleShape> InitializeListOfLines()
 	listOfLines.push_back(CreateRectangleLine(false, 6, 6, 4));
 	listOfLines.push_back(CreateRectangleLine(false, 10, 4, 2));
 
-	//Striche hinter den Häusern
+	//Striche hinter den Hï¿½usern
 	//listOfLines.push_back(CreateRectangleLine(true, 0, 5, 4));
 	//listOfLines.push_back(CreateRectangleLine(true, 6, 5, 4));
 	//listOfLines.push_back(CreateRectangleLine(false, 5, 0, 4));
