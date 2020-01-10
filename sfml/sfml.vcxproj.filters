@@ -13,27 +13,99 @@
       <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
       <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
     </Filter>
+    <Filter Include="Quelldateien\view">
+      <UniqueIdentifier>{124e2f97-e9ba-4ae9-a6a9-7fff9034e099}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Headerdateien\view">
+      <UniqueIdentifier>{07a28528-ec2a-4191-9702-3b9d19466214}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Headerdateien\game">
+      <UniqueIdentifier>{ef454e2d-6355-41ec-858d-04f89322a3b2}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Quelldateien\game">
+      <UniqueIdentifier>{0eda573e-013d-4897-9fa4-aad83b7b0f88}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Headerdateien\serverSide">
+      <UniqueIdentifier>{63f635ad-3bd3-4603-8c22-cebf108fa752}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Headerdateien\serverSide\server">
+      <UniqueIdentifier>{35180526-e7dc-4a99-b140-581677a3ea70}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Headerdateien\serverSide\communicator">
+      <UniqueIdentifier>{5faaf776-36d1-408b-b942-81e943c72fdd}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Quelldateien\serverSide">
+      <UniqueIdentifier>{d6b15657-4057-45de-b303-02b2218a0624}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Quelldateien\serverSide\communicator">
+      <UniqueIdentifier>{03dccff0-593c-47de-92db-97e9130e1265}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Quelldateien\serverSide\server">
+      <UniqueIdentifier>{491bb27f-013d-46e1-b4b9-a5059317f08b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Headerdateien\client_server_connection">
+      <UniqueIdentifier>{85c237a9-1720-4458-b532-23c31993a5aa}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Headerdateien\clientSide">
+      <UniqueIdentifier>{e301315b-3233-4a1b-8a5c-f2a796ad780e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Headerdateien\clientSide\client">
+      <UniqueIdentifier>{b91f6b5b-d241-495c-9adb-8bcc28551265}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Quelldateien\clientSide">
+      <UniqueIdentifier>{c0238b3a-dc32-4a19-8de2-a65b0f5ad0de}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Quelldateien\clientSide\client">
+      <UniqueIdentifier>{7ffff3ee-7b2c-4901-9bcb-0dc9503b200a}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="main.cpp">
-      <Filter>Quelldateien</Filter>
-    </ClCompile>
-    <ClCompile Include="controller.cpp">
-      <Filter>Quelldateien</Filter>
-    </ClCompile>
-    <ClCompile Include="view.cpp">
-      <Filter>Quelldateien</Filter>
-    </ClCompile>
+    <ClInclude Include="..\src\view\config.h">
+      <Filter>Headerdateien\view</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\view\view.h">
+      <Filter>Headerdateien\view</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\game\madn_game.hpp">
+      <Filter>Headerdateien\game</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\main.h">
+      <Filter>Headerdateien</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\serverSide\communicator\communicator.hpp">
+      <Filter>Headerdateien\serverSide\communicator</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\serverSide\server\madn_server.hpp">
+      <Filter>Headerdateien\serverSide\server</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\client_server_connection\connection.hpp">
+      <Filter>Headerdateien\client_server_connection</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\clientSide\client\madn_client.hpp">
+      <Filter>Headerdateien\clientSide\client</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="main.h">
-      <Filter>Headerdateien</Filter>
-    </ClInclude>
-    <ClInclude Include="view.h">
-      <Filter>Headerdateien</Filter>
-    </ClInclude>
-    <ClInclude Include="config.h">
-      <Filter>Headerdateien</Filter>
-    </ClInclude>
+    <ClCompile Include="..\src\view\view.cpp">
+      <Filter>Quelldateien\view</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\game\madn_game.cpp">
+      <Filter>Quelldateien\game</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\main.cpp">
+      <Filter>Quelldateien</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\serverSide\communicator\communicator.cpp">
+      <Filter>Quelldateien\serverSide\communicator</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\serverSide\server\madn_server.cpp">
+      <Filter>Quelldateien\serverSide\server</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\serverSide\server_main.cpp">
+      <Filter>Quelldateien\serverSide</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\clientSide\client\madn_client.cpp">
+      <Filter>Quelldateien\clientSide\client</Filter>
+    </ClCompile>
   </ItemGroup>
 </Project>

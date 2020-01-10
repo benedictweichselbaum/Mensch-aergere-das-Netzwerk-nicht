@@ -18,7 +18,7 @@ void ServerMadn::handlePlayerInput (connection_madn_ptr con_ptr) {
     std::string clientMessage (con_ptr->connection_buffer);
     std::string returnString = serverGameCommunicator->reactToPlayerInput(clientMessage);
     char returnStringBuffer[MSG_SIZE];
-    strcpy(returnStringBuffer, returnString.c_str());
+    strcpy_s(returnStringBuffer, returnString.c_str());
 
     auto boostBuffer = boost::asio::buffer(returnStringBuffer, MSG_SIZE);
     boost::asio::async_write(con_ptr->socket, boostBuffer, [this, con_ptr](const boost::system::error_code& errorCode, size_t length){
@@ -42,7 +42,7 @@ void ServerMadn::getClientPlayerInput (connection_madn_ptr con_ptr) {
 void ServerMadn::askForNewInput (connection_madn_ptr con_ptr) {
     std::string greeting = "Enter new input:";
     char welcomeMessage[MSG_SIZE];
-    strcpy(welcomeMessage, greeting.c_str());
+    strcpy_s(welcomeMessage, greeting.c_str());
 
     auto boostBuffer = boost::asio::buffer(welcomeMessage, MSG_SIZE);
     boost::asio::async_write(con_ptr->socket, boostBuffer, [this, con_ptr](const boost::system::error_code& errorCode, size_t length){
@@ -61,7 +61,7 @@ void ServerMadn::handleAcceptedConnection (connection_madn_ptr con_ptr) {
     });
 }
 
-void ServerMadn::startServer (ushort port) {
+void ServerMadn::startServer (unsigned short port) {
     auto endpoint = tcp::endpoint (tcp::v4(), port);
     
     std::cout << "Log[" << getCurrentDateWithTime() << "]: " << "Server started on port " << port << "." << std::endl;
@@ -85,6 +85,9 @@ void ServerMadn::startServer (ushort port) {
 std::string getCurrentDateWithTime () {
     auto currentTime_t = std::chrono::system_clock::to_time_t(std::chrono::system_clock::now());
     char stringDateBuffer[100] = {0};
-    std::strftime(stringDateBuffer, sizeof(stringDateBuffer), "%Y-%m-%d %H:%M:%S", std::localtime(&currentTime_t));
+    tm timeinfo;
+    localtime_s(&timeinfo, &currentTime_t);
+    std::strftime(stringDateBuffer, sizeof(stringDateBuffer), "%Y-%m-%d %H:%M:%S", &timeinfo);
+   // std::strftime(stringDateBuffer, sizeof(stringDateBuffer), "%Y-%m-%d %H:%M:%S", std::localtime(&currentTime_t)); //Die beiden Zeilen darüber ersetzen diese Funktion auch threadsafe
     return stringDateBuffer;
 }
