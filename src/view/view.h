@@ -31,11 +31,14 @@ struct Dice
 struct Sidebar
 {
 	Dice dice;
+	sf::RectangleShape rollTheDiceButton;
+	sf::Text infotext;
 };
 
 struct View
 {
 	std::vector<std::vector<sf::CircleShape>> listOfCircles;
+	std::vector<sf::RectangleShape> listOfLines;
 	Sidebar sidebar;
 	sf::RectangleShape background;
 	Player Player1;
@@ -44,6 +47,8 @@ struct View
 	Player Player4;
 	void setPositions(std::string Coords);
 	void setPositionOfMeeple(int x, int y, int playerNr, int& player1set, int& player2set, int& player3set, int& player4set);
+
+	ClientMadn client;
 };
 
 //PlaygroundField NewPlayground();
@@ -56,14 +61,21 @@ struct View
 
 //std::vector<std::vector<sf::CircleShape>> InitPlayground();
 
-void CreatePlayground(std::vector<std::vector<sf::CircleShape>>& listOfCircles);
+//void CreatePlayground(std::vector<std::vector<sf::CircleShape>>& listOfCircles);
 
 void DrawPlayground(sf::RenderWindow& window, std::vector<std::vector<sf::CircleShape>>& listOfCircles);
 void DrawSidebar(sf::RenderWindow& window, Sidebar sidebar);
 void DrawDice(sf::RenderWindow& window, Dice dice);
 void DrawPlayers(sf::RenderWindow& window, View view);
+void DrawRectangle(sf::RenderWindow& window, sf::RectangleShape rectangle);
+void DrawLines(sf::RenderWindow& window, std::vector<sf::RectangleShape> lineList);
 
 void RunView(sf::RenderWindow& window, View& view);
+void RunMouseButtonReleased(sf::RenderWindow& window, View& view);
+
+void RunMouseButtonReleasedPlayerMeeples(sf::RenderWindow& window, View& view, sf::Vector2f& mousePosF);
+
+void RunMouseButtonReleasedPlayerMeeple(sf::RenderWindow& window, View& view, sf::Vector2f& mousePosF, sf::CircleShape& meeple, int playerId, int meepleNr);
 
 std::vector<std::vector<sf::CircleShape>> CreateField();
 
@@ -74,6 +86,10 @@ sf::CircleShape CreateDot(float x, float y, sf::Color farbe);
 sf::RectangleShape CreateDiceShape(float x, float y, sf::Color farbe);
 
 std::vector<std::vector<sf::CircleShape>> InitializePlayground();
+
+std::vector<sf::RectangleShape> InitializeListOfLines(); //Background of Path (under the Circles)
+
+sf::RectangleShape CreateRectangleLine(bool horizontal, int startx, int starty, int length);
 
 Sidebar InitializeSidebar();
 
@@ -86,5 +102,7 @@ Dice InitializeDice();
 Player InitPlayer();
 
 Meeple InitMeeple();
+
+sf::RectangleShape InitRollTheDiceButton();
 
 //	void setPositions(View& view, std::string Coords);

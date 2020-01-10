@@ -41,7 +41,7 @@
     <ProjectGuid>{FC5BC12B-74CB-4F93-AB62-9F6985C02A58}</ProjectGuid>
     <Keyword>Win32Proj</Keyword>
     <RootNamespace>sfml</RootNamespace>
-    <WindowsTargetPlatformVersion>10.0</WindowsTargetPlatformVersion>
+    <WindowsTargetPlatformVersion>10.0.18362.0</WindowsTargetPlatformVersion>
     <ProjectName>Mensch-ärgere-das-netzwerk-nicht</ProjectName>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />

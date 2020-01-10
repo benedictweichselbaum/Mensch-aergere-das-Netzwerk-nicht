@@ -1,9 +1,2 @@
 ﻿C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\MSBuild\Microsoft\VC\v160\Microsoft.CppBuild.targets(459,5): warning MSB8028: The intermediate directory (Debug\) contains files shared from another project (sfml.vcxproj).  This can lead to incorrect clean and rebuild behavior.
-  madn_client.cpp
-C:\Users\DKrau\Documents\GitHub\Mensch-aergere-das-Netzwerk-nicht\src\client_server_connection\connection.hpp(4,10): fatal error C1083: Datei (Include) kann nicht geöffnet werden: "boost/asio.hpp": No such file or directory
-  communicator.cpp
-  madn_server.cpp
-C:\Users\DKrau\Documents\GitHub\Mensch-aergere-das-Netzwerk-nicht\src\client_server_connection\connection.hpp(4,10): fatal error C1083: Datei (Include) kann nicht geöffnet werden: "boost/asio.hpp": No such file or directory
-  server_main.cpp
-C:\Users\DKrau\Documents\GitHub\Mensch-aergere-das-Netzwerk-nicht\src\client_server_connection\connection.hpp(4,10): fatal error C1083: Datei (Include) kann nicht geöffnet werden: "boost/asio.hpp": No such file or directory
-  Code wird generiert...
+LINK : fatal error LNK1104: Datei "libboost_date_time-vc142-mt-gd-x32-1_72.lib" kann nicht geöffnet werden.

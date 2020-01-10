@@ -1,4 +1,5 @@
 #include "config.h"
+#include "../clientSide/client/madn_client.hpp"
 #include <SFML\Graphics.hpp>
 #include "view.h"
 #include <iostream>
@@ -46,6 +47,9 @@ void DrawPlayground(sf::RenderWindow& window, std::vector<std::vector<sf::Circle
 void DrawSidebar(sf::RenderWindow& window, Sidebar sidebar)
 {
 	DrawDice(window, sidebar.dice);
+	DrawRectangle(window, sidebar.rollTheDiceButton);
+	//window.draw(sidebar.infotext.);//TODO?
+	//sidebar.infotext.setFillColor(sf::Color::Red);
 }
 
 void DrawDice(sf::RenderWindow& window, Dice dice)
@@ -65,6 +69,19 @@ void DrawPlayers(sf::RenderWindow& window, View view)
 		window.draw(view.Player2.Meeples.at(i).meeple);
 		window.draw(view.Player3.Meeples.at(i).meeple);
 		window.draw(view.Player4.Meeples.at(i).meeple);
+	}
+}
+
+void DrawRectangle(sf::RenderWindow& window, sf::RectangleShape rectangle)
+{
+	window.draw(rectangle);
+}
+
+void DrawLines(sf::RenderWindow& window, std::vector<sf::RectangleShape> lineList)
+{
+	for (int i = 0; i < lineList.size(); ++i)
+	{
+		DrawRectangle(window, lineList.at(i));
 	}
 }
 
@@ -92,16 +109,69 @@ void RunView(sf::RenderWindow& window, View& view)
 		sf::Event event;
 		while (window.pollEvent(event))
 		{
-			if (event.type == sf::Event::Closed)
+			switch (event.type)
+			{
+			case sf::Event::Closed:
 				window.close();
+				break;
+			case sf::Event::MouseButtonReleased:
+				RunMouseButtonReleased(window, view);
+				break;
+			case sf::Event::MouseEntered:
+
+				break;
+			}
+			
 		}
 
 		window.clear();
 		window.draw(view.background);
+		DrawLines(window, view.listOfLines);
 		DrawPlayground(window, view.listOfCircles);
 		DrawPlayers(window, view);
 		DrawSidebar(window, view.sidebar);
 		window.display();
+	}
+}
+
+void RunMouseButtonReleased(sf::RenderWindow& window, View& view)
+{
+	sf::Vector2i mousePos = sf::Mouse::getPosition(window);
+	sf::Vector2f mousePosF(static_cast<float>(mousePos.x), static_cast<float>(mousePos.y));
+	if (view.sidebar.rollTheDiceButton.getGlobalBounds().contains(mousePosF))
+	{
+		view.client.SendRollTheDice();
+	}
+	RunMouseButtonReleasedPlayerMeeples(window, view, mousePosF);
+}
+
+void RunMouseEntered(sf::RenderWindow& window, View& view)
+{
+	sf::Vector2i mousePos = sf::Mouse::getPosition(window);
+	sf::Vector2f mousePosF(static_cast<float>(mousePos.x), static_cast<float>(mousePos.y));
+	if (view.sidebar.rollTheDiceButton.getGlobalBounds().contains(mousePosF))
+	{
+		std::cout << "In Würfeln.";
+	}
+	RunMouseButtonReleasedPlayerMeeples(window, view, mousePosF);
+}
+
+void RunMouseButtonReleasedPlayerMeeples(sf::RenderWindow& window, View& view, sf::Vector2f& mousePosF)
+{
+	for (int i = 0; i < 4; ++i)
+	{
+		RunMouseButtonReleasedPlayerMeeple(window, view, mousePosF, view.Player1.Meeples.at(i).meeple, 1, i);
+		RunMouseButtonReleasedPlayerMeeple(window, view, mousePosF, view.Player2.Meeples.at(i).meeple, 2, i);
+		RunMouseButtonReleasedPlayerMeeple(window, view, mousePosF, view.Player3.Meeples.at(i).meeple, 3, i);
+		RunMouseButtonReleasedPlayerMeeple(window, view, mousePosF, view.Player4.Meeples.at(i).meeple, 4, i);
+	}
+}
+
+void RunMouseButtonReleasedPlayerMeeple(sf::RenderWindow& window, View& view, sf::Vector2f& mousePosF, sf::CircleShape& meeple, int playerId, int meepleNr)
+{
+	if (meeple.getGlobalBounds().contains(mousePosF))
+	{
+		view.client.SendMeepleClicked(playerId, meepleNr);
 	}
 }
 
@@ -247,21 +317,77 @@ std::vector<std::vector<sf::CircleShape>> InitializePlayground()
 	return listOfCircles;
 }
 
+std::vector<sf::RectangleShape> InitializeListOfLines()
+{
+	std::vector<sf::RectangleShape> listOfLines;
+	listOfLines.push_back(CreateRectangleLine(true, 4, 0, 2));
+	listOfLines.push_back(CreateRectangleLine(true, 0, 4, 4));
+	listOfLines.push_back(CreateRectangleLine(true, 6, 4, 4));
+	listOfLines.push_back(CreateRectangleLine(true, 0, 6, 4));
+	listOfLines.push_back(CreateRectangleLine(true, 6, 6, 4));
+	listOfLines.push_back(CreateRectangleLine(true, 4, 10, 2));
+
+	listOfLines.push_back(CreateRectangleLine(false, 0, 4, 2));
+	listOfLines.push_back(CreateRectangleLine(false, 4, 0, 4));
+	listOfLines.push_back(CreateRectangleLine(false, 4, 6, 4));
+	listOfLines.push_back(CreateRectangleLine(false, 6, 0, 4));
+	listOfLines.push_back(CreateRectangleLine(false, 6, 6, 4));
+	listOfLines.push_back(CreateRectangleLine(false, 10, 4, 2));
+
+	//Striche hinter den Häusern
+	//listOfLines.push_back(CreateRectangleLine(true, 0, 5, 4));
+	//listOfLines.push_back(CreateRectangleLine(true, 6, 5, 4));
+	//listOfLines.push_back(CreateRectangleLine(false, 5, 0, 4));
+	//listOfLines.push_back(CreateRectangleLine(false, 5, 6, 4));
+	return listOfLines;
+}
+
+sf::RectangleShape CreateRectangleLine(bool horizontal, int startx, int starty, int length)
+{
+	if (horizontal)
+	{
+		sf::RectangleShape line(sf::Vector2f(length * PLAYGROUNDINTERVAL, 0));
+		line.setOutlineColor(PLAYGROUNDLINEOUTLINECOLOR);
+		line.setOutlineThickness(PLAYGROUNDLINEOUTLINETHICKNESS);
+		line.setPosition(sf::Vector2f(startx * PLAYGROUNDINTERVAL + PLAYGROUNDINTERVAL / 2, starty * PLAYGROUNDINTERVAL + PLAYGROUNDINTERVAL / 2));
+		return line;
+	}
+	else
+	{
+		sf::RectangleShape line(sf::Vector2f(0, length * PLAYGROUNDINTERVAL));
+		line.setOutlineColor(PLAYGROUNDLINEOUTLINECOLOR);
+		line.setOutlineThickness(PLAYGROUNDLINEOUTLINETHICKNESS);
+		line.setPosition(sf::Vector2f(startx * PLAYGROUNDINTERVAL + PLAYGROUNDINTERVAL / 2, starty * PLAYGROUNDINTERVAL + PLAYGROUNDINTERVAL / 2));
+		return line;
+	}
+}
+
 Sidebar InitializeSidebar()
 {
 	Sidebar sidebar;
 	sidebar.dice = InitializeDice();
+	sidebar.rollTheDiceButton = InitRollTheDiceButton();
+	//sf::Font font;
+	//font.loadFromFile("arial.ttf");
+	//font.loadFromMemory("")
+	//sf::Text textbox("Text", font);
+	//textbox.setPosition (PLAYGROUNDINTERVAL * 100, 500.f); //TODO
+	//sidebar.infotext = textbox;
+	//sidebar.infotext.setFillColor(sf::Color::Blue);
+	//textbox.set
 	return sidebar;
 }
 
 View InitializeView()
 {
 	View view;
+	//view.client = clientMadn.GetClient();
 	sf::RectangleShape backgroundshape(sf::Vector2f(PLAYGROUNDINTERVAL * 11 + SIDEPANEL, PLAYGROUNDINTERVAL * 11));
 	backgroundshape.setFillColor(VIEWBACKGROUNDCOLOR);
 	view.background = backgroundshape;
 	view.listOfCircles = InitializePlayground();
 	view.sidebar = InitializeSidebar();
+	view.listOfLines = InitializeListOfLines();
 	view.Player1 = InitPlayer();
 	view.Player2 = InitPlayer();
 	view.Player3 = InitPlayer();
@@ -354,80 +480,13 @@ Meeple InitMeeple()
 	return meeple;
 }
 
-//void setPositions(View& view, std::string Coords)
-//{
-//	int player1set = 0;
-//	int player2set = 0;
-//	int player3set = 0;
-//	int player4set = 0;
-//	switch (Coords.at(0))
-//	{
-//	case '4':
-//		view.Player1.Meeples.at(player1set).meeple.setPosition(sf::Vector2f(PLAYGROUNDINTERVAL + (PLAYGROUNDINTERVAL - MEEPLERADIUS * 2) / 2, PLAYGROUNDINTERVAL * 9 + (PLAYGROUNDINTERVAL - MEEPLERADIUS * 2) / 2));
-//		++player1set;
-//	case '3':
-//		view.Player1.Meeples.at(player1set).meeple.setPosition(sf::Vector2f((PLAYGROUNDINTERVAL - MEEPLERADIUS * 2) / 2, PLAYGROUNDINTERVAL * 9 + (PLAYGROUNDINTERVAL - MEEPLERADIUS * 2) / 2));
-//		++player1set;
-//	case '2':
-//		view.Player1.Meeples.at(player1set).meeple.setPosition(sf::Vector2f(PLAYGROUNDINTERVAL + (PLAYGROUNDINTERVAL - MEEPLERADIUS * 2) / 2, PLAYGROUNDINTERVAL * 10 + (PLAYGROUNDINTERVAL - MEEPLERADIUS * 2) / 2));
-//		++player1set;
-//	case '1':
-//		view.Player1.Meeples.at(player1set).meeple.setPosition(sf::Vector2f((PLAYGROUNDINTERVAL - MEEPLERADIUS * 2) / 2, PLAYGROUNDINTERVAL * 10 + (PLAYGROUNDINTERVAL - MEEPLERADIUS * 2) / 2));
-//		++player1set;
-//	}
-//	switch (Coords.at(5))
-//	{
-//	case '4':
-//		view.Player2.Meeples.at(player2set).meeple.setPosition(sf::Vector2f(PLAYGROUNDINTERVAL * 9 + (PLAYGROUNDINTERVAL - MEEPLERADIUS * 2) / 2, PLAYGROUNDINTERVAL + (PLAYGROUNDINTERVAL - MEEPLERADIUS * 2) / 2));
-//		++player2set;
-//	case '3':
-//		view.Player2.Meeples.at(player2set).meeple.setPosition(sf::Vector2f(PLAYGROUNDINTERVAL * 10 + (PLAYGROUNDINTERVAL - MEEPLERADIUS * 2) / 2, PLAYGROUNDINTERVAL + (PLAYGROUNDINTERVAL - MEEPLERADIUS * 2) / 2));
-//		++player2set;
-//	case '2':
-//		view.Player2.Meeples.at(player2set).meeple.setPosition(sf::Vector2f(PLAYGROUNDINTERVAL * 9 + (PLAYGROUNDINTERVAL - MEEPLERADIUS * 2) / 2, (PLAYGROUNDINTERVAL - MEEPLERADIUS * 2) / 2));
-//		++player2set;
-//	case '1':
-//		view.Player2.Meeples.at(player2set).meeple.setPosition(sf::Vector2f(PLAYGROUNDINTERVAL * 10 + (PLAYGROUNDINTERVAL - MEEPLERADIUS * 2) / 2, (PLAYGROUNDINTERVAL - MEEPLERADIUS * 2) / 2));
-//		++player2set;
-//	}
-//	switch (Coords.at(10))
-//	{
-//	case '4':
-//		view.Player3.Meeples.at(player3set).meeple.setPosition(sf::Vector2f(PLAYGROUNDINTERVAL + (PLAYGROUNDINTERVAL - MEEPLERADIUS * 2) / 2, PLAYGROUNDINTERVAL + (PLAYGROUNDINTERVAL - MEEPLERADIUS * 2) / 2));
-//		++player3set;
-//	case '3':
-//		view.Player3.Meeples.at(player3set).meeple.setPosition(sf::Vector2f((PLAYGROUNDINTERVAL - MEEPLERADIUS * 2) / 2, PLAYGROUNDINTERVAL + (PLAYGROUNDINTERVAL - MEEPLERADIUS * 2) / 2));
-//		++player3set;
-//	case '2':
-//		view.Player3.Meeples.at(player3set).meeple.setPosition(sf::Vector2f(PLAYGROUNDINTERVAL + (PLAYGROUNDINTERVAL - MEEPLERADIUS * 2) / 2, (PLAYGROUNDINTERVAL - MEEPLERADIUS * 2) / 2));
-//		++player3set;
-//	case '1':
-//		view.Player3.Meeples.at(player3set).meeple.setPosition(sf::Vector2f((PLAYGROUNDINTERVAL - MEEPLERADIUS * 2) / 2, (PLAYGROUNDINTERVAL - MEEPLERADIUS * 2) / 2));
-//		++player3set;
-//	}
-//	switch (Coords.at(15))
-//	{
-//	case '4':
-//		view.Player4.Meeples.at(player4set).meeple.setPosition(sf::Vector2f(PLAYGROUNDINTERVAL * 9 + (PLAYGROUNDINTERVAL - MEEPLERADIUS * 2) / 2, PLAYGROUNDINTERVAL * 9 + (PLAYGROUNDINTERVAL - MEEPLERADIUS * 2) / 2));
-//		++player4set;
-//	case '3':
-//		view.Player4.Meeples.at(player4set).meeple.setPosition(sf::Vector2f(PLAYGROUNDINTERVAL * 10 + (PLAYGROUNDINTERVAL - MEEPLERADIUS * 2) / 2, PLAYGROUNDINTERVAL * 9 + (PLAYGROUNDINTERVAL - MEEPLERADIUS * 2) / 2));
-//		++player4set;
-//	case '2':
-//		view.Player4.Meeples.at(player4set).meeple.setPosition(sf::Vector2f(PLAYGROUNDINTERVAL * 9 + (PLAYGROUNDINTERVAL - MEEPLERADIUS * 2) / 2, PLAYGROUNDINTERVAL * 10 + (PLAYGROUNDINTERVAL - MEEPLERADIUS * 2) / 2));
-//		++player4set;
-//	case '1':
-//		view.Player4.Meeples.at(player4set).meeple.setPosition(sf::Vector2f(PLAYGROUNDINTERVAL * 10  + (PLAYGROUNDINTERVAL - MEEPLERADIUS * 2) / 2, PLAYGROUNDINTERVAL * 10 + (PLAYGROUNDINTERVAL - MEEPLERADIUS * 2) / 2));
-//		++player4set;
-//	}
-//
-//
-//
-//
-//
-//
-//	view.sidebar.dice.Set(Coords.at(61));
-//}
+sf::RectangleShape InitRollTheDiceButton()
+{
+	sf::RectangleShape rollTheDiceButton(sf::Vector2f(ROLLTHEDICEBUTTONWIDTH, ROLLTHEDICEBUTTONHEIGHT));
+	rollTheDiceButton.setFillColor(ROLLTHEDICEBUTTONCOLOR);
+	rollTheDiceButton.setPosition(PLAYGROUNDINTERVAL * 11 + (SIDEPANEL - ROLLTHEDICEBUTTONWIDTH) / 2, DICEYPLACE + DICESIZE + ROLLTHEDICEBUTTONMARGINTOP);
+	return rollTheDiceButton;
+}
 
 void View::setPositions(std::string Coords)
 {
