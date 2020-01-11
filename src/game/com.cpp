@@ -1,4 +1,4 @@
-#include "Com.hpp"
+#include "com.hpp"
 
 void Com(int* game, int comnumber)
 {
@@ -63,7 +63,7 @@ void Com(int* game, int comnumber)
 
 void Com1(int* game, int rolledNumber, int playerNumber)
 {
-	for (int i = 1; i <= 4; ++i)
+	for (int i = 4; i >= 1; --i)
 	{
 		int p = ProgressOfMeeple(game, playerNumber, i);
 		if (IsMovePossible(game, playerNumber, p, rolledNumber))
@@ -200,5 +200,9 @@ int GetIndexWithProgress(int playerNumber, int progressOfMeeple)
 void Move(int* game, int playerNumber, int progressOfMeeple, int rolledNumber)
 {
 	game[GetIndexWithProgress(playerNumber, progressOfMeeple)] = 0;
+	if (game[GetIndexWithProgress(playerNumber, progressOfMeeple + rolledNumber)] != 0)
+	{
+		MeepleKickedOut(game, game[GetIndexWithProgress(playerNumber, progressOfMeeple + rolledNumber)]);
+	}
 	game[GetIndexWithProgress(playerNumber, progressOfMeeple + rolledNumber)] = playerNumber;
 }
