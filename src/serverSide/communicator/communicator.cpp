@@ -45,7 +45,7 @@ std::string ServerGameCommunicator::reactToPlayerInput (std::string input) {
                 if (players[pI] == 1) numberOfNaturalPlayers++;
             
             if (numberOfNaturalPlayers == 4) {
-                game->getBoard()[60] = 1;
+                //game->getBoard()[60] = 1;
                 changeStateToNextPlayer(game->getBoard()[60]);
                 return game->getBoardAsString();
             }
@@ -76,13 +76,16 @@ std::string ServerGameCommunicator::reactToPlayerInput (std::string input) {
                     if (game->getCurrentDiceNumber() == 6) {
                         state = std::make_shared<PlayingPlayerOneMeepleState>();
                     } else {
-                        if (players[playerNumber] == 0)
+                        /*if (players[playerNumber] == 0)
                             state = std::make_shared<PlayingComTwoState>();
                         else {
                             game->getBoard()[60] = 2;
                             state = std::make_shared<PlayingPlayerTwoDiceState>();
                             return game->getBoardAsString();
-                        }
+                        }*/
+                        game->getBoard()[60] = 2;
+                        changeStateToNextPlayer(2);
+                        return game->getBoardAsString();
                     }
                 } else 
                     state = std::make_shared<PlayingPlayerOneMeepleState>();
@@ -101,13 +104,16 @@ std::string ServerGameCommunicator::reactToPlayerInput (std::string input) {
                     if (game->getCurrentDiceNumber() == 6) {
                         state = std::make_shared<PlayingPlayerTwoMeepleState>();
                     } else {
-                        if (players[playerNumber] == 0)
+                        /*if (players[playerNumber] == 0)
                             state = std::make_shared<PlayingComThreeState>();
                         else {
                             game->getBoard()[60] = 3;
                             state = std::make_shared<PlayingPlayerThreeDiceState>();
                             return game->getBoardAsString();
-                        }
+                        }*/
+                        game->getBoard()[60] = 3;
+                        changeStateToNextPlayer(3);
+                        return game->getBoardAsString();
                     }
                 } else 
                     state = std::make_shared<PlayingPlayerTwoMeepleState>();
@@ -126,13 +132,16 @@ std::string ServerGameCommunicator::reactToPlayerInput (std::string input) {
                     if (game->getCurrentDiceNumber() == 6) {
                         state = std::make_shared<PlayingPlayerThreeMeepleState>();
                     } else {
-                        if (players[playerNumber] == 0)
+                        /*if (players[playerNumber] == 0)
                             state = std::make_shared<PlayingComFourState>();
                         else {
                             game->getBoard()[60] = 4;
                             state = std::make_shared<PlayingPlayerFourDiceState>();
                             return game->getBoardAsString();
-                        }
+                        }*/
+                        game->getBoard()[60] = 4;
+                        changeStateToNextPlayer(4);
+                        return game->getBoardAsString();
                     }
                 } else 
                     state = std::make_shared<PlayingPlayerThreeMeepleState>();
@@ -151,13 +160,16 @@ std::string ServerGameCommunicator::reactToPlayerInput (std::string input) {
                     if (game->getCurrentDiceNumber() == 6) {
                         state = std::make_shared<PlayingPlayerFourMeepleState>();
                     } else {
-                        if (players[0] == 0)
+                        /*if (players[0] == 0)
                             state = std::make_shared<PlayingComOneState>();
                         else {
                             game->getBoard()[60] = 1;
                             state = std::make_shared<PlayingPlayerOneDiceState>();
                             return game->getBoardAsString();
-                        }
+                        }*/
+                        game->getBoard()[60] = 1;
+                        changeStateToNextPlayer(1);
+                        return game->getBoardAsString();
                     }
                 } else 
                     state = std::make_shared<PlayingPlayerFourMeepleState>();
@@ -213,6 +225,8 @@ void ServerGameCommunicator::changeStateToNextPlayer (int8_t playerNumber) {
         case 1:
             if (players[playerNumber - 1] == 0) {
                 state = std::make_shared<PlayingComOneState>();
+                performComMove(game);
+                changeStateToNextPlayer(2);
             } else {
                 state = std::make_shared<PlayingPlayerOneDiceState>();
             }
@@ -220,6 +234,8 @@ void ServerGameCommunicator::changeStateToNextPlayer (int8_t playerNumber) {
         case 2:
             if (players[playerNumber - 1] == 0) {
                 state = std::make_shared<PlayingComTwoState>();
+                performComMove(game);
+                changeStateToNextPlayer(3);
             } else {
                 state = std::make_shared<PlayingPlayerTwoDiceState>();
             }
@@ -227,6 +243,8 @@ void ServerGameCommunicator::changeStateToNextPlayer (int8_t playerNumber) {
         case 3:
             if (players[playerNumber - 1] == 0) {
                 state = std::make_shared<PlayingComThreeState>();
+                performComMove(game);
+                changeStateToNextPlayer(4);
             } else {
                 state = std::make_shared<PlayingPlayerThreeDiceState>();
             }
@@ -234,6 +252,8 @@ void ServerGameCommunicator::changeStateToNextPlayer (int8_t playerNumber) {
         case 4:
             if (players[playerNumber - 1] == 0) {
                 state = std::make_shared<PlayingComFourState>();
+                performComMove(game);
+                changeStateToNextPlayer(1);
             } else {
                 state = std::make_shared<PlayingPlayerFourDiceState>();
             }
@@ -446,20 +466,29 @@ std::string PlayingPlayerFourMeepleState::reactToPlayerInput (std::string input,
     } else return "xx|inputDoesNotMatchState";
 }
 
+/*
+ * The COM-States are only there in order to catch inputs by natural players.
+ * The real COM-action happens in a separate method!
+ * Look: performComMove (...)
+*/
 std::string PlayingComOneState::reactToPlayerInput (std::string input, MadnGame_Ptr game) {
     if (input.compare("N") == 0) return "xx|" + game->getBoardAsString();
+    else return "xx|inputDoesNotMatchState";
 }
 
 std::string PlayingComTwoState::reactToPlayerInput (std::string input, MadnGame_Ptr game) {
     if (input.compare("N") == 0) return "xx|" + game->getBoardAsString();
+    else return "xx|inputDoesNotMatchState";
 }
 
 std::string PlayingComThreeState::reactToPlayerInput (std::string input, MadnGame_Ptr game) {
     if (input.compare("N") == 0) return "xx|" + game->getBoardAsString();
+    else return "xx|inputDoesNotMatchState";
 }
 
 std::string PlayingComFourState::reactToPlayerInput (std::string input, MadnGame_Ptr game) {
     if (input.compare("N") == 0) return "xx|" + game->getBoardAsString();
+    else return "xx|inputDoesNotMatchState";
 }
 
 std::string PlayingPlayerOneDiceOutOfHouseState::reactToPlayerInput (std::string input, MadnGame_Ptr game) {
@@ -520,3 +549,10 @@ std::string PlayingPlayerFourDiceOutOfHouseState::reactToPlayerInput (std::strin
         } else return "xx|notYourTurn";
     } else return "xx|inputDoesNotMatchState";
 } 
+
+void performComMove (MadnGame_Ptr game) {
+    // Perform function that does COM move
+
+    int8_t currentPlayer = game->getBoard()[60];
+    game->getBoard()[60] = (++currentPlayer > 4) ? 1 : ++currentPlayer; // set next player
+}

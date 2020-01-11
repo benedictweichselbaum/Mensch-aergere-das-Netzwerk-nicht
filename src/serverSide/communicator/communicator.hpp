@@ -137,4 +137,6 @@ class ServerGameCommunicator {
 
 using ServerGameCommunicator_Ptr = std::shared_ptr<ServerGameCommunicator>;
 
+void performComMove (MadnGame_Ptr game); 
+
 #endif
