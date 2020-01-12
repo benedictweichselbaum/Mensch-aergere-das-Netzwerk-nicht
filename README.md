@@ -5,7 +5,7 @@ Abschlussprojekt für die C++-Vorlesung. Ziel ist ein Mensch ärgere dich nicht 
 ### Muss-Kriterien
 - [X] Funktionierendes Spiel (Grundsätzlich --> Consolenausgabe über string)
 - [X] Netzwerk mit mindestens 2 echten Spielern
-- [ ] Funktionierender Com
+- [X] Funktionierender Com
 
 ### Soll-Kriterien
 - [X] GUI
