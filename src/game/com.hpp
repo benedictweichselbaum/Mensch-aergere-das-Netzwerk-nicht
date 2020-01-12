@@ -9,7 +9,7 @@ void Com1(int8_t* game,int8_t rolledNumber,int8_t playerNumber);
 
 int8_t HowManyMeeplesInStartHouse(int8_t* game,int8_t playerNumber);
 
-int8_t RollTheDice();
+int8_t RollTheDice(int8_t seedHelper);
 
 int8_t GetIndexOfStartPoint(int8_t playerNumber);
 
