@@ -8,23 +8,31 @@ Abschlussprojekt für die C++-Vorlesung. Ziel ist ein Mensch ärgere dich nicht 
 - [ ] Funktionierender Com
 
 ### Soll-Kriterien
-- [ ] GUI
+- [X] GUI
 - [X] Speicherstände
 - [X] Netzwerk mit bis zu 4 Spielern
 - [ ] Intelligenter Com
 
 ### Wunsch-Kriterien
 - [ ] verschlüsselte Speicherstände
-- [ ] fancy Grafik
+- [X] fancy Grafik
 - [ ] Statistiken
 - [ ] Mini-Game beim Warten
 
-## Kompilieren
-Final sollte es möglich sein, dass das Projekt einfach mit dem Makefile kompiliert wird. <br/>
-Momentaner Stand (UNIX/LINUX):
+## Kompilieren und Ausführen
+Um das Programm (die Programme) erfolgreich zu kompilieren, werden zwei Bibliotheken benötigt. Boost und SFML. <br/>
+Verwendete Versionen:
+- Boost: 1.71.0 (Order: boost_1_71_0)
+- SFML: 2.5.1 (Order: SFML-2.5.1)
+Um das Makefile zu verwenden müssen beide Bibliotheken NEBEN den 'Mensch_aergere_das_Netzwerk_nicht' gelegt werden. <br/>
+Anschließend kann einfach mit dem Make-Befehl kompiliert werden.
 <pre><code>
-make && ./src/main
+make
 </code></pre>
+Die fertigen Programme liegen unter dem Ordner 'compiledProgramms' und können wie gewohnt ausgeführt werden. <br/> <br/>
+Zunächst wird der Server gestartet, der das Spiel hostet und ein reines Kommandozeilen-Programm ist. Der Port muss selbst
+gewählt werden. Danach können bis zu 4 Clients geöffnet werden. IP und Port werden über die CLI eingegeben, der Rest
+wird über die GUI gesteuert.
 
 ## Netzwerkprotokoll
 Für den Netzwerkverkehr zwischen Client und Server soll ein Protokoll definiert werden. <br/>
