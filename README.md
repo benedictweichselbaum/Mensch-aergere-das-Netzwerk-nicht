@@ -24,6 +24,7 @@ Um das Programm (die Programme) erfolgreich zu kompilieren, werden zwei Biblioth
 Verwendete Versionen:
 - Boost: 1.71.0 (Order: boost_1_71_0)
 - SFML: 2.5.1 (Order: SFML-2.5.1)
+
 Um das Makefile zu verwenden müssen beide Bibliotheken NEBEN den 'Mensch_aergere_das_Netzwerk_nicht' gelegt werden. <br/>
 Anschließend kann einfach mit dem Make-Befehl kompiliert werden.
 <pre><code>
