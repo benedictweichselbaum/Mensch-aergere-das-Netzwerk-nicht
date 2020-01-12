@@ -6,6 +6,7 @@
 #include <regex>
 #include <string>
 #include <chrono>
+#include "../../game/com.hpp"
 
 /*
 The following header declares a class that acts as a communicator between the server that is

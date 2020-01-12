@@ -1,14 +1,14 @@
 #include "com.hpp"
 
-void Com(int* game, int comnumber)
+void Com(int8_t* game, int8_t comnumber)
 {
-	int rolledNumber = RollTheDice();
-	int playerNumber = game[60];
-	int inStartHouse = HowManyMeeplesInStartHouse(game, playerNumber);
+	int8_t rolledNumber = RollTheDice();
+	int8_t playerNumber = game[60];
+	int8_t inStartHouse = HowManyMeeplesInStartHouse(game, playerNumber);
 	// Alle 4 Im Haus -> 3* Würfeln und ziehen
 	if (inStartHouse == 4)
 	{
-		int threetimes = 3;
+		int8_t threetimes = 3;
 		while (threetimes > 1 && rolledNumber != 6)
 		{
 			--threetimes;
@@ -61,11 +61,11 @@ void Com(int* game, int comnumber)
 		Com(game, comnumber);
 }
 
-void Com1(int* game, int rolledNumber, int playerNumber)
+void Com1(int8_t* game, int8_t rolledNumber, int8_t playerNumber)
 {
-	for (int i = 4; i >= 1; --i)
+	for (int8_t i = 4; i >= 1; --i)
 	{
-		int p = ProgressOfMeeple(game, playerNumber, i);
+		int8_t p = ProgressOfMeeple(game, playerNumber, i);
 		if (IsMovePossible(game, playerNumber, p, rolledNumber))
 		{
 			Move(game, playerNumber, p, rolledNumber);
@@ -75,19 +75,19 @@ void Com1(int* game, int rolledNumber, int playerNumber)
 }
 
 
-int HowManyMeeplesInStartHouse(int* game, int playerNumber)
+int8_t HowManyMeeplesInStartHouse(int8_t* game, int8_t playerNumber)
 {
 	return game[(playerNumber - 1) * 5];
 }
 
-int RollTheDice()
+int8_t RollTheDice()
 {
 	std::mt19937 rng(time(NULL));
 	std::uniform_int_distribution<int8_t> gen(1, 6);
 	return gen(rng);
 }
 
-int GetIndexOfStartPoint(int playerNumber)
+int8_t GetIndexOfStartPoint(int8_t playerNumber)
 {
 	switch (playerNumber)
 	{
@@ -102,12 +102,12 @@ int GetIndexOfStartPoint(int playerNumber)
 	}
 }
 
-void MeepleKickedOut(int* game, int player)
+void MeepleKickedOut(int8_t* game, int8_t player)
 {
 	++game[(player - 1) * 5];
 }
 
-void HasToPlattenPutzen(int* game, int playerNumber, int rolledNumber)
+void HasToPlattenPutzen(int8_t* game, int8_t playerNumber, int8_t rolledNumber)
 {
 	if (game[AddDiceAmountToPosition(GetIndexOfStartPoint(playerNumber), rolledNumber)] == playerNumber)
 		return;
@@ -116,7 +116,7 @@ void HasToPlattenPutzen(int* game, int playerNumber, int rolledNumber)
 	game[AddDiceAmountToPosition(GetIndexOfStartPoint(playerNumber), rolledNumber)] = playerNumber;
 }
 
-int AddDiceAmountToPosition(int position, int dice)
+int8_t AddDiceAmountToPosition(int8_t position, int8_t dice)
 {
 	if (position + dice < 60)
 		return position + dice;
@@ -124,16 +124,16 @@ int AddDiceAmountToPosition(int position, int dice)
 		return (position + dice - 40);
 }
 
-int ProgressOfMeeple(int* game, int playerNumber, int meepleNumber)
+int8_t ProgressOfMeeple(int8_t* game, int8_t playerNumber, int8_t meepleNumber)
 {
-	int currentMeeple = 1;
+	int8_t currentMeeple = 1;
 	currentMeeple += HowManyMeeplesInStartHouse(game, playerNumber);
 
 	if (meepleNumber < currentMeeple)
 		return 0;
 
-	int it = GetIndexOfStartPoint(playerNumber);
-	for (int i = 1; i <= 40; ++i)
+	int8_t it = GetIndexOfStartPoint(playerNumber);
+	for (int8_t i = 1; i <= 40; ++i)
 	{
 		if (game[it] == playerNumber)
 		{
@@ -150,7 +150,7 @@ int ProgressOfMeeple(int* game, int playerNumber, int meepleNumber)
 		if (it >= 60)
 			it = 20;
 	}
-	for (int i = 1; i <= 4; ++i)
+	for (int8_t i = 1; i <= 4; ++i)
 	{
 		if (game[(playerNumber - 1) * 5 + i] == 1)
 		{
@@ -168,19 +168,20 @@ int ProgressOfMeeple(int* game, int playerNumber, int meepleNumber)
 	return 99;
 }
 
-bool IsMovePossible(int* game, int playerNumber, int progressOfMeeple, int rolledNumber)
+bool IsMovePossible(int8_t* game, int8_t playerNumber, int8_t progressOfMeeple, int8_t rolledNumber)
 {
 	if (progressOfMeeple + rolledNumber > 44)
 		return false;
 	if (GetIndexWithProgress(playerNumber, progressOfMeeple + rolledNumber) == playerNumber)
 		return false;
-
+	
+	return true;
 }
 
-int GetIndexWithProgress(int playerNumber, int progressOfMeeple)
+int8_t GetIndexWithProgress(int8_t playerNumber, int8_t progressOfMeeple)
 {
-	int it = GetIndexOfStartPoint(playerNumber);
-	for (int i = 1; i <= 40; ++i)
+	int8_t it = GetIndexOfStartPoint(playerNumber);
+	for (int8_t i = 1; i <= 40; ++i)
 	{
 		if (i == progressOfMeeple)
 		{
@@ -190,14 +191,14 @@ int GetIndexWithProgress(int playerNumber, int progressOfMeeple)
 		if (it >= 60)
 			it = 20;
 	}
-	for (int i = 1; i <= 4; ++i)
+	for (int8_t i = 1; i <= 4; ++i)
 	{
 		if (40 + i == progressOfMeeple)
 			return (playerNumber - 1) * 5 + i;
 	}
 }
 
-void Move(int* game, int playerNumber, int progressOfMeeple, int rolledNumber)
+void Move(int8_t* game, int8_t playerNumber, int8_t progressOfMeeple, int8_t rolledNumber)
 {
 	game[GetIndexWithProgress(playerNumber, progressOfMeeple)] = 0;
 	if (game[GetIndexWithProgress(playerNumber, progressOfMeeple + rolledNumber)] != 0)

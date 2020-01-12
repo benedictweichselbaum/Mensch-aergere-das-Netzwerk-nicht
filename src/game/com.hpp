@@ -3,26 +3,26 @@
 #include <random>
 #include <time.h>
 
-void Com(int* game, int comnumber);
+void Com(int8_t* game,int8_t comnumber);
 
-void Com1(int* game, int rolledNumber, int playerNumber);
+void Com1(int8_t* game,int8_t rolledNumber,int8_t playerNumber);
 
-int HowManyMeeplesInStartHouse(int* game, int playerNumber);
+int8_t HowManyMeeplesInStartHouse(int8_t* game,int8_t playerNumber);
 
-int RollTheDice();
+int8_t RollTheDice();
 
-int GetIndexOfStartPoint(int playerNumber);
+int8_t GetIndexOfStartPoint(int8_t playerNumber);
 
-void MeepleKickedOut(int* game, int player);
+void MeepleKickedOut(int8_t* game,int8_t player);
 
-void HasToPlattenPutzen(int* game, int playerNumber, int rolledNumber);
+void HasToPlattenPutzen(int8_t* game,int8_t playerNumber,int8_t rolledNumber);
 
-int AddDiceAmountToPosition(int position, int dice);
+int8_t AddDiceAmountToPosition(int8_t position,int8_t dice);
 
-int ProgressOfMeeple(int* game, int playerNumber, int meepleNumber);
+int8_t ProgressOfMeeple(int8_t* game,int8_t playerNumber,int8_t meepleNumber);
 
-bool IsMovePossible(int* game, int playerNumber, int progressOfMeeple, int rolledNumber);
+bool IsMovePossible(int8_t* game,int8_t playerNumber,int8_t progressOfMeeple,int8_t rolledNumber);
 
-int GetIndexWithProgress(int playerNumber, int progressOfMeeple);
+int8_t GetIndexWithProgress(int8_t playerNumber,int8_t progressOfMeeple);
 
-void Move(int* game, int playerNumber, int progressOfMeeple, int rolledNumber);
+void Move(int8_t* game,int8_t playerNumber,int8_t progressOfMeeple,int8_t rolledNumber);
