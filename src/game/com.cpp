@@ -72,7 +72,12 @@ void Com(int8_t* game, int8_t comnumber)
 
 	}
 
-	if (rolledNumber == 6)
+	if (game[(playerNumber - 1) * 5 + 1] == 1 && game[(playerNumber - 1) * 5 + 2] == 1 && game[(playerNumber - 1) * 5 + 3] == 1 && game[(playerNumber - 1) * 5 + 4] == 1)
+	{
+		std::cout << "Com hat gewonnen" << std::endl;
+		game[62] = playerNumber;
+	}
+	else if (rolledNumber == 6)
 	{
 		Com(game, comnumber);
 	}
@@ -95,6 +100,7 @@ void Com1(int8_t* game, int8_t rolledNumber, int8_t playerNumber)
 			return;
 		}
 	}
+
 	std::cout << "Kein Zug möglich" << std::endl;
 }
 
