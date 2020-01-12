@@ -26,7 +26,9 @@ Verwendete Versionen:
 - SFML: 2.5.1 (Order: SFML-2.5.1)
 
 Um das Makefile zu verwenden müssen beide Bibliotheken NEBEN den 'Mensch_aergere_das_Netzwerk_nicht' gelegt werden. <br/>
-Anschließend kann einfach mit dem Make-Befehl kompiliert werden.
+Anschließend kann einfach mit dem Make-Befehl kompiliert werden. <br/>
+Unsere genutzen Bibliotheken sind unter diesem Link als ZIP zu finden: <br/> https://1drv.ms/u/s!ApqzbZWwlyPWlwXRW297SQe0WEjG?e=ajcOUs <br/>
+Informationen zu SFML: https://www.sfml-dev.org/
 <pre><code>
 make
 </code></pre>
