@@ -65,8 +65,11 @@ void Com(int8_t* game, int8_t comnumber)
 		case 1:
 			Com1(game, rolledNumber, playerNumber);
 			break;
+		case 2:
+			Com2(game, rolledNumber, playerNumber);
+			break;
 		default:
-			Com1(game, rolledNumber, playerNumber);
+			Com2(game, rolledNumber, playerNumber);
 			break;
 		}
 
@@ -102,6 +105,83 @@ void Com1(int8_t* game, int8_t rolledNumber, int8_t playerNumber)
 	}
 
 	std::cout << "Kein Zug möglich" << std::endl;
+}
+
+void Com2(int8_t* game, int8_t rolledNumber, int8_t playerNumber)
+{
+	Com2Struct com;
+	int8_t howManyCanThrow = 0;
+	int8_t canBeThrownByMax = 0;
+	for (int8_t i = 4; i >= 1; --i)
+	{
+		com.canBeThrownDirectly[i] = 0;
+		com.progress[i] = ProgressOfMeeple(game, playerNumber, i);
+		com.isPossible[i] = IsMovePossible(game, playerNumber, com.progress[i], rolledNumber);
+		if (com.isPossible[i])
+		{
+			if (com.progress[i] + rolledNumber > 44)
+				com.canThrow[i] = 0;
+			else if (game[GetIndexWithProgress(playerNumber, com.progress[i] + rolledNumber)] == 0)
+				com.canThrow[i] = 0;
+			else if (game[GetIndexWithProgress(playerNumber, com.progress[i] + rolledNumber)] > 0)
+			{
+				com.canThrow[i] = game[GetIndexWithProgress(playerNumber, com.progress[i] + rolledNumber)];
+				++howManyCanThrow;
+			}
+			else
+				com.canThrow[i] = 0;
+
+			for (int8_t j = 1; j <= 5; ++j)
+			{
+				if (game[GetIndexOfFieldsBeforeMeepleByProgress(playerNumber, com.progress[i], rolledNumber)] != playerNumber && game[GetIndexOfFieldsBeforeMeepleByProgress(playerNumber, com.progress[i], rolledNumber)] > 0)
+				{
+					//Wenn in den Feldern 1-5 hinter der Figur andere Spieler sind, die ihn direkt werfen könnten.
+					++com.canBeThrownDirectly[i];
+				}
+			}
+			if (com.canBeThrownDirectly[i] > canBeThrownByMax)
+			{
+				canBeThrownByMax = com.canBeThrownDirectly[i];
+			}
+		}
+	}
+
+	if (howManyCanThrow >= 1)
+	{
+		for (int8_t i = 4; i >= 1; --i)
+		{
+			if (com.isPossible[i] && com.canThrow[i] > 0)
+			{
+				Move(game, playerNumber, com.progress[i], rolledNumber);
+				return;
+			}
+		}
+	}
+	else if (canBeThrownByMax > 0)
+	{
+		for (int8_t i = 4; i >= 1; --i)
+		{
+			if (com.isPossible[i] && com.canBeThrownDirectly[i] == canBeThrownByMax)
+			{
+				Move(game, playerNumber, com.progress[i], rolledNumber);
+				return;
+			}
+		}
+	}
+	else
+	{
+		for (int8_t i = 4; i >= 1; --i)
+		{
+			if (com.isPossible[i])
+			{
+				Move(game, playerNumber, com.progress[i], rolledNumber);
+				return;
+			}
+		}
+	}
+
+	std::cout << "Kein Zug möglich" << std::endl;
+	return;
 }
 
 
@@ -214,6 +294,8 @@ bool IsMovePossible(int8_t* game, int8_t playerNumber, int8_t progressOfMeeple, 
 		return false;
 	if (GetIndexWithProgress(playerNumber, progressOfMeeple + rolledNumber) == playerNumber)
 		return false;
+	if (progressOfMeeple == 0)
+		return false;
 
 	return true;
 }
@@ -254,4 +336,15 @@ void Move(int8_t* game, int8_t playerNumber, int8_t progressOfMeeple, int8_t rol
 		game[GetIndexWithProgress(playerNumber, progressOfMeeple + rolledNumber)] = playerNumber;
 	}
 	
+}
+
+int8_t GetIndexOfFieldsBeforeMeepleByProgress(int8_t playerNumber, int8_t progress, int8_t fieldsBackwards)
+{
+	if (progress - fieldsBackwards >= 20)
+	{
+		return progress - fieldsBackwards;
+	}
+	else {
+		return progress - fieldsBackwards + 40;
+	}
 }
