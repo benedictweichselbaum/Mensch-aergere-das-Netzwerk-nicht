@@ -1,0 +1,62 @@
+#include "com.hpp"
+#include "windows.h"
+
+//Für Kompatibilität mit anderen Betriebssystemen Sleep ändern oder ggf einfach löschen
+
+void ZiehenUndAusgeben(int8_t* game)
+{
+	Com(game, 2);
+	std::cout << "gezogen:" << std::endl;
+
+	for (int i = 0; i < 62; ++i)
+	{
+		switch (game[i])
+		{
+		case 0:
+			std::cout << "0";
+			break;
+		case 1:
+			std::cout << "1";
+			break;
+		case 2:
+			std::cout << "2";
+			break;
+		case 3:
+			std::cout << "3";
+			break;
+		case 4:
+			std::cout << "4";
+			break;
+		default:
+			std::cout << "Error:" << (int) game[i] ;
+		}
+	}
+}
+int main()
+{
+	int8_t game[62];
+	for (int i = 0; i < 62; ++i)
+	{
+		game[i] = 0;
+	}
+	game[0] = 4;
+	game[5] = 3;
+	game[10] = 3;
+	game[15] = 4;
+	game[60] = 2;
+	game[20] = 3;
+	game[58] = 2;
+	std::cout << "init";
+
+	ZiehenUndAusgeben(game);
+	Sleep(1000);
+	ZiehenUndAusgeben(game);
+	Sleep(1000);
+	ZiehenUndAusgeben(game);
+	Sleep(1000);
+	ZiehenUndAusgeben(game);
+	Sleep(1000);
+	ZiehenUndAusgeben(game);
+	Sleep(1000);
+	ZiehenUndAusgeben(game);
+}
