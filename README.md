@@ -11,7 +11,7 @@ Abschlussprojekt für die C++-Vorlesung. Ziel ist ein Mensch ärgere dich nicht 
 - [X] GUI
 - [X] Speicherstände
 - [X] Netzwerk mit bis zu 4 Spielern
-- [ ] Intelligenter Com
+- [X] Intelligenter Com
 
 ### Wunsch-Kriterien
 - [ ] verschlüsselte Speicherstände
@@ -22,8 +22,8 @@ Abschlussprojekt für die C++-Vorlesung. Ziel ist ein Mensch ärgere dich nicht 
 ## Kompilieren und Ausführen
 Um das Programm (die Programme) erfolgreich zu kompilieren, werden zwei Bibliotheken benötigt. Boost und SFML. <br/>
 Verwendete Versionen:
-- Boost: 1.71.0 (Order: boost_1_71_0)
-- SFML: 2.5.1 (Order: SFML-2.5.1)
+- Boost: 1.71.0 (Ordner: boost_1_71_0)
+- SFML: 2.5.1 (Ordner: SFML-2.5.1)
 
 Um das Makefile zu verwenden müssen beide Bibliotheken NEBEN den 'Mensch_aergere_das_Netzwerk_nicht' gelegt werden. <br/>
 Anschließend kann einfach mit dem Make-Befehl kompiliert werden. <br/>
