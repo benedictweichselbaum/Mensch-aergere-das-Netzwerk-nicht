@@ -195,7 +195,7 @@ int8_t RollTheDice(int8_t seedhelper)
 	/*std::mt19937 rng(time(NULL));
 	std::uniform_int_distribution<int8_t> gen(1, 6);
 	return gen(rng);*/
-	srand(time(NULL) + seedhelper);
+	srand(time(NULL) + (int)seedhelper);
 	//return (rand() % dicemod * (rand() / 11) + diceadd + 37) % 6 + 1; //Wenn in einer Sekunde öfter gewürfelt wurde, kam sonst die gleiche Würfelzahl raus
 	return rand() % 6 + 1;
 }
@@ -213,7 +213,7 @@ int8_t GetIndexOfStartPoint(int8_t playerNumber)
 	case 4:
 		return 50;
 	default:
-		return 150; // Kommt nie vor, aber dann ist der Compiler auch zufrieden
+		return 50; // Kommt nie vor, aber dann ist der Compiler auch zufrieden
 	}
 }
 
@@ -320,7 +320,7 @@ int8_t GetIndexWithProgress(int8_t playerNumber, int8_t progressOfMeeple)
 		if (40 + i == progressOfMeeple)
 			return (playerNumber - 1) * 5 + i;
 	}
-	return 150; // Kommt nie vor, aber dann ist der Compiler auch zufrieden
+	return 50; // Kommt nie vor, aber dann ist der Compiler auch zufrieden
 }
 
 void Move(int8_t* game, int8_t playerNumber, int8_t progressOfMeeple, int8_t rolledNumber)
