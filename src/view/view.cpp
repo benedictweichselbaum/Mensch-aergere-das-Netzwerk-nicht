@@ -495,64 +495,64 @@ void View::setPositions(std::string Coords)
 	switch (Coords.at(0))
 	{
 	case '4':
-		Player1.Meeples.at(player1set).meeple.setPosition(sf::Vector2f(PLAYGROUNDINTERVAL + (PLAYGROUNDINTERVAL - MEEPLERADIUS * 2) / 2, PLAYGROUNDINTERVAL * 9 + (PLAYGROUNDINTERVAL - MEEPLERADIUS * 2) / 2));
+		Player1.Meeples.at(player1set).meeple.setPosition(sf::Vector2f(PLAYGROUNDINTERVAL * 9 + (PLAYGROUNDINTERVAL - MEEPLERADIUS * 2) / 2, PLAYGROUNDINTERVAL + (PLAYGROUNDINTERVAL - MEEPLERADIUS * 2) / 2));
 		++player1set;
 	case '3':
-		Player1.Meeples.at(player1set).meeple.setPosition(sf::Vector2f((PLAYGROUNDINTERVAL - MEEPLERADIUS * 2) / 2, PLAYGROUNDINTERVAL * 9 + (PLAYGROUNDINTERVAL - MEEPLERADIUS * 2) / 2));
+		Player1.Meeples.at(player1set).meeple.setPosition(sf::Vector2f(PLAYGROUNDINTERVAL * 10 + (PLAYGROUNDINTERVAL - MEEPLERADIUS * 2) / 2, PLAYGROUNDINTERVAL + (PLAYGROUNDINTERVAL - MEEPLERADIUS * 2) / 2));
 		++player1set;
 	case '2':
-		Player1.Meeples.at(player1set).meeple.setPosition(sf::Vector2f(PLAYGROUNDINTERVAL + (PLAYGROUNDINTERVAL - MEEPLERADIUS * 2) / 2, PLAYGROUNDINTERVAL * 10 + (PLAYGROUNDINTERVAL - MEEPLERADIUS * 2) / 2));
+		Player1.Meeples.at(player1set).meeple.setPosition(sf::Vector2f(PLAYGROUNDINTERVAL * 9 + (PLAYGROUNDINTERVAL - MEEPLERADIUS * 2) / 2, (PLAYGROUNDINTERVAL - MEEPLERADIUS * 2) / 2));
 		++player1set;
 	case '1':
-		Player1.Meeples.at(player1set).meeple.setPosition(sf::Vector2f((PLAYGROUNDINTERVAL - MEEPLERADIUS * 2) / 2, PLAYGROUNDINTERVAL * 10 + (PLAYGROUNDINTERVAL - MEEPLERADIUS * 2) / 2));
+		Player1.Meeples.at(player1set).meeple.setPosition(sf::Vector2f(PLAYGROUNDINTERVAL * 10 + (PLAYGROUNDINTERVAL - MEEPLERADIUS * 2) / 2, (PLAYGROUNDINTERVAL - MEEPLERADIUS * 2) / 2));
 		++player1set;
 		break;
 	}
 	switch (Coords.at(5))
 	{
 	case '4':
-		Player2.Meeples.at(player2set).meeple.setPosition(sf::Vector2f(PLAYGROUNDINTERVAL * 9 + (PLAYGROUNDINTERVAL - MEEPLERADIUS * 2) / 2, PLAYGROUNDINTERVAL + (PLAYGROUNDINTERVAL - MEEPLERADIUS * 2) / 2));
+		Player2.Meeples.at(player2set).meeple.setPosition(sf::Vector2f(PLAYGROUNDINTERVAL * 9 + (PLAYGROUNDINTERVAL - MEEPLERADIUS * 2) / 2, PLAYGROUNDINTERVAL * 9 + (PLAYGROUNDINTERVAL - MEEPLERADIUS * 2) / 2));
 		++player2set;
 	case '3':
-		Player2.Meeples.at(player2set).meeple.setPosition(sf::Vector2f(PLAYGROUNDINTERVAL * 10 + (PLAYGROUNDINTERVAL - MEEPLERADIUS * 2) / 2, PLAYGROUNDINTERVAL + (PLAYGROUNDINTERVAL - MEEPLERADIUS * 2) / 2));
+		Player2.Meeples.at(player2set).meeple.setPosition(sf::Vector2f(PLAYGROUNDINTERVAL * 10 + (PLAYGROUNDINTERVAL - MEEPLERADIUS * 2) / 2, PLAYGROUNDINTERVAL * 9 + (PLAYGROUNDINTERVAL - MEEPLERADIUS * 2) / 2));
 		++player2set;
 	case '2':
-		Player2.Meeples.at(player2set).meeple.setPosition(sf::Vector2f(PLAYGROUNDINTERVAL * 9 + (PLAYGROUNDINTERVAL - MEEPLERADIUS * 2) / 2, (PLAYGROUNDINTERVAL - MEEPLERADIUS * 2) / 2));
+		Player2.Meeples.at(player2set).meeple.setPosition(sf::Vector2f(PLAYGROUNDINTERVAL * 9 + (PLAYGROUNDINTERVAL - MEEPLERADIUS * 2) / 2, PLAYGROUNDINTERVAL * 10 + (PLAYGROUNDINTERVAL - MEEPLERADIUS * 2) / 2));
 		++player2set;
 	case '1':
-		Player2.Meeples.at(player2set).meeple.setPosition(sf::Vector2f(PLAYGROUNDINTERVAL * 10 + (PLAYGROUNDINTERVAL - MEEPLERADIUS * 2) / 2, (PLAYGROUNDINTERVAL - MEEPLERADIUS * 2) / 2));
+		Player2.Meeples.at(player2set).meeple.setPosition(sf::Vector2f(PLAYGROUNDINTERVAL * 10 + (PLAYGROUNDINTERVAL - MEEPLERADIUS * 2) / 2, PLAYGROUNDINTERVAL * 10 + (PLAYGROUNDINTERVAL - MEEPLERADIUS * 2) / 2));
 		++player2set;
 		break;
 	}
 	switch (Coords.at(10))
 	{
 	case '4':
-		Player3.Meeples.at(player3set).meeple.setPosition(sf::Vector2f(PLAYGROUNDINTERVAL + (PLAYGROUNDINTERVAL - MEEPLERADIUS * 2) / 2, PLAYGROUNDINTERVAL + (PLAYGROUNDINTERVAL - MEEPLERADIUS * 2) / 2));
+		Player3.Meeples.at(player3set).meeple.setPosition(sf::Vector2f(PLAYGROUNDINTERVAL + (PLAYGROUNDINTERVAL - MEEPLERADIUS * 2) / 2, PLAYGROUNDINTERVAL * 9 + (PLAYGROUNDINTERVAL - MEEPLERADIUS * 2) / 2));
 		++player3set;
 	case '3':
-		Player3.Meeples.at(player3set).meeple.setPosition(sf::Vector2f((PLAYGROUNDINTERVAL - MEEPLERADIUS * 2) / 2, PLAYGROUNDINTERVAL + (PLAYGROUNDINTERVAL - MEEPLERADIUS * 2) / 2));
+		Player3.Meeples.at(player3set).meeple.setPosition(sf::Vector2f((PLAYGROUNDINTERVAL - MEEPLERADIUS * 2) / 2, PLAYGROUNDINTERVAL * 9 + (PLAYGROUNDINTERVAL - MEEPLERADIUS * 2) / 2));
 		++player3set;
 	case '2':
-		Player3.Meeples.at(player3set).meeple.setPosition(sf::Vector2f(PLAYGROUNDINTERVAL + (PLAYGROUNDINTERVAL - MEEPLERADIUS * 2) / 2, (PLAYGROUNDINTERVAL - MEEPLERADIUS * 2) / 2));
+		Player3.Meeples.at(player3set).meeple.setPosition(sf::Vector2f(PLAYGROUNDINTERVAL + (PLAYGROUNDINTERVAL - MEEPLERADIUS * 2) / 2, PLAYGROUNDINTERVAL * 10 + (PLAYGROUNDINTERVAL - MEEPLERADIUS * 2) / 2));
 		++player3set;
 	case '1':
-		Player3.Meeples.at(player3set).meeple.setPosition(sf::Vector2f((PLAYGROUNDINTERVAL - MEEPLERADIUS * 2) / 2, (PLAYGROUNDINTERVAL - MEEPLERADIUS * 2) / 2));
+		Player3.Meeples.at(player3set).meeple.setPosition(sf::Vector2f((PLAYGROUNDINTERVAL - MEEPLERADIUS * 2) / 2, PLAYGROUNDINTERVAL * 10 + (PLAYGROUNDINTERVAL - MEEPLERADIUS * 2) / 2));
 		++player3set;
 		break;
 	}
 	switch (Coords.at(15))
 	{
 	case '4':
-		Player4.Meeples.at(player4set).meeple.setPosition(sf::Vector2f(PLAYGROUNDINTERVAL * 9 + (PLAYGROUNDINTERVAL - MEEPLERADIUS * 2) / 2, PLAYGROUNDINTERVAL * 9 + (PLAYGROUNDINTERVAL - MEEPLERADIUS * 2) / 2));
+		Player4.Meeples.at(player4set).meeple.setPosition(sf::Vector2f(PLAYGROUNDINTERVAL + (PLAYGROUNDINTERVAL - MEEPLERADIUS * 2) / 2, PLAYGROUNDINTERVAL + (PLAYGROUNDINTERVAL - MEEPLERADIUS * 2) / 2));
 		++player4set;
 	case '3':
-		Player4.Meeples.at(player4set).meeple.setPosition(sf::Vector2f(PLAYGROUNDINTERVAL * 10 + (PLAYGROUNDINTERVAL - MEEPLERADIUS * 2) / 2, PLAYGROUNDINTERVAL * 9 + (PLAYGROUNDINTERVAL - MEEPLERADIUS * 2) / 2));
+		Player4.Meeples.at(player4set).meeple.setPosition(sf::Vector2f((PLAYGROUNDINTERVAL - MEEPLERADIUS * 2) / 2, PLAYGROUNDINTERVAL + (PLAYGROUNDINTERVAL - MEEPLERADIUS * 2) / 2));
 		++player4set;
 	case '2':
-		Player4.Meeples.at(player4set).meeple.setPosition(sf::Vector2f(PLAYGROUNDINTERVAL * 9 + (PLAYGROUNDINTERVAL - MEEPLERADIUS * 2) / 2, PLAYGROUNDINTERVAL * 10 + (PLAYGROUNDINTERVAL - MEEPLERADIUS * 2) / 2));
+		Player4.Meeples.at(player4set).meeple.setPosition(sf::Vector2f(PLAYGROUNDINTERVAL + (PLAYGROUNDINTERVAL - MEEPLERADIUS * 2) / 2, (PLAYGROUNDINTERVAL - MEEPLERADIUS * 2) / 2));
 		++player4set;
 	case '1':
-		Player4.Meeples.at(player4set).meeple.setPosition(sf::Vector2f(PLAYGROUNDINTERVAL * 10 + (PLAYGROUNDINTERVAL - MEEPLERADIUS * 2) / 2, PLAYGROUNDINTERVAL * 10 + (PLAYGROUNDINTERVAL - MEEPLERADIUS * 2) / 2));
+		Player4.Meeples.at(player4set).meeple.setPosition(sf::Vector2f((PLAYGROUNDINTERVAL - MEEPLERADIUS * 2) / 2, (PLAYGROUNDINTERVAL - MEEPLERADIUS * 2) / 2));
 		++player4set;
 		break;
 	}
@@ -598,41 +598,41 @@ void View::setPositions(std::string Coords)
 	setPositionOfMeeple(4, 0, Coords.at(58), player1set, player2set, player3set, player4set);
 	setPositionOfMeeple(5, 0, Coords.at(59), player1set, player2set, player3set, player4set);
 
-	if (Coords.at(1) == '1')
-		setPositionOfMeeple(5, 9, '1', player1set, player2set, player3set, player4set);
-	if (Coords.at(2) == '1')
-		setPositionOfMeeple(5, 8, '1', player1set, player2set, player3set, player4set);
-	if (Coords.at(3) == '1')
-		setPositionOfMeeple(5, 7, '1', player1set, player2set, player3set, player4set);
-	if (Coords.at(4) == '1')
-		setPositionOfMeeple(5, 6, '1', player1set, player2set, player3set, player4set);
-
-	if (Coords.at(6) == '1')
-		setPositionOfMeeple(5, 1, '2', player1set, player2set, player3set, player4set);
-	if (Coords.at(7) == '1')
-		setPositionOfMeeple(5, 2, '2', player1set, player2set, player3set, player4set);
-	if (Coords.at(8) == '1')
-		setPositionOfMeeple(5, 3, '2', player1set, player2set, player3set, player4set);
-	if (Coords.at(9) == '1')
-		setPositionOfMeeple(5, 4, '2', player1set, player2set, player3set, player4set);
-
 	if (Coords.at(11) == '1')
-		setPositionOfMeeple(1, 5, '3', player1set, player2set, player3set, player4set);
+		setPositionOfMeeple(5, 9, '3', player1set, player2set, player3set, player4set);
 	if (Coords.at(12) == '1')
-		setPositionOfMeeple(2, 5, '3', player1set, player2set, player3set, player4set);
+		setPositionOfMeeple(5, 8, '3', player1set, player2set, player3set, player4set);
 	if (Coords.at(13) == '1')
-		setPositionOfMeeple(3, 5, '3', player1set, player2set, player3set, player4set);
+		setPositionOfMeeple(5, 7, '3', player1set, player2set, player3set, player4set);
 	if (Coords.at(14) == '1')
-		setPositionOfMeeple(4, 5, '3', player1set, player2set, player3set, player4set);
+		setPositionOfMeeple(5, 6, '3', player1set, player2set, player3set, player4set);
+
+	if (Coords.at(1) == '1')
+		setPositionOfMeeple(5, 1, '1', player1set, player2set, player3set, player4set);
+	if (Coords.at(2) == '1')
+		setPositionOfMeeple(5, 2, '1', player1set, player2set, player3set, player4set);
+	if (Coords.at(3) == '1')
+		setPositionOfMeeple(5, 3, '1', player1set, player2set, player3set, player4set);
+	if (Coords.at(4) == '1')
+		setPositionOfMeeple(5, 4, '1', player1set, player2set, player3set, player4set);
 
 	if (Coords.at(16) == '1')
-		setPositionOfMeeple(9, 5, '4', player1set, player2set, player3set, player4set);
+		setPositionOfMeeple(1, 5, '4', player1set, player2set, player3set, player4set);
 	if (Coords.at(17) == '1')
-		setPositionOfMeeple(8, 5, '4', player1set, player2set, player3set, player4set);
+		setPositionOfMeeple(2, 5, '4', player1set, player2set, player3set, player4set);
 	if (Coords.at(18) == '1')
-		setPositionOfMeeple(7, 5, '4', player1set, player2set, player3set, player4set);
+		setPositionOfMeeple(3, 5, '4', player1set, player2set, player3set, player4set);
 	if (Coords.at(19) == '1')
-		setPositionOfMeeple(6, 5, '4', player1set, player2set, player3set, player4set);
+		setPositionOfMeeple(4, 5, '4', player1set, player2set, player3set, player4set);
+
+	if (Coords.at(6) == '1')
+		setPositionOfMeeple(9, 5, '2', player1set, player2set, player3set, player4set);
+	if (Coords.at(7) == '1')
+		setPositionOfMeeple(8, 5, '2', player1set, player2set, player3set, player4set);
+	if (Coords.at(8) == '1')
+		setPositionOfMeeple(7, 5, '2', player1set, player2set, player3set, player4set);
+	if (Coords.at(9) == '1')
+		setPositionOfMeeple(6, 5, '2', player1set, player2set, player3set, player4set);
 
 	char dicenumber = Coords.at(61);
 	sidebar.dice.Set(atoi(&dicenumber));
