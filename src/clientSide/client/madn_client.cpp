@@ -1,4 +1,5 @@
 #include "madn_client.hpp"
+#include <sstream>
 
 ClientMadn::ClientMadn() {
 
@@ -39,6 +40,7 @@ void ClientMadn::readHandler1 (connection_madn_ptr connection_ptr) {
     std::cout << "Content: " << connection_ptr->connection_buffer << std::endl;
     std::cout << "Enter your answer: ";
     std::string answer;
+    std::stringstream s(std::ios::in | std::ios::out);
     std::getline(std::cin, answer);
     if (answer.compare("exit") == 0) return;
     char buffer[100];
@@ -86,6 +88,7 @@ void ClientMadn::send(std::string message)
     /*boost::asio::async_read(connection_ptr->socket, boostBuffer, [this, connection_ptr](errorCode errorCode, size_t length) {
         if (!errorCode) this->readHandler2(connection_ptr);
         });*/
+    
 }
 
 int ClientMadn::StipulatePlayerNumber()

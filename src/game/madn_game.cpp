@@ -156,10 +156,17 @@ std::string MenschAergereDichNichtGame::movePlayerByPlayerNumberAndDiceNumberAnd
 }
 
 void MenschAergereDichNichtGame::saveGameInFile (std::string fileName) {
+    std::string file = "../src/saveGames/";
+    file = file.append(fileName);
     std::ofstream fileOut;
-    fileOut.open("../saveGames/" + fileName + ".txt");
-    for (int boardIndex = 0; boardIndex < 63; ++boardIndex)
-        fileOut << board[boardIndex];
+    fileOut.open(file);
+    if (fileOut.is_open()) {
+        for (int boardIndex = 0; boardIndex < 63; ++boardIndex)
+            fileOut << std::to_string(board[boardIndex]);
+    } else {
+        std::cout << "closed" << std::endl;
+    }
+    fileOut << std::endl;
     fileOut.close();
 }
 
