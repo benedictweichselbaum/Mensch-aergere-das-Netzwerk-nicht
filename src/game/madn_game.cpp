@@ -108,7 +108,7 @@ std::string MenschAergereDichNichtGame::movePlayerByPlayerNumberAndDiceNumberAnd
 
                 board[index + diceNumber] = 1;
                 board[index] = 0;
-            } else if ((index + diceNumber) > addOnBoard((20 + (playerNumber - 1) * 10), 39) && index < addOnBoard((20 + (playerNumber - 1) * 10), 39)) { // Meeple going into the house from the field.
+            } else if ((index + diceNumber) > addOnBoard((20 + (playerNumber - 1) * 10), 39) && index <= addOnBoard((20 + (playerNumber - 1) * 10), 39)) { // Meeple going into the house from the field.
                 std::cout << "Move to finish Field" << std::endl;
                 int8_t fieldIndexBeforeHouse = addOnBoard((20 + (playerNumber - 1) * 10), 39);
                 int intoTheFinishingHouse = fieldIndexBeforeHouse - (index + diceNumber);
