@@ -9,10 +9,10 @@
 #define SIDEPANEL 400.f
 
 //Farbe der farbigen Kreise auf dem Spielfeld
-#define PLAYGROUNDCOLORPLAYER1 sf::Color(249,255,189,255) //Gelb
-#define PLAYGROUNDCOLORPLAYER2 sf::Color(126,142,231,255) // Blau
-#define PLAYGROUNDCOLORPLAYER3 sf::Color(255,122,122,255) //Rot
-#define PLAYGROUNDCOLORPLAYER4 sf::Color(137,255,160,255) //Grün
+#define PLAYGROUNDCOLORPLAYER1 sf::Color(255,122,122,255) //Rot
+#define PLAYGROUNDCOLORPLAYER2 sf::Color(249,255,189,255) //Gelb
+#define PLAYGROUNDCOLORPLAYER3 sf::Color(137,255,160,255) //Grün
+#define PLAYGROUNDCOLORPLAYER4 sf::Color(126,142,231,255) // Blau
 
 #define PLAYGROUNDCOLORNORMALSHAPE sf::Color::White
 #define PLAYGROUNDCOLOROUTLINE sf::Color::Black
