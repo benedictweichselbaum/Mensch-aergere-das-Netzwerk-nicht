@@ -11,7 +11,7 @@ Abschlussprojekt für die C++-Vorlesung. Ziel ist ein Mensch ärgere dich nicht 
 - [X] GUI
 - [X] Speicherstände
 - [X] Netzwerk mit bis zu 4 Spielern
-- [ ] Intelligenter Com
+- [X] Intelligenter Com
 
 ### Wunsch-Kriterien
 - [ ] verschlüsselte Speicherstände
