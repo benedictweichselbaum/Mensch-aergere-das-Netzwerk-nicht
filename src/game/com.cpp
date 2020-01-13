@@ -212,6 +212,8 @@ int8_t GetIndexOfStartPoint(int8_t playerNumber)
 		return 40;
 	case 4:
 		return 50;
+	default:
+		return 150; // Kommt nie vor, aber dann ist der Compiler auch zufrieden
 	}
 }
 
@@ -318,6 +320,7 @@ int8_t GetIndexWithProgress(int8_t playerNumber, int8_t progressOfMeeple)
 		if (40 + i == progressOfMeeple)
 			return (playerNumber - 1) * 5 + i;
 	}
+	return 150; // Kommt nie vor, aber dann ist der Compiler auch zufrieden
 }
 
 void Move(int8_t* game, int8_t playerNumber, int8_t progressOfMeeple, int8_t rolledNumber)
