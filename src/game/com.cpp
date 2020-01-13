@@ -205,13 +205,13 @@ int8_t GetIndexOfStartPoint(int8_t playerNumber)
 	switch (playerNumber)
 	{
 	case 1:
-		return 40;
-	case 2:
 		return 20;
-	case 3:
-		return 50;
-	case 4:
+	case 2:
 		return 30;
+	case 3:
+		return 40;
+	case 4:
+		return 50;
 	}
 }
 
