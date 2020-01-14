@@ -12,7 +12,7 @@
 using tcp = boost::asio::ip::tcp;
 using errorCode = boost::system::error_code;
 
-std::string getCurrentDateWithTime_client ();
+std::string GetCurrentDateWithTime_client ();
 
 class ClientMadn {
     private:
@@ -27,24 +27,10 @@ class ClientMadn {
         void RunningReadHandler1(connection_madn_ptr connection_ptr);
         void RunningReadHandler2(connection_madn_ptr connection_ptr);
         void RunningWriteHandler(connection_madn_ptr connection_ptr);
-       // ClientMadn GetClient();
-        void readHandler2 (connection_madn_ptr connection_ptr);
-        void writeHandler (connection_madn_ptr connection_ptr);
-        void readHandler1 (connection_madn_ptr connection_ptr);
-        // void connectionHandler (connection_madn_ptr connection_ptr);
-        void startClient (std::string ip, std::string port);
-        void send(std::string message);
-        int StipulatePlayerNumber();
-        std::string AwaitServerResponse();
-        void IncomingMessage(std::string message);
-        void MessageHandler();
-        void RunGame();
-        void SendStart();
-        void SendMeepleClicked(int player, int meeple);
-        void SendRollTheDice();
-        void SendPass();
-        void SendQuit();
-        std::string Send(std::string message);
+        void ReadHandler2 (connection_madn_ptr connection_ptr);
+        void WriteHandler (connection_madn_ptr connection_ptr);
+        void ReadHandler1 (connection_madn_ptr connection_ptr);
+        void StartClient (std::string ip, std::string port);
 };
 
 using ClientMadnPtr = std::shared_ptr<ClientMadn>;

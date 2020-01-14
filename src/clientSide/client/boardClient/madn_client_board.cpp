@@ -41,9 +41,6 @@ void ClientMadnBoard::startClient (std::string ip, std::string port) {
     tcp::resolver::query query(ip, port);
     auto it = resolver.resolve(query);
 
-    // playerNumber = StipulatePlayerNumber();
-
-
    auto connectionHandler = [this, connection_ptr](const boost::system::error_code& errorCode, auto x){
         if (!errorCode) {
             auto boostBuffer = boost::asio::buffer(connection_ptr->connection_buffer, 100);
