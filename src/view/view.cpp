@@ -103,6 +103,7 @@ void RunView(sf::RenderWindow& window, ViewPtr view)
 {
 	while (window.isOpen())
 	{
+		view->CheckForAnswer();
 		sf::Event event;
 		while (window.pollEvent(event))
 		{
@@ -137,7 +138,7 @@ void RunMouseButtonReleased(sf::RenderWindow& window, ViewPtr view)
 	sf::Vector2f mousePosF(static_cast<float>(mousePos.x), static_cast<float>(mousePos.y));
 	if (view->sidebar.rollTheDiceButton.getGlobalBounds().contains(mousePosF))
 	{
-		view->client->SendRollTheDice();
+		view->CommunicateWithClient("D");
 	}
 	RunMouseButtonReleasedPlayerMeeples(window, view, mousePosF);
 }
@@ -157,10 +158,10 @@ void RunMouseButtonReleasedPlayerMeeples(sf::RenderWindow& window, ViewPtr view,
 {
 	for (int i = 0; i < 4; ++i)
 	{
-		RunMouseButtonReleasedPlayerMeeple(window, view, mousePosF, view->Player1.Meeples.at(i).meeple, 1, i);
-		RunMouseButtonReleasedPlayerMeeple(window, view, mousePosF, view->Player2.Meeples.at(i).meeple, 2, i);
-		RunMouseButtonReleasedPlayerMeeple(window, view, mousePosF, view->Player3.Meeples.at(i).meeple, 3, i);
-		RunMouseButtonReleasedPlayerMeeple(window, view, mousePosF, view->Player4.Meeples.at(i).meeple, 4, i);
+		RunMouseButtonReleasedPlayerMeeple(window, view, mousePosF, view->Player1.Meeples.at(i).meeple, 1, view->Player1.Meeples.at(i).numberForServer);
+		RunMouseButtonReleasedPlayerMeeple(window, view, mousePosF, view->Player2.Meeples.at(i).meeple, 2, view->Player2.Meeples.at(i).numberForServer);
+		RunMouseButtonReleasedPlayerMeeple(window, view, mousePosF, view->Player3.Meeples.at(i).meeple, 3, view->Player3.Meeples.at(i).numberForServer);
+		RunMouseButtonReleasedPlayerMeeple(window, view, mousePosF, view->Player4.Meeples.at(i).meeple, 4, view->Player4.Meeples.at(i).numberForServer);
 	}
 }
 
@@ -168,7 +169,10 @@ void RunMouseButtonReleasedPlayerMeeple(sf::RenderWindow& window, ViewPtr view, 
 {
 	if (meeple.getGlobalBounds().contains(mousePosF))
 	{
-		view->client->SendMeepleClicked(playerId, meepleNr);
+		if (view->client->playerNumber == playerId)
+		{
+			view->CommunicateWithClient(convertInt());
+		}
 	}
 }
 
@@ -492,19 +496,28 @@ void View::setPositions(std::string Coords)
 	int player2set = 0;
 	int player3set = 0;
 	int player4set = 0;
+
+	int player1numberForServer = 0;
+	int player2numberForServer = 0;
+	int player3numberForServer = 0;
+	int player4numberForServer = 0;
 	switch (Coords.at(0))
 	{
 	case '4':
 		Player1.Meeples.at(player1set).meeple.setPosition(sf::Vector2f(PLAYGROUNDINTERVAL * 9 + (PLAYGROUNDINTERVAL - MEEPLERADIUS * 2) / 2, PLAYGROUNDINTERVAL + (PLAYGROUNDINTERVAL - MEEPLERADIUS * 2) / 2));
+		Player1.Meeples.at(player1set).numberForServer = 0;
 		++player1set;
 	case '3':
 		Player1.Meeples.at(player1set).meeple.setPosition(sf::Vector2f(PLAYGROUNDINTERVAL * 10 + (PLAYGROUNDINTERVAL - MEEPLERADIUS * 2) / 2, PLAYGROUNDINTERVAL + (PLAYGROUNDINTERVAL - MEEPLERADIUS * 2) / 2));
+		Player1.Meeples.at(player1set).numberForServer = 0;
 		++player1set;
 	case '2':
 		Player1.Meeples.at(player1set).meeple.setPosition(sf::Vector2f(PLAYGROUNDINTERVAL * 9 + (PLAYGROUNDINTERVAL - MEEPLERADIUS * 2) / 2, (PLAYGROUNDINTERVAL - MEEPLERADIUS * 2) / 2));
+		Player1.Meeples.at(player1set).numberForServer = 0;
 		++player1set;
 	case '1':
 		Player1.Meeples.at(player1set).meeple.setPosition(sf::Vector2f(PLAYGROUNDINTERVAL * 10 + (PLAYGROUNDINTERVAL - MEEPLERADIUS * 2) / 2, (PLAYGROUNDINTERVAL - MEEPLERADIUS * 2) / 2));
+		Player1.Meeples.at(player1set).numberForServer = 0;
 		++player1set;
 		break;
 	}
@@ -512,15 +525,19 @@ void View::setPositions(std::string Coords)
 	{
 	case '4':
 		Player2.Meeples.at(player2set).meeple.setPosition(sf::Vector2f(PLAYGROUNDINTERVAL * 9 + (PLAYGROUNDINTERVAL - MEEPLERADIUS * 2) / 2, PLAYGROUNDINTERVAL * 9 + (PLAYGROUNDINTERVAL - MEEPLERADIUS * 2) / 2));
+		Player2.Meeples.at(player2set).numberForServer = 0;
 		++player2set;
 	case '3':
 		Player2.Meeples.at(player2set).meeple.setPosition(sf::Vector2f(PLAYGROUNDINTERVAL * 10 + (PLAYGROUNDINTERVAL - MEEPLERADIUS * 2) / 2, PLAYGROUNDINTERVAL * 9 + (PLAYGROUNDINTERVAL - MEEPLERADIUS * 2) / 2));
+		Player2.Meeples.at(player2set).numberForServer = 0;
 		++player2set;
 	case '2':
 		Player2.Meeples.at(player2set).meeple.setPosition(sf::Vector2f(PLAYGROUNDINTERVAL * 9 + (PLAYGROUNDINTERVAL - MEEPLERADIUS * 2) / 2, PLAYGROUNDINTERVAL * 10 + (PLAYGROUNDINTERVAL - MEEPLERADIUS * 2) / 2));
+		Player2.Meeples.at(player2set).numberForServer = 0;
 		++player2set;
 	case '1':
 		Player2.Meeples.at(player2set).meeple.setPosition(sf::Vector2f(PLAYGROUNDINTERVAL * 10 + (PLAYGROUNDINTERVAL - MEEPLERADIUS * 2) / 2, PLAYGROUNDINTERVAL * 10 + (PLAYGROUNDINTERVAL - MEEPLERADIUS * 2) / 2));
+		Player2.Meeples.at(player2set).numberForServer = 0;
 		++player2set;
 		break;
 	}
@@ -528,15 +545,19 @@ void View::setPositions(std::string Coords)
 	{
 	case '4':
 		Player3.Meeples.at(player3set).meeple.setPosition(sf::Vector2f(PLAYGROUNDINTERVAL + (PLAYGROUNDINTERVAL - MEEPLERADIUS * 2) / 2, PLAYGROUNDINTERVAL * 9 + (PLAYGROUNDINTERVAL - MEEPLERADIUS * 2) / 2));
+		Player3.Meeples.at(player3set).numberForServer = 0;
 		++player3set;
 	case '3':
 		Player3.Meeples.at(player3set).meeple.setPosition(sf::Vector2f((PLAYGROUNDINTERVAL - MEEPLERADIUS * 2) / 2, PLAYGROUNDINTERVAL * 9 + (PLAYGROUNDINTERVAL - MEEPLERADIUS * 2) / 2));
+		Player3.Meeples.at(player3set).numberForServer = 0;
 		++player3set;
 	case '2':
 		Player3.Meeples.at(player3set).meeple.setPosition(sf::Vector2f(PLAYGROUNDINTERVAL + (PLAYGROUNDINTERVAL - MEEPLERADIUS * 2) / 2, PLAYGROUNDINTERVAL * 10 + (PLAYGROUNDINTERVAL - MEEPLERADIUS * 2) / 2));
+		Player3.Meeples.at(player3set).numberForServer = 0;
 		++player3set;
 	case '1':
 		Player3.Meeples.at(player3set).meeple.setPosition(sf::Vector2f((PLAYGROUNDINTERVAL - MEEPLERADIUS * 2) / 2, PLAYGROUNDINTERVAL * 10 + (PLAYGROUNDINTERVAL - MEEPLERADIUS * 2) / 2));
+		Player3.Meeples.at(player3set).numberForServer = 0;
 		++player3set;
 		break;
 	}
@@ -544,123 +565,187 @@ void View::setPositions(std::string Coords)
 	{
 	case '4':
 		Player4.Meeples.at(player4set).meeple.setPosition(sf::Vector2f(PLAYGROUNDINTERVAL + (PLAYGROUNDINTERVAL - MEEPLERADIUS * 2) / 2, PLAYGROUNDINTERVAL + (PLAYGROUNDINTERVAL - MEEPLERADIUS * 2) / 2));
+		Player4.Meeples.at(player4set).numberForServer = 0;
 		++player4set;
 	case '3':
 		Player4.Meeples.at(player4set).meeple.setPosition(sf::Vector2f((PLAYGROUNDINTERVAL - MEEPLERADIUS * 2) / 2, PLAYGROUNDINTERVAL + (PLAYGROUNDINTERVAL - MEEPLERADIUS * 2) / 2));
+		Player4.Meeples.at(player4set).numberForServer = 0;
 		++player4set;
 	case '2':
 		Player4.Meeples.at(player4set).meeple.setPosition(sf::Vector2f(PLAYGROUNDINTERVAL + (PLAYGROUNDINTERVAL - MEEPLERADIUS * 2) / 2, (PLAYGROUNDINTERVAL - MEEPLERADIUS * 2) / 2));
+		Player4.Meeples.at(player4set).numberForServer = 0;
 		++player4set;
 	case '1':
 		Player4.Meeples.at(player4set).meeple.setPosition(sf::Vector2f((PLAYGROUNDINTERVAL - MEEPLERADIUS * 2) / 2, (PLAYGROUNDINTERVAL - MEEPLERADIUS * 2) / 2));
+		Player4.Meeples.at(player4set).numberForServer = 0;
 		++player4set;
 		break;
 	}
 
-	setPositionOfMeeple(6, 0, Coords.at(20), player1set, player2set, player3set, player4set);
-	setPositionOfMeeple(6, 1, Coords.at(21), player1set, player2set, player3set, player4set);
-	setPositionOfMeeple(6, 2, Coords.at(22), player1set, player2set, player3set, player4set);
-	setPositionOfMeeple(6, 3, Coords.at(23), player1set, player2set, player3set, player4set);
-	setPositionOfMeeple(6, 4, Coords.at(24), player1set, player2set, player3set, player4set);
-	setPositionOfMeeple(7, 4, Coords.at(25), player1set, player2set, player3set, player4set);
-	setPositionOfMeeple(8, 4, Coords.at(26), player1set, player2set, player3set, player4set);
-	setPositionOfMeeple(9, 4, Coords.at(27), player1set, player2set, player3set, player4set);
-	setPositionOfMeeple(10, 4, Coords.at(28), player1set, player2set, player3set, player4set);
-	setPositionOfMeeple(10, 5, Coords.at(29), player1set, player2set, player3set, player4set);
-	setPositionOfMeeple(10, 6, Coords.at(30), player1set, player2set, player3set, player4set);
-	setPositionOfMeeple(9, 6, Coords.at(31), player1set, player2set, player3set, player4set);
-	setPositionOfMeeple(8, 6, Coords.at(32), player1set, player2set, player3set, player4set);
-	setPositionOfMeeple(7, 6, Coords.at(33), player1set, player2set, player3set, player4set);
-	setPositionOfMeeple(6, 6, Coords.at(34), player1set, player2set, player3set, player4set);
-	setPositionOfMeeple(6, 7, Coords.at(35), player1set, player2set, player3set, player4set);
-	setPositionOfMeeple(6, 8, Coords.at(36), player1set, player2set, player3set, player4set);
-	setPositionOfMeeple(6, 9, Coords.at(37), player1set, player2set, player3set, player4set);
-	setPositionOfMeeple(6, 10, Coords.at(38), player1set, player2set, player3set, player4set);
-	setPositionOfMeeple(5, 10, Coords.at(39), player1set, player2set, player3set, player4set);
-	setPositionOfMeeple(4, 10, Coords.at(40), player1set, player2set, player3set, player4set);
-	setPositionOfMeeple(4, 9, Coords.at(41), player1set, player2set, player3set, player4set);
-	setPositionOfMeeple(4, 8, Coords.at(42), player1set, player2set, player3set, player4set);
-	setPositionOfMeeple(4, 7, Coords.at(43), player1set, player2set, player3set, player4set);
-	setPositionOfMeeple(4, 6, Coords.at(44), player1set, player2set, player3set, player4set);
-	setPositionOfMeeple(3, 6, Coords.at(45), player1set, player2set, player3set, player4set);
-	setPositionOfMeeple(2, 6, Coords.at(46), player1set, player2set, player3set, player4set);
-	setPositionOfMeeple(1, 6, Coords.at(47), player1set, player2set, player3set, player4set);
-	setPositionOfMeeple(0, 6, Coords.at(48), player1set, player2set, player3set, player4set);
-	setPositionOfMeeple(0, 5, Coords.at(49), player1set, player2set, player3set, player4set);
-	setPositionOfMeeple(0, 4, Coords.at(50), player1set, player2set, player3set, player4set);
-	setPositionOfMeeple(1, 4, Coords.at(51), player1set, player2set, player3set, player4set);
-	setPositionOfMeeple(2, 4, Coords.at(52), player1set, player2set, player3set, player4set);
-	setPositionOfMeeple(3, 4, Coords.at(53), player1set, player2set, player3set, player4set);
-	setPositionOfMeeple(4, 4, Coords.at(54), player1set, player2set, player3set, player4set);
-	setPositionOfMeeple(4, 3, Coords.at(55), player1set, player2set, player3set, player4set);
-	setPositionOfMeeple(4, 2, Coords.at(56), player1set, player2set, player3set, player4set);
-	setPositionOfMeeple(4, 1, Coords.at(57), player1set, player2set, player3set, player4set);
-	setPositionOfMeeple(4, 0, Coords.at(58), player1set, player2set, player3set, player4set);
-	setPositionOfMeeple(5, 0, Coords.at(59), player1set, player2set, player3set, player4set);
+	setPositionOfMeeple(6, 0, Coords.at(20), player1set, player2set, player3set, player4set, player1numberForServer, player2numberForServer, player3numberForServer, player4numberForServer);
+	setPositionOfMeeple(6, 1, Coords.at(21), player1set, player2set, player3set, player4set, player1numberForServer, player2numberForServer, player3numberForServer, player4numberForServer);
+	setPositionOfMeeple(6, 2, Coords.at(22), player1set, player2set, player3set, player4set, player1numberForServer, player2numberForServer, player3numberForServer, player4numberForServer);
+	setPositionOfMeeple(6, 3, Coords.at(23), player1set, player2set, player3set, player4set, player1numberForServer, player2numberForServer, player3numberForServer, player4numberForServer);
+	setPositionOfMeeple(6, 4, Coords.at(24), player1set, player2set, player3set, player4set, player1numberForServer, player2numberForServer, player3numberForServer, player4numberForServer);
+	setPositionOfMeeple(7, 4, Coords.at(25), player1set, player2set, player3set, player4set, player1numberForServer, player2numberForServer, player3numberForServer, player4numberForServer);
+	setPositionOfMeeple(8, 4, Coords.at(26), player1set, player2set, player3set, player4set, player1numberForServer, player2numberForServer, player3numberForServer, player4numberForServer);
+	setPositionOfMeeple(9, 4, Coords.at(27), player1set, player2set, player3set, player4set, player1numberForServer, player2numberForServer, player3numberForServer, player4numberForServer);
+	setPositionOfMeeple(10, 4, Coords.at(28), player1set, player2set, player3set, player4set, player1numberForServer, player2numberForServer, player3numberForServer, player4numberForServer);
+	setPositionOfMeeple(10, 5, Coords.at(29), player1set, player2set, player3set, player4set, player1numberForServer, player2numberForServer, player3numberForServer, player4numberForServer);
+	setPositionOfMeeple(10, 6, Coords.at(30), player1set, player2set, player3set, player4set, player1numberForServer, player2numberForServer, player3numberForServer, player4numberForServer);
+	setPositionOfMeeple(9, 6, Coords.at(31), player1set, player2set, player3set, player4set, player1numberForServer, player2numberForServer, player3numberForServer, player4numberForServer);
+	setPositionOfMeeple(8, 6, Coords.at(32), player1set, player2set, player3set, player4set, player1numberForServer, player2numberForServer, player3numberForServer, player4numberForServer);
+	setPositionOfMeeple(7, 6, Coords.at(33), player1set, player2set, player3set, player4set, player1numberForServer, player2numberForServer, player3numberForServer, player4numberForServer);
+	setPositionOfMeeple(6, 6, Coords.at(34), player1set, player2set, player3set, player4set, player1numberForServer, player2numberForServer, player3numberForServer, player4numberForServer);
+	setPositionOfMeeple(6, 7, Coords.at(35), player1set, player2set, player3set, player4set, player1numberForServer, player2numberForServer, player3numberForServer, player4numberForServer);
+	setPositionOfMeeple(6, 8, Coords.at(36), player1set, player2set, player3set, player4set, player1numberForServer, player2numberForServer, player3numberForServer, player4numberForServer);
+	setPositionOfMeeple(6, 9, Coords.at(37), player1set, player2set, player3set, player4set, player1numberForServer, player2numberForServer, player3numberForServer, player4numberForServer);
+	setPositionOfMeeple(6, 10, Coords.at(38), player1set, player2set, player3set, player4set, player1numberForServer, player2numberForServer, player3numberForServer, player4numberForServer);
+	setPositionOfMeeple(5, 10, Coords.at(39), player1set, player2set, player3set, player4set, player1numberForServer, player2numberForServer, player3numberForServer, player4numberForServer);
+	setPositionOfMeeple(4, 10, Coords.at(40), player1set, player2set, player3set, player4set, player1numberForServer, player2numberForServer, player3numberForServer, player4numberForServer);
+	setPositionOfMeeple(4, 9, Coords.at(41), player1set, player2set, player3set, player4set, player1numberForServer, player2numberForServer, player3numberForServer, player4numberForServer);
+	setPositionOfMeeple(4, 8, Coords.at(42), player1set, player2set, player3set, player4set, player1numberForServer, player2numberForServer, player3numberForServer, player4numberForServer);
+	setPositionOfMeeple(4, 7, Coords.at(43), player1set, player2set, player3set, player4set, player1numberForServer, player2numberForServer, player3numberForServer, player4numberForServer);
+	setPositionOfMeeple(4, 6, Coords.at(44), player1set, player2set, player3set, player4set, player1numberForServer, player2numberForServer, player3numberForServer, player4numberForServer);
+	setPositionOfMeeple(3, 6, Coords.at(45), player1set, player2set, player3set, player4set, player1numberForServer, player2numberForServer, player3numberForServer, player4numberForServer);
+	setPositionOfMeeple(2, 6, Coords.at(46), player1set, player2set, player3set, player4set, player1numberForServer, player2numberForServer, player3numberForServer, player4numberForServer);
+	setPositionOfMeeple(1, 6, Coords.at(47), player1set, player2set, player3set, player4set, player1numberForServer, player2numberForServer, player3numberForServer, player4numberForServer);
+	setPositionOfMeeple(0, 6, Coords.at(48), player1set, player2set, player3set, player4set, player1numberForServer, player2numberForServer, player3numberForServer, player4numberForServer);
+	setPositionOfMeeple(0, 5, Coords.at(49), player1set, player2set, player3set, player4set, player1numberForServer, player2numberForServer, player3numberForServer, player4numberForServer);
+	setPositionOfMeeple(0, 4, Coords.at(50), player1set, player2set, player3set, player4set, player1numberForServer, player2numberForServer, player3numberForServer, player4numberForServer);
+	setPositionOfMeeple(1, 4, Coords.at(51), player1set, player2set, player3set, player4set, player1numberForServer, player2numberForServer, player3numberForServer, player4numberForServer);
+	setPositionOfMeeple(2, 4, Coords.at(52), player1set, player2set, player3set, player4set, player1numberForServer, player2numberForServer, player3numberForServer, player4numberForServer);
+	setPositionOfMeeple(3, 4, Coords.at(53), player1set, player2set, player3set, player4set, player1numberForServer, player2numberForServer, player3numberForServer, player4numberForServer);
+	setPositionOfMeeple(4, 4, Coords.at(54), player1set, player2set, player3set, player4set, player1numberForServer, player2numberForServer, player3numberForServer, player4numberForServer);
+	setPositionOfMeeple(4, 3, Coords.at(55), player1set, player2set, player3set, player4set, player1numberForServer, player2numberForServer, player3numberForServer, player4numberForServer);
+	setPositionOfMeeple(4, 2, Coords.at(56), player1set, player2set, player3set, player4set, player1numberForServer, player2numberForServer, player3numberForServer, player4numberForServer);
+	setPositionOfMeeple(4, 1, Coords.at(57), player1set, player2set, player3set, player4set, player1numberForServer, player2numberForServer, player3numberForServer, player4numberForServer);
+	setPositionOfMeeple(4, 0, Coords.at(58), player1set, player2set, player3set, player4set, player1numberForServer, player2numberForServer, player3numberForServer, player4numberForServer);
+	setPositionOfMeeple(5, 0, Coords.at(59), player1set, player2set, player3set, player4set, player1numberForServer, player2numberForServer, player3numberForServer, player4numberForServer);
 
 	if (Coords.at(11) == '1')
-		setPositionOfMeeple(5, 9, '3', player1set, player2set, player3set, player4set);
+		setPositionOfMeeple(5, 9, '3', player1set, player2set, player3set, player4set, player1numberForServer, player2numberForServer, player3numberForServer, player4numberForServer);
 	if (Coords.at(12) == '1')
-		setPositionOfMeeple(5, 8, '3', player1set, player2set, player3set, player4set);
+		setPositionOfMeeple(5, 8, '3', player1set, player2set, player3set, player4set, player1numberForServer, player2numberForServer, player3numberForServer, player4numberForServer);
 	if (Coords.at(13) == '1')
-		setPositionOfMeeple(5, 7, '3', player1set, player2set, player3set, player4set);
+		setPositionOfMeeple(5, 7, '3', player1set, player2set, player3set, player4set, player1numberForServer, player2numberForServer, player3numberForServer, player4numberForServer);
 	if (Coords.at(14) == '1')
-		setPositionOfMeeple(5, 6, '3', player1set, player2set, player3set, player4set);
+		setPositionOfMeeple(5, 6, '3', player1set, player2set, player3set, player4set, player1numberForServer, player2numberForServer, player3numberForServer, player4numberForServer);
 
 	if (Coords.at(1) == '1')
-		setPositionOfMeeple(5, 1, '1', player1set, player2set, player3set, player4set);
+		setPositionOfMeeple(5, 1, '1', player1set, player2set, player3set, player4set, player1numberForServer, player2numberForServer, player3numberForServer, player4numberForServer);
 	if (Coords.at(2) == '1')
-		setPositionOfMeeple(5, 2, '1', player1set, player2set, player3set, player4set);
+		setPositionOfMeeple(5, 2, '1', player1set, player2set, player3set, player4set, player1numberForServer, player2numberForServer, player3numberForServer, player4numberForServer);
 	if (Coords.at(3) == '1')
-		setPositionOfMeeple(5, 3, '1', player1set, player2set, player3set, player4set);
+		setPositionOfMeeple(5, 3, '1', player1set, player2set, player3set, player4set, player1numberForServer, player2numberForServer, player3numberForServer, player4numberForServer);
 	if (Coords.at(4) == '1')
-		setPositionOfMeeple(5, 4, '1', player1set, player2set, player3set, player4set);
+		setPositionOfMeeple(5, 4, '1', player1set, player2set, player3set, player4set, player1numberForServer, player2numberForServer, player3numberForServer, player4numberForServer);
 
 	if (Coords.at(16) == '1')
-		setPositionOfMeeple(1, 5, '4', player1set, player2set, player3set, player4set);
+		setPositionOfMeeple(1, 5, '4', player1set, player2set, player3set, player4set, player1numberForServer, player2numberForServer, player3numberForServer, player4numberForServer);
 	if (Coords.at(17) == '1')
-		setPositionOfMeeple(2, 5, '4', player1set, player2set, player3set, player4set);
+		setPositionOfMeeple(2, 5, '4', player1set, player2set, player3set, player4set, player1numberForServer, player2numberForServer, player3numberForServer, player4numberForServer);
 	if (Coords.at(18) == '1')
-		setPositionOfMeeple(3, 5, '4', player1set, player2set, player3set, player4set);
+		setPositionOfMeeple(3, 5, '4', player1set, player2set, player3set, player4set, player1numberForServer, player2numberForServer, player3numberForServer, player4numberForServer);
 	if (Coords.at(19) == '1')
-		setPositionOfMeeple(4, 5, '4', player1set, player2set, player3set, player4set);
+		setPositionOfMeeple(4, 5, '4', player1set, player2set, player3set, player4set, player1numberForServer, player2numberForServer, player3numberForServer, player4numberForServer);
 
 	if (Coords.at(6) == '1')
-		setPositionOfMeeple(9, 5, '2', player1set, player2set, player3set, player4set);
+		setPositionOfMeeple(9, 5, '2', player1set, player2set, player3set, player4set, player1numberForServer, player2numberForServer, player3numberForServer, player4numberForServer);
 	if (Coords.at(7) == '1')
-		setPositionOfMeeple(8, 5, '2', player1set, player2set, player3set, player4set);
+		setPositionOfMeeple(8, 5, '2', player1set, player2set, player3set, player4set, player1numberForServer, player2numberForServer, player3numberForServer, player4numberForServer);
 	if (Coords.at(8) == '1')
-		setPositionOfMeeple(7, 5, '2', player1set, player2set, player3set, player4set);
+		setPositionOfMeeple(7, 5, '2', player1set, player2set, player3set, player4set, player1numberForServer, player2numberForServer, player3numberForServer, player4numberForServer);
 	if (Coords.at(9) == '1')
-		setPositionOfMeeple(6, 5, '2', player1set, player2set, player3set, player4set);
+		setPositionOfMeeple(6, 5, '2', player1set, player2set, player3set, player4set, player1numberForServer, player2numberForServer, player3numberForServer, player4numberForServer);
 
 	char dicenumber = Coords.at(61);
 	sidebar.dice.Set(atoi(&dicenumber));
 }
 
-void View::setPositionOfMeeple(int x, int y, int playerNr, int& player1set, int& player2set, int& player3set, int& player4set)
+void View::setPositionOfMeeple(int x, int y, int playerNr, int& player1set, int& player2set, int& player3set, int& player4set,int& player1numberForServer,int& player2numberForServer,int& player3numberForServer,int& player4numberForServer)
 {
 	switch (playerNr)
 	{
 	case '1':
 		Player1.Meeples.at(player1set).meeple.setPosition(sf::Vector2f(PLAYGROUNDINTERVAL * x + (PLAYGROUNDINTERVAL - MEEPLERADIUS * 2) / 2, PLAYGROUNDINTERVAL * y + (PLAYGROUNDINTERVAL - MEEPLERADIUS * 2) / 2));
+		Player1.Meeples.at(player1set).numberForServer = 0;
+		++player1numberForServer;
 		++player1set;
 		break;
 	case '2':
 		Player2.Meeples.at(player2set).meeple.setPosition(sf::Vector2f(PLAYGROUNDINTERVAL * x + (PLAYGROUNDINTERVAL - MEEPLERADIUS * 2) / 2, PLAYGROUNDINTERVAL * y + (PLAYGROUNDINTERVAL - MEEPLERADIUS * 2) / 2));
+		Player2.Meeples.at(player2set).numberForServer = 0;
+		++player2numberForServer;
 		++player2set;
 		break;
 	case '3':
 		Player3.Meeples.at(player3set).meeple.setPosition(sf::Vector2f(PLAYGROUNDINTERVAL * x + (PLAYGROUNDINTERVAL - MEEPLERADIUS * 2) / 2, PLAYGROUNDINTERVAL * y + (PLAYGROUNDINTERVAL - MEEPLERADIUS * 2) / 2));
+		Player3.Meeples.at(player3set).numberForServer = 0;
+		++player3numberForServer;
 		++player3set;
 		break;
 	case '4':
 		Player4.Meeples.at(player4set).meeple.setPosition(sf::Vector2f(PLAYGROUNDINTERVAL * x + (PLAYGROUNDINTERVAL - MEEPLERADIUS * 2) / 2, PLAYGROUNDINTERVAL * y + (PLAYGROUNDINTERVAL - MEEPLERADIUS * 2) / 2));
+		Player4.Meeples.at(player4set).numberForServer = 0;
+		++player4numberForServer;
 		++player4set;
 		break;
 	}
 }
 
-void View::CommunicateWithClient(std::string message){
-	
+void View::CommunicateWithClient(std::string message)
+{
+	if (client->statusRunningHandler == 0)
+	{
+		std::string completemessage = convertInt(client->playerNumber) + message;
+		client->message = completemessage;
+		client->statusRunningHandler = 1;
+	}
+	else
+	{
+		switch (client->statusRunningHandler)
+		{
+		case 1:
+			SetErrorMessage("Warte, bis die vorherige Nachricht versendet wurde.");
+			break;
+		case 2:
+			SetErrorMessage("Nur ein Zug auf einmal.");
+			break;
+		case 4:
+			SetErrorMessage("Du konntest noch keinem Spieler zugeordnet werden.");
+			break;
+		default:
+			SetErrorMessage("Unerwarteter Fehler.");
+			break;
+		}
+	}
+}
+
+void View::CheckForAnswer()
+{
+	if (client->statusRunningHandler == 2)
+	{
+		std::string answer = client->answer;
+		if (answer.size > 60)
+		{
+			setPositions(answer);
+		}
+		else 
+		{
+			//TODO: Fehler anzeigen
+		}
+	}
+}
+
+std::string convertInt(int number)
+{
+	std::stringstream s;
+	s << number;
+	return s.str();
+}
+
+void View::SetErrorMessage(std::string message)
+{
+	//TODO;
 }

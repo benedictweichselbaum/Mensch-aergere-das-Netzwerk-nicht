@@ -5,11 +5,6 @@ ClientMadnBoard::ClientMadnBoard(ViewPtr v) {
     this->view = v;
 }
 
-//ClientMadnBoard ClientMadnBoard::GetClient()
-//{
-//    return *this;
-//}
-
 void ClientMadnBoard::readHandler2 (connection_madn_ptr connection_ptr) {
     std::string answer(connection_ptr->connection_buffer);
     this->view->setPositions(answer);

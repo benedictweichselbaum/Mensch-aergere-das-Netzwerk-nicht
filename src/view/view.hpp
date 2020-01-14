@@ -14,8 +14,9 @@
 struct Meeple
 {
 	sf::CircleShape meeple;
+	int numberForServer;
 private:
-	bool clickable;
+	//bool clickable;
 };
 
 struct Player
@@ -55,8 +56,10 @@ struct View
 	Player Player3;
 	Player Player4;
 	void setPositions(std::string Coords);
-	void setPositionOfMeeple(int x, int y, int playerNr, int& player1set, int& player2set, int& player3set, int& player4set);
-	void CommunicateWithClient(std::string message);
+	void setPositionOfMeeple(int x, int y, int playerNr, int& player1set, int& player2set, int& player3set, int& player4set, int& player1numberForServer, int& player2numberForServer, int& player3numberForServer, int& player4numberForServer);
+	void CommunicateWithClient(std::string message); 
+	void SetErrorMessage(std::string message);
+	void CheckForAnswer();
 
 	ClientMadnPtr client;
 
@@ -105,6 +108,8 @@ Player InitPlayer();
 Meeple InitMeeple();
 
 sf::RectangleShape InitRollTheDiceButton();
+
+std::string convertInt(int number);
 
 //	void setPositions(ViewPtr view, std::string Coords);
 
