@@ -349,7 +349,7 @@ Sidebar InitializeSidebar()
 	sidebar.dice = InitializeDice();
 	sidebar.rollTheDiceButton = InitRollTheDiceButton();
 	sidebar.startButton = InitTopButton(0, "Start");
-	sidebar.passButton = InitTopButton(0, "Weitergeben");
+	sidebar.passButton = InitTopButton(1, "Weitergeben");
 	//sf::Font font;
 	//font.loadFromFile("arial.ttf");
 	//font.loadFromMemory("")
@@ -573,6 +573,11 @@ void View::setPositions(std::string Coords)
 		break;
 	}
 
+	player1numberForServer = 1;
+  	player2numberForServer = 1;
+  	player3numberForServer = 1;
+  	player4numberForServer = 1;
+
 	setPositionOfMeeple(6, 0, Coords.at(20), player1set, player2set, player3set, player4set, player1numberForServer, player2numberForServer, player3numberForServer, player4numberForServer);
 	setPositionOfMeeple(6, 1, Coords.at(21), player1set, player2set, player3set, player4set, player1numberForServer, player2numberForServer, player3numberForServer, player4numberForServer);
 	setPositionOfMeeple(6, 2, Coords.at(22), player1set, player2set, player3set, player4set, player1numberForServer, player2numberForServer, player3numberForServer, player4numberForServer);
@@ -660,25 +665,25 @@ void View::setPositionOfMeeple(int x, int y, int playerNr, int& player1set, int&
 	{
 	case '1':
 		Player1.Meeples.at(player1set).meeple.setPosition(sf::Vector2f(PLAYGROUNDINTERVAL * x + (PLAYGROUNDINTERVAL - MEEPLERADIUS * 2) / 2, PLAYGROUNDINTERVAL * y + (PLAYGROUNDINTERVAL - MEEPLERADIUS * 2) / 2));
-		Player1.Meeples.at(player1set).numberForServer = 0;
+		Player1.Meeples.at(player1set).numberForServer = player1numberForServer;
 		++player1numberForServer;
 		++player1set;
 		break;
 	case '2':
 		Player2.Meeples.at(player2set).meeple.setPosition(sf::Vector2f(PLAYGROUNDINTERVAL * x + (PLAYGROUNDINTERVAL - MEEPLERADIUS * 2) / 2, PLAYGROUNDINTERVAL * y + (PLAYGROUNDINTERVAL - MEEPLERADIUS * 2) / 2));
-		Player2.Meeples.at(player2set).numberForServer = 0;
+		Player2.Meeples.at(player2set).numberForServer = player2numberForServer;
 		++player2numberForServer;
 		++player2set;
 		break;
 	case '3':
 		Player3.Meeples.at(player3set).meeple.setPosition(sf::Vector2f(PLAYGROUNDINTERVAL * x + (PLAYGROUNDINTERVAL - MEEPLERADIUS * 2) / 2, PLAYGROUNDINTERVAL * y + (PLAYGROUNDINTERVAL - MEEPLERADIUS * 2) / 2));
-		Player3.Meeples.at(player3set).numberForServer = 0;
+		Player3.Meeples.at(player3set).numberForServer = player3numberForServer;
 		++player3numberForServer;
 		++player3set;
 		break;
 	case '4':
 		Player4.Meeples.at(player4set).meeple.setPosition(sf::Vector2f(PLAYGROUNDINTERVAL * x + (PLAYGROUNDINTERVAL - MEEPLERADIUS * 2) / 2, PLAYGROUNDINTERVAL * y + (PLAYGROUNDINTERVAL - MEEPLERADIUS * 2) / 2));
-		Player4.Meeples.at(player4set).numberForServer = 0;
+		Player4.Meeples.at(player4set).numberForServer = player4numberForServer;
 		++player4numberForServer;
 		++player4set;
 		break;
@@ -726,6 +731,7 @@ void View::CheckForAnswer()
 		{
 			//TODO: Fehler anzeigen
 		}
+		client->statusRunningHandler = 0;
 	}
 }
 
