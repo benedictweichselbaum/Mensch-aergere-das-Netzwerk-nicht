@@ -171,7 +171,7 @@ void RunMouseButtonReleasedPlayerMeeple(sf::RenderWindow& window, ViewPtr view, 
 	{
 		if (view->client->playerNumber == playerId)
 		{
-			view->CommunicateWithClient(convertInt());
+			view->CommunicateWithClient(std::to_string(meepleNr));
 		}
 	}
 }
@@ -727,7 +727,7 @@ void View::CheckForAnswer()
 	if (client->statusRunningHandler == 2)
 	{
 		std::string answer = client->answer;
-		if (answer.size > 60)
+		if (answer.size() > 60)
 		{
 			setPositions(answer);
 		}

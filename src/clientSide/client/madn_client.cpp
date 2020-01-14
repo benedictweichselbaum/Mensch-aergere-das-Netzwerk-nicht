@@ -54,7 +54,7 @@ void ClientMadn::readHandler1 (connection_madn_ptr connection_ptr) {
         std::this_thread::sleep_for(std::chrono::milliseconds(500));
         std::cout << "Kein offenes Spiel gefunden, nächster Versuch in 0,5 Sekunden." << std::endl;
     }
-    std::string request(IntToString(this->playerNumber) + "join");
+    std::string request(std::to_string(this->playerNumber) + "join");
     char buffer[100];
     strcpy(buffer, request.c_str());
     auto boostBuffer = boost::asio::buffer(buffer);
