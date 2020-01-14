@@ -2,6 +2,13 @@
 #include "../view/view.hpp"
 #include "./client/boardClient/madn_client_board.hpp"
 
+/*
+ * Main function for the client. Manages three threads.
+ * 1. Showing view
+ * 2. Running the client that updates the view
+ * 3. Running the client that manages the communication between the server and therefor the game logic.
+ */
+
 void startUserClient (ClientMadnPtr client, std::string ip, std::string port) {
     client->startClient(ip, port);
 }

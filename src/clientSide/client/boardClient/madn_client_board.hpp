@@ -9,6 +9,11 @@
 using tcp = boost::asio::ip::tcp;
 using errorCode = boost::system::error_code;
 
+/*
+ * Special Client for updating the view.
+ * In Order to do that it sends an update request to the server every 400 ms.
+ * The client otherwise is the same as the client for the normal player.
+ */
 class ClientMadnBoard {
     private:
         boost::asio::io_service io_service;

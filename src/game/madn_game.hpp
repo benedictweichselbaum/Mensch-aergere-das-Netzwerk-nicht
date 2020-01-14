@@ -6,7 +6,10 @@
 #include <fstream>
 #include <random>
 #include <memory>
-
+/*
+ * Class holding information about the game and the game logic.
+ * Has a int array holding the information. --> See README
+ */
 class MenschAergereDichNichtGame {
     private:
         int8_t* board;

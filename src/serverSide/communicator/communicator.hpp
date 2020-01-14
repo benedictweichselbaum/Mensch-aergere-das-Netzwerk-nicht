@@ -9,13 +9,13 @@
 #include "../../game/com.hpp"
 
 /*
-The following header declares a class that acts as a communicator between the server that is
-recieving text massages from the clients and the actual game logic. To determine which players
-turn it is and weather or not COMs are involed (and many more things :D) the communicator has a
-state which is implemented via a 'State Pattern'. All states extend an 'abstract' super class 
-with an 'abstract' method called'reactToPlayerInput'. Depending on the current state and its own
-definition of the method different actions are triggered.
-*/
+ * The following header declares a class that acts as a communicator between the server that is
+ * recieving text massages from the clients and the actual game logic. To determine which players
+ * turn it is and weather or not COMs are involed (and many more things :D) the communicator has a
+ * state which is implemented via a 'State Pattern'. All states extend an 'abstract' super class 
+ * with an 'abstract' method called'reactToPlayerInput'. Depending on the current state and its own
+ * definition of the method different actions are triggered.
+ */
 
 
 // Abstract state super class
