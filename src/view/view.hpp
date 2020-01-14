@@ -41,6 +41,8 @@ struct Dice
 struct Sidebar
 {
 	Dice dice;
+	sf::RectangleShape startButton;
+	sf::RectangleShape passButton;
 	sf::RectangleShape rollTheDiceButton;
 	sf::Text infotext;
 };
@@ -108,6 +110,8 @@ Player InitPlayer();
 Meeple InitMeeple();
 
 sf::RectangleShape InitRollTheDiceButton();
+
+sf::RectangleShape InitTopButton(int x, std::string text);
 
 std::string convertInt(int number);
 

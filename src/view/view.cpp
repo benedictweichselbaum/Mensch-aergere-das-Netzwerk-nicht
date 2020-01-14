@@ -1,34 +1,4 @@
-
 #include "view.hpp"
-
-//PlaygroundField NewPlayground()
-//{
-//	sf::RenderWindow window(sf::VideoMode(990, 990), "Mensch �rgere dich nicht");
-//
-//	std::vector<std::vector<sf::CircleShape>> listOfCircles = InitializePlayground();
-//
-//	PlaygroundField playgroundField = PlaygroundField();
-//	//playgroundField.window = new sf::RenderWindow::RenderWindow(sf::VideoMode(990, 990), "Mensch �rgere dich nicht");
-//	//playgroundField.window;
-//	return playgroundField;
-//}
-
-//sf::RenderWindow NewWindow()
-//{
-//	sf::RenderWindow window(sf::VideoMode(PLAYGROUNDINTERVAL * 11 + SIDEPANEL, PLAYGROUNDINTERVAL * 11), "Mensch �rgere dich nicht");
-//	return window;
-//}
-
-//void DrawPlayground(PlaygroundField playgroundField)
-//{
-//	for (int i = 0; i < playgroundField.listOfCircles.size(); ++i)
-//	{
-//		for (int j = 0; j < playgroundField.listOfCircles.at(i).size(); ++j)
-//		{
-//			playgroundField.window.draw(playgroundField.listOfCircles.at(i).at(j));
-//		}
-//	}
-//}
 
 void DrawPlayground(sf::RenderWindow& window, std::vector<std::vector<sf::CircleShape>>& listOfCircles)
 {
@@ -45,6 +15,8 @@ void DrawSidebar(sf::RenderWindow& window, Sidebar sidebar)
 {
 	DrawDice(window, sidebar.dice);
 	DrawRectangle(window, sidebar.rollTheDiceButton);
+	DrawRectangle(window, sidebar.startButton);
+	DrawRectangle(window, sidebar.passButton);
 	//window.draw(sidebar.infotext.);//TODO?
 	//sidebar.infotext.setFillColor(sf::Color::Red);
 }
@@ -139,6 +111,14 @@ void RunMouseButtonReleased(sf::RenderWindow& window, ViewPtr view)
 	if (view->sidebar.rollTheDiceButton.getGlobalBounds().contains(mousePosF))
 	{
 		view->CommunicateWithClient("D");
+	}
+	else if (view->sidebar.startButton.getGlobalBounds().contains(mousePosF))
+	{
+		view->CommunicateWithClient("start");
+	}
+	else if (view->sidebar.passButton.getGlobalBounds().contains(mousePosF))
+	{
+		view->CommunicateWithClient("P");
 	}
 	RunMouseButtonReleasedPlayerMeeples(window, view, mousePosF);
 }
@@ -368,6 +348,8 @@ Sidebar InitializeSidebar()
 	Sidebar sidebar;
 	sidebar.dice = InitializeDice();
 	sidebar.rollTheDiceButton = InitRollTheDiceButton();
+	sidebar.startButton = InitTopButton(0, "Start");
+	sidebar.passButton = InitTopButton(0, "Weitergeben");
 	//sf::Font font;
 	//font.loadFromFile("arial.ttf");
 	//font.loadFromMemory("")
@@ -488,6 +470,15 @@ sf::RectangleShape InitRollTheDiceButton()
 	rollTheDiceButton.setFillColor(ROLLTHEDICEBUTTONCOLOR);
 	rollTheDiceButton.setPosition(PLAYGROUNDINTERVAL * 11 + (SIDEPANEL - ROLLTHEDICEBUTTONWIDTH) / 2, DICEYPLACE + DICESIZE + ROLLTHEDICEBUTTONMARGINTOP);
 	return rollTheDiceButton;
+}
+
+sf::RectangleShape InitTopButton(int x, std::string text)
+{
+	sf::RectangleShape button(sf::Vector2f(SIDEPANEL / 2 - (2 * TOPBUTTONMARGIN), TOPBUTTONHEIGHT));
+	button.setFillColor(TOPBUTTONCOLOR);
+	button.setPosition(PLAYGROUNDINTERVAL * 11 + TOPBUTTONMARGIN + (x * SIDEPANEL / 2), TOPBUTTONMARGIN);
+	//TODO: SetText
+	return button;
 }
 
 void View::setPositions(std::string Coords)
