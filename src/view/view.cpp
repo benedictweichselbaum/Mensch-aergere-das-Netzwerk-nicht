@@ -17,8 +17,12 @@ void DrawSidebar(sf::RenderWindow& window, Sidebar sidebar)
 	DrawRectangle(window, sidebar.rollTheDiceButton);
 	DrawRectangle(window, sidebar.startButton);
 	DrawRectangle(window, sidebar.passButton);
-	//window.draw(sidebar.infotext.);//TODO?
-	//sidebar.infotext.setFillColor(sf::Color::Red);
+	DrawRectangle(window, sidebar.SaveAndCloseButton);
+	DrawText(window, *sidebar.infotext);
+	DrawText(window, *sidebar.passButtonText);
+	DrawText(window, *sidebar.startButtonText);
+	DrawText(window, *sidebar.rollTheDiceButtonText);
+	DrawText(window, *sidebar.SaveAndCloseButtonText);
 }
 
 void DrawDice(sf::RenderWindow& window, Dice dice)
@@ -46,6 +50,11 @@ void DrawRectangle(sf::RenderWindow& window, sf::RectangleShape rectangle)
 	window.draw(rectangle);
 }
 
+void DrawText(sf::RenderWindow& window, sf::Text text)
+{
+	window.draw(text);
+}
+
 void DrawLines(sf::RenderWindow& window, std::vector<sf::RectangleShape> lineList)
 {
 	for (int i = 0; i < lineList.size(); ++i)
@@ -53,23 +62,6 @@ void DrawLines(sf::RenderWindow& window, std::vector<sf::RectangleShape> lineLis
 		DrawRectangle(window, lineList.at(i));
 	}
 }
-
-//void RunView(PlaygroundField playgroundField)
-//{
-//	while (playgroundField.window.isOpen())
-//	{
-//		sf::Event event;
-//		while (playgroundField.window.pollEvent(event))
-//		{
-//			if (event.type == sf::Event::Closed)
-//				playgroundField.window.close();
-//		}
-//
-//		playgroundField.window.clear();
-//		DrawPlayground(playgroundField);
-//		playgroundField.window.display();
-//	}
-//}
 
 void RunView(sf::RenderWindow& window, ViewPtr view)
 {
@@ -96,11 +88,20 @@ void RunView(sf::RenderWindow& window, ViewPtr view)
 
 		window.clear();
 		window.draw(view->background);
+		DrawShowWhichPlayer(window, view);
 		DrawLines(window, view->listOfLines);
 		DrawPlayground(window, view->listOfCircles);
 		DrawPlayers(window, view);
 		DrawSidebar(window, view->sidebar);
 		window.display();
+	}
+}
+
+void DrawShowWhichPlayer(sf::RenderWindow& window, ViewPtr view)
+{
+	if (view->client->playerNumber >= 1 && view->client->playerNumber <= 4)
+	{
+		DrawRectangle(window, view->showsWhichPlayer[view->client->playerNumber - 1]);
 	}
 }
 
@@ -120,6 +121,10 @@ void RunMouseButtonReleased(sf::RenderWindow& window, ViewPtr view)
 	{
 		view->CommunicateWithClient("P");
 	}
+	else if (view->sidebar.SaveAndCloseButton.getGlobalBounds().contains(mousePosF))
+	{
+		view->CommunicateWithClient("save");
+	}
 	RunMouseButtonReleasedPlayerMeeples(window, view, mousePosF);
 }
 
@@ -129,7 +134,7 @@ void RunMouseEntered(sf::RenderWindow& window, ViewPtr view)
 	sf::Vector2f mousePosF(static_cast<float>(mousePos.x), static_cast<float>(mousePos.y));
 	if (view->sidebar.rollTheDiceButton.getGlobalBounds().contains(mousePosF))
 	{
-		std::cout << "In W�rfeln.";
+		std::cout << "In Wuerfeln.";
 	}
 	RunMouseButtonReleasedPlayerMeeples(window, view, mousePosF);
 }
@@ -323,6 +328,26 @@ std::vector<sf::RectangleShape> InitializeListOfLines()
 	return listOfLines;
 }
 
+std::vector<sf::RectangleShape> InitializeShowsWhichPlayer()
+{
+	std::vector<sf::RectangleShape> list;
+	list.push_back(CreateShowsWhichPlayer(9, 0));
+	list.push_back(CreateShowsWhichPlayer(9, 9));
+	list.push_back(CreateShowsWhichPlayer(0, 9));
+	list.push_back(CreateShowsWhichPlayer(0, 0));
+	return list;
+}
+
+sf::RectangleShape CreateShowsWhichPlayer(int x, int y)
+{
+	sf::RectangleShape shape(sf::Vector2f((PLAYGROUNDINTERVAL - SHOWSWHICHPLAYEROUTLINETHICKNESS) * 2, (PLAYGROUNDINTERVAL - SHOWSWHICHPLAYEROUTLINETHICKNESS) * 2));
+	shape.setFillColor(SHOWSWHICHPLAYERCOLOR);
+	shape.setOutlineThickness(SHOWSWHICHPLAYEROUTLINETHICKNESS);
+	shape.setOutlineColor(SHOWSWHICHPLAYEROUTLINECOLOR);
+	shape.setPosition(x * PLAYGROUNDINTERVAL, y * PLAYGROUNDINTERVAL);
+	return shape;
+}
+
 sf::RectangleShape CreateRectangleLine(bool horizontal, int startx, int starty, int length)
 {
 	if (horizontal)
@@ -346,18 +371,22 @@ sf::RectangleShape CreateRectangleLine(bool horizontal, int startx, int starty, 
 Sidebar InitializeSidebar()
 {
 	Sidebar sidebar;
+	sf::Font* Fontii = new sf::Font;
+	Fontii->loadFromFile("schrift.ttf");
+	sidebar.font = Fontii;
 	sidebar.dice = InitializeDice();
-	sidebar.rollTheDiceButton = InitRollTheDiceButton();
-	sidebar.startButton = InitTopButton(0, "Start");
-	sidebar.passButton = InitTopButton(1, "Weitergeben");
-	//sf::Font font;
-	//font.loadFromFile("arial.ttf");
-	//font.loadFromMemory("")
-	//sf::Text textbox("Text", font);
-	//textbox.setPosition (PLAYGROUNDINTERVAL * 100, 500.f); //TODO
-	//sidebar.infotext = textbox;
-	//sidebar.infotext.setFillColor(sf::Color::Blue);
-	//textbox.set
+	sidebar.rollTheDiceButton = InitRollTheDiceButton(sidebar);
+	sidebar.SaveAndCloseButton = InitSaveAndCloseButton(sidebar);
+	sidebar.startButton = InitTopButton(0, "Start", sidebar);
+	sidebar.passButton = InitTopButton(1, "Weitergeben", sidebar);
+	sf::Text* textbox = new sf::Text;
+	textbox->setFont(*sidebar.font);
+	textbox->setString("Herzlich Willkommen.");
+	textbox->setPosition (PLAYGROUNDINTERVAL * 11 + TOPBUTTONMARGIN, 350.f); //TODO
+	textbox->setCharacterSize(20);
+	textbox->setOutlineColor(sf::Color::Green);
+	sidebar.infotext = textbox;
+	sidebar.infotext->setFillColor(sf::Color::White);
 	return sidebar;
 }
 
@@ -372,6 +401,7 @@ ViewPtr InitializeView(ClientMadnPtr client_ptr)
 	view->listOfCircles = InitializePlayground();
 	view->sidebar = InitializeSidebar();
 	view->listOfLines = InitializeListOfLines();
+	view->showsWhichPlayer = InitializeShowsWhichPlayer();
 	view->Player1 = InitPlayer();
 	view->Player2 = InitPlayer();
 	view->Player3 = InitPlayer();
@@ -464,20 +494,56 @@ Meeple InitMeeple()
 	return meeple;
 }
 
-sf::RectangleShape InitRollTheDiceButton()
+sf::RectangleShape InitRollTheDiceButton(Sidebar& sidebar)
 {
 	sf::RectangleShape rollTheDiceButton(sf::Vector2f(ROLLTHEDICEBUTTONWIDTH, ROLLTHEDICEBUTTONHEIGHT));
 	rollTheDiceButton.setFillColor(ROLLTHEDICEBUTTONCOLOR);
 	rollTheDiceButton.setPosition(PLAYGROUNDINTERVAL * 11 + (SIDEPANEL - ROLLTHEDICEBUTTONWIDTH) / 2, DICEYPLACE + DICESIZE + ROLLTHEDICEBUTTONMARGINTOP);
+	sf::Text* textbox = new sf::Text;
+	textbox->setFont(*sidebar.font);
+	textbox->setString("Wuerfeln");
+	textbox->setPosition(PLAYGROUNDINTERVAL * 11 + (SIDEPANEL - ROLLTHEDICEBUTTONWIDTH) / 2 + ROLLTHEDICEBUTTONLEFTPADDING, DICEYPLACE + DICESIZE + ROLLTHEDICEBUTTONMARGINTOP + ((ROLLTHEDICEBUTTONHEIGHT - TOPBUTTONTEXTSIZE) / 2.5));
+	textbox->setCharacterSize(TOPBUTTONTEXTSIZE);
+	textbox->setFillColor(TOPBUTTONTEXTCOLOR);
+	sidebar.rollTheDiceButtonText = textbox;
 	return rollTheDiceButton;
 }
 
-sf::RectangleShape InitTopButton(int x, std::string text)
+sf::RectangleShape InitSaveAndCloseButton(Sidebar& sidebar)
+{
+	sf::RectangleShape SaveAndCloseButton(sf::Vector2f(ROLLTHEDICEBUTTONWIDTH, ROLLTHEDICEBUTTONHEIGHT));
+	SaveAndCloseButton.setFillColor(ROLLTHEDICEBUTTONCOLOR);
+	SaveAndCloseButton.setPosition(PLAYGROUNDINTERVAL * 11 + (SIDEPANEL - ROLLTHEDICEBUTTONWIDTH) / 2, PLAYGROUNDINTERVAL * 11 - ROLLTHEDICEBUTTONMARGINTOP / 2 - ROLLTHEDICEBUTTONHEIGHT);
+	sf::Text* textbox = new sf::Text;
+	textbox->setFont(*sidebar.font);
+	textbox->setString("Speicheranfrage senden");
+	textbox->setPosition(PLAYGROUNDINTERVAL * 11 + (SIDEPANEL - ROLLTHEDICEBUTTONWIDTH) / 2 + SAVEBUTTONLEFTPADDING, PLAYGROUNDINTERVAL * 11 - ROLLTHEDICEBUTTONMARGINTOP / 2 - ROLLTHEDICEBUTTONHEIGHT + ((ROLLTHEDICEBUTTONHEIGHT - TOPBUTTONTEXTSIZE) / 2.5));
+	textbox->setCharacterSize(TOPBUTTONTEXTSIZE);
+	textbox->setFillColor(TOPBUTTONTEXTCOLOR);
+	sidebar.SaveAndCloseButtonText = textbox;
+	return SaveAndCloseButton;
+}
+
+sf::RectangleShape InitTopButton(int x, std::string text, Sidebar& sidebar)
 {
 	sf::RectangleShape button(sf::Vector2f(SIDEPANEL / 2 - (2 * TOPBUTTONMARGIN), TOPBUTTONHEIGHT));
 	button.setFillColor(TOPBUTTONCOLOR);
 	button.setPosition(PLAYGROUNDINTERVAL * 11 + TOPBUTTONMARGIN + (x * SIDEPANEL / 2), TOPBUTTONMARGIN);
-	//TODO: SetText
+	
+	sf::Text* textbox = new sf::Text;
+	textbox->setFont(*sidebar.font);
+	textbox->setString(text);
+	textbox->setCharacterSize(TOPBUTTONTEXTSIZE);
+	textbox->setFillColor(TOPBUTTONTEXTCOLOR);
+	if (x == 1)
+	{
+		textbox->setPosition(PLAYGROUNDINTERVAL * 11 + TOPBUTTONMARGIN + (x * SIDEPANEL / 2) + TOPBUTTONLEFTLEFTPADDING, TOPBUTTONMARGIN + ((TOPBUTTONHEIGHT - TOPBUTTONTEXTSIZE) / 2.5));
+		sidebar.startButtonText = textbox;
+	}
+	else {
+		textbox->setPosition(PLAYGROUNDINTERVAL * 11 + TOPBUTTONMARGIN + (x * SIDEPANEL / 2) + TOPBUTTONRIGHTLEFTPADDING, TOPBUTTONMARGIN + ((TOPBUTTONHEIGHT - TOPBUTTONTEXTSIZE) / 2.5));
+		sidebar.passButtonText = textbox;
+	}
 	return button;
 }
 
@@ -694,7 +760,7 @@ void View::CommunicateWithClient(std::string message)
 {
 	if (client->statusRunningHandler == 0)
 	{
-		std::string completemessage = convertInt(client->playerNumber) + message;
+		std::string completemessage = std::to_string(client->playerNumber) + message;
 		client->message = completemessage;
 		client->statusRunningHandler = 1;
 	}
@@ -709,7 +775,7 @@ void View::CommunicateWithClient(std::string message)
 			SetErrorMessage("Nur ein Zug auf einmal.");
 			break;
 		case 4:
-			SetErrorMessage("Du konntest noch keinem Spieler zugeordnet werden.");
+			SetErrorMessage("Du konntest noch keinem Spieler\n zugeordnet werden.");
 			break;
 		default:
 			SetErrorMessage("Unerwarteter Fehler.");
@@ -727,22 +793,15 @@ void View::CheckForAnswer()
 		{
 			setPositions(answer);
 		}
-		else 
+		else //TODO: andere Fehlermeldungen schön Ausgeben
 		{
-			//TODO: Fehler anzeigen
+			SetErrorMessage(answer);
 		}
 		client->statusRunningHandler = 0;
 	}
 }
 
-std::string convertInt(int number)
-{
-	std::stringstream s;
-	s << number;
-	return s.str();
-}
-
 void View::SetErrorMessage(std::string message)
 {
-	//TODO;
+	sidebar.infotext->setString(message);
 }

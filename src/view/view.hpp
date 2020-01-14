@@ -42,9 +42,15 @@ struct Sidebar
 {
 	Dice dice;
 	sf::RectangleShape startButton;
+	sf::Text* startButtonText;
 	sf::RectangleShape passButton;
+	sf::Text* passButtonText;
 	sf::RectangleShape rollTheDiceButton;
-	sf::Text infotext;
+	sf::Text* rollTheDiceButtonText;
+	sf::RectangleShape SaveAndCloseButton;
+	sf::Text* SaveAndCloseButtonText;
+	sf::Text* infotext;
+	sf::Font* font;
 };
 
 struct View
@@ -57,6 +63,7 @@ struct View
 	Player Player2;
 	Player Player3;
 	Player Player4;
+	std::vector<sf::RectangleShape> showsWhichPlayer;
 	void setPositions(std::string Coords);
 	void setPositionOfMeeple(int x, int y, int playerNr, int& player1set, int& player2set, int& player3set, int& player4set, int& player1numberForServer, int& player2numberForServer, int& player3numberForServer, int& player4numberForServer);
 	void CommunicateWithClient(std::string message); 
@@ -75,6 +82,8 @@ void DrawDice(sf::RenderWindow& window, Dice dice);
 void DrawPlayers(sf::RenderWindow& window, ViewPtr view);
 void DrawRectangle(sf::RenderWindow& window, sf::RectangleShape rectangle);
 void DrawLines(sf::RenderWindow& window, std::vector<sf::RectangleShape> lineList);
+void DrawText(sf::RenderWindow& window, sf::Text text);
+void DrawShowWhichPlayer(sf::RenderWindow& window, ViewPtr view);
 
 void RunView(sf::RenderWindow& window, ViewPtr view);
 void RunMouseButtonReleased(sf::RenderWindow& window, ViewPtr view);
@@ -93,7 +102,11 @@ sf::RectangleShape CreateDiceShape(float x, float y, sf::Color farbe);
 
 std::vector<std::vector<sf::CircleShape>> InitializePlayground();
 
-std::vector<sf::RectangleShape> InitializeListOfLines(); //Background of Path (under the Circles)
+std::vector<sf::RectangleShape> InitializeListOfLines(); // Pfade im Hintergrund(unter den Kreisen)
+
+std::vector<sf::RectangleShape> InitializeShowsWhichPlayer(); // Hervorhebung des Starthauses des Spielers
+
+sf::RectangleShape CreateShowsWhichPlayer(int x, int y);
 
 sf::RectangleShape CreateRectangleLine(bool horizontal, int startx, int starty, int length);
 
@@ -109,11 +122,11 @@ Player InitPlayer();
 
 Meeple InitMeeple();
 
-sf::RectangleShape InitRollTheDiceButton();
+sf::RectangleShape InitRollTheDiceButton(Sidebar& sidebar);
 
-sf::RectangleShape InitTopButton(int x, std::string text);
+sf::RectangleShape InitSaveAndCloseButton(Sidebar& sidebar);
 
-std::string convertInt(int number);
+sf::RectangleShape InitTopButton(int x, std::string text, Sidebar& sidebar);
 
 //	void setPositions(ViewPtr view, std::string Coords);
 
