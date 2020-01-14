@@ -69,8 +69,8 @@ Nachrichtenformat:
 ### Spiel beitreten
 Jeder Client hat einem Server beizutreten. Die übrigen Plätze werden mit Computergegnern gefüllt.
 Hierfür wird vom Client eine Nachricht mit folgendem Format gesendet: [Spielernummer]join <br/>
-Damit später ein Client nur eine Spielernummer zu identifikation schickt, muss im Client eine Schranke
-eingebaut werden.
+Damit ein Client nur eine Spielernummer zu Identifikation schickt, ist im Client eine Schranke
+eingebaut.
 Der Server kann, wann immer er will ein Spiel starten. Er nimmt dann keine neuen Spieler mehr an.
 
 ### Spiel mit nicht maximaler Anzahl natürlicher Spieler starten
@@ -94,3 +94,12 @@ Im bestimmten Situationen wird es nötig, dass ein Spieler seinen Spielzug weite
 Das passiert z.B. wenn kein Zug mit der Würfelzahl gültig ist. <br/>
 Infolgedessen schickt der Spieler folgenden Befehl -> '[Spielernummer]P' (P steht für 'pass'). <br/>
 Diese Aufforderung ist auch möglich, wenn ein Spielzug theoretisch möglich ist. Es muss vorher gewürfelt worden sein.
+
+## Bedienung der Spieloberfläche
+Zu Beginn jedes Zuges muss der Spieler würfeln, dafür muss aud die Schaltfläche mit der Aufschrift "Würfeln" unter dem Spielwürfel geklickt werden. Das Ergebnis zeigt dann der Spielwürfel an.
+Danach kann der Spieler mit einer Figur seiner Wahl ziehen. Dafür muss diese einfach angeklickt werden. Ist der Zug gültig, wird gezogen und das Spiel geht weiter.
+Ist der Zug nicht erlaubt, erscheint eine Fehlermeldung und eine anere Figur kann ausgewählt werden.
+Ist mit der gewürfelten Zahl kein Zug möglich, kann der Zug über die Taste "Zug weitergeben" übersprungen werden. Der nächste Spieler ist nun an der Reihe.
+Wenn vor Beginn des Spieles noch auf weitere Spieler gewartet wird, kann der Spieler mit einem Klick auf "Starten" dem Server mitteilen, dass er auf keine weiteren Spieler mehr warten möchte.
+Haben alle Mitspieler dies getan, werden die restlichen Spieler mit COMs aufgefüllt und das Spiel gestartet.
+Damit alle Spieler immer auf dem aktuellen Stand gehalten werden, wird das Spielfeld wird auch aktualisiert, wenn der Spieler nicht an der Reihe ist.
