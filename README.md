@@ -32,7 +32,13 @@ Informationen zu SFML: https://www.sfml-dev.org/
 <pre><code>
 make
 </code></pre>
-Die fertigen Programme liegen unter dem Ordner 'compiledProgramms' und können wie gewohnt ausgeführt werden. <br/> <br/>
+Die fertigen Programme liegen unter dem Ordner 'compiledProgramms' und können wie gewohnt ausgeführt werden. <br/>
+<b>WICHTIG: </b>Bei Ausführung des Clients muss zudem ein Befehl hinzugefügt werden! Grund dafür ist, dass die Bibliothek für SFML nicht im Standard-Pfad ist. Zum Ausführen des Clients vom Ordner 'compiledProgramms' aus ist folgender Befehl zu gebrauchen: <br/>
+<pre><code>
+export LD_LIBRARY_PATH=../../SFML-2.5.1/lib && ./client_main_programm
+</code></pre>
+Der Befehl muss so mit den 'Unds' ausgeführt werden, sonst funktioniert es nicht! <br/>
+Hinweis: Natürlich können auch alle relativen Pfade zum ausführen angepasst werden. <br/>
 Zunächst wird der Server gestartet, der das Spiel hostet und ein reines Kommandozeilen-Programm ist. Der Port muss selbst
 gewählt werden. Danach können bis zu 4 Clients geöffnet werden. IP und Port werden über die CLI eingegeben, der Rest
 wird über die GUI gesteuert. <br/>
