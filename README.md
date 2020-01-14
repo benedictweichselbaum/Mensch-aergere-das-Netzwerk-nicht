@@ -3,7 +3,7 @@ Abschlussprojekt für die C++-Vorlesung. Ziel ist ein Mensch ärgere dich nicht 
 
 ## Anforderungskriterien
 ### Muss-Kriterien
-- [X] Funktionierendes Spiel (Grundsätzlich --> Consolenausgabe über string)
+- [X] Funktionierendes Spiel
 - [X] Netzwerk mit mindestens 2 echten Spielern
 - [X] Funktionierender Com
 
@@ -35,7 +35,9 @@ make
 Die fertigen Programme liegen unter dem Ordner 'compiledProgramms' und können wie gewohnt ausgeführt werden. <br/> <br/>
 Zunächst wird der Server gestartet, der das Spiel hostet und ein reines Kommandozeilen-Programm ist. Der Port muss selbst
 gewählt werden. Danach können bis zu 4 Clients geöffnet werden. IP und Port werden über die CLI eingegeben, der Rest
-wird über die GUI gesteuert.
+wird über die GUI gesteuert. <br/>
+Soll ein Save Game geladen werden muss der relative Pfand (relativ zum Pfad der ausführbaren Datei) als einziges Argument 
+bei Aufruf mitgegeben werden.
 
 ## Netzwerkprotokoll
 Für den Netzwerkverkehr zwischen Client und Server soll ein Protokoll definiert werden. <br/>
