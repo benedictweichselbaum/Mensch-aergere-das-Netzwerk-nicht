@@ -155,6 +155,8 @@ std::string MenschAergereDichNichtGame::movePlayerByPlayerNumberAndDiceNumberAnd
     }
 }
 
+
+// Method for writing a save game into a file.
 void MenschAergereDichNichtGame::saveGameInFile (std::string fileName) {
     std::string file = "../src/saveGames/";
     file = file.append(fileName);

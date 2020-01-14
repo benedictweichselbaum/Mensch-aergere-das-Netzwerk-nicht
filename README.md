@@ -3,7 +3,7 @@ Abschlussprojekt für die C++-Vorlesung. Ziel ist ein Mensch ärgere dich nicht 
 
 ## Anforderungskriterien
 ### Muss-Kriterien
-- [X] Funktionierendes Spiel (Grundsätzlich --> Consolenausgabe über string)
+- [X] Funktionierendes Spiel
 - [X] Netzwerk mit mindestens 2 echten Spielern
 - [X] Funktionierender Com
 
@@ -35,15 +35,17 @@ make
 Die fertigen Programme liegen unter dem Ordner 'compiledProgramms' und können wie gewohnt ausgeführt werden. <br/> <br/>
 Zunächst wird der Server gestartet, der das Spiel hostet und ein reines Kommandozeilen-Programm ist. Der Port muss selbst
 gewählt werden. Danach können bis zu 4 Clients geöffnet werden. IP und Port werden über die CLI eingegeben, der Rest
-wird über die GUI gesteuert.
+wird über die GUI gesteuert. <br/>
+Soll ein Save Game geladen werden muss der relative Pfand (relativ zum Pfad der ausführbaren Datei) als einziges Argument 
+bei Aufruf mitgegeben werden.
 
 ## Netzwerkprotokoll
 Für den Netzwerkverkehr zwischen Client und Server soll ein Protokoll definiert werden. <br/>
 Es besteht über das ganze Spiel hinweg eine Verbindung zwischen Client und Server. <br/>
 Sämtliche Berechnung der Spiels erfolgt beim Server. Der Client bekommt ausschließlich Spielinformationen übermittelt.
-Der Client selbst tätigt nur drei Dinge:
-1. Einen Befehl übermitteln, um den Würfel zu werfen. (Übermittlung "[Spielernummer]D")
-2. Bei einer Wahl mehrerer Spielfiguren, soll er/sie die wählen mit der er/sie ziehen will. (Übermittlung "[Spielernummer][Figurnummer]")
+Der Client selbst tätigt drei Dinge:
+1. Übermittlung der Spielzüge(Würfeln: Übermittlung "[Spielernummer]D", Mit Figur ziehen: "[Spielernummer][Figurnummer]")
+2. Übermittlung anderer "spielorganisatorischer" Befehle (Siehe unten).
 3. Nachfrage nach einem aktuellen Spielfeld. (Übermittlung "N")
 Nach jedem dieser Schritte wird dem Client vom Server ein aktueller Stand des Spielbretts, bzw. des Würfels, mitgeteilt. <br/>
 Auch nach und während des Zuges eines anderen Spielers wird jedem Client ein aktuelles Spielfeld übermittelt. <br/>
@@ -71,10 +73,9 @@ Jeder Client hat einem Server beizutreten. Die übrigen Plätze werden mit Compu
 Hierfür wird vom Client eine Nachricht mit folgendem Format gesendet: [Spielernummer]join <br/>
 Damit ein Client nur eine Spielernummer zu Identifikation schickt, ist im Client eine Schranke
 eingebaut.
-Der Server kann, wann immer er will ein Spiel starten. Er nimmt dann keine neuen Spieler mehr an.
 
 ### Spiel mit nicht maximaler Anzahl natürlicher Spieler starten
-Wenn alle bereits beigetretenen Spieler dem Server mitteilen, dass es losgehen soll. Werden die übrigen
+Wenn alle bereits beigetretenen Spieler dem Server mitteilen, dass es losgehen soll, werden die übrigen
 Plätze mit COMs aufgefüllt! <br/>
 Hierfür schicken die Clients '[Spielernummer]start' an den Server in der 'Anmelde-Phase'.
 Das funktioniert auch bei einem Spieler! -> Man muss warten bis alle Spieler die mitspielen wollen
@@ -98,7 +99,7 @@ Diese Aufforderung ist auch möglich, wenn ein Spielzug theoretisch möglich ist
 ## Bedienung der Spieloberfläche
 Zu Beginn jedes Zuges muss der Spieler würfeln, dafür muss aud die Schaltfläche mit der Aufschrift "Würfeln" unter dem Spielwürfel geklickt werden. Das Ergebnis zeigt dann der Spielwürfel an.
 Danach kann der Spieler mit einer Figur seiner Wahl ziehen. Dafür muss diese einfach angeklickt werden. Ist der Zug gültig, wird gezogen und das Spiel geht weiter.
-Ist der Zug nicht erlaubt, erscheint eine Fehlermeldung und eine anere Figur kann ausgewählt werden.
+Ist der Zug nicht erlaubt, erscheint eine Fehlermeldung und eine andere Figur kann ausgewählt werden.
 Ist mit der gewürfelten Zahl kein Zug möglich, kann der Zug über die Taste "Zug weitergeben" übersprungen werden. Der nächste Spieler ist nun an der Reihe.
 Wenn vor Beginn des Spieles noch auf weitere Spieler gewartet wird, kann der Spieler mit einem Klick auf "Starten" dem Server mitteilen, dass er auf keine weiteren Spieler mehr warten möchte.
 Haben alle Mitspieler dies getan, werden die restlichen Spieler mit COMs aufgefüllt und das Spiel gestartet.

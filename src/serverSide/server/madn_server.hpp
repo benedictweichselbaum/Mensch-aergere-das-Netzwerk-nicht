@@ -7,7 +7,9 @@
 
 using tcp = boost::asio::ip::tcp;
 
-/* MADN stands for 'Mensch aergere dich nicht!' */
+/* MADN stands for 'Mensch aergere dich nicht!'
+ * Server Class. Gets messages from client and gives answer.
+*/
 
 class ServerMadn {
     private:

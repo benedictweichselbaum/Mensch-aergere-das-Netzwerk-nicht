@@ -9,6 +9,9 @@
 
 using tcp = boost::asio::ip::tcp;
 
+/*
+ * Struct for the server client connection.
+ */
 typedef struct client_server_connection_madn {
     char* connection_buffer;
     tcp::socket socket;
