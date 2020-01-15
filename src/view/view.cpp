@@ -448,7 +448,7 @@ Sidebar InitializeSidebar()
 	sf::Text* textbox = new sf::Text;
 	textbox->setFont(*sidebar.font);
 	textbox->setString("Herzlich Willkommen.");
-	textbox->setPosition (PLAYGROUNDINTERVAL * 11 + TOPBUTTONMARGIN, 350.f); //TODO
+	textbox->setPosition (PLAYGROUNDINTERVAL * 11 + TOPBUTTONMARGIN, 350.f);
 	textbox->setCharacterSize(20);
 	textbox->setOutlineColor(sf::Color::Green);
 	sidebar.infotext = textbox;
@@ -937,7 +937,7 @@ void View::CheckForAnswer()
 		{
 			setPositions(answer);
 		}
-		else //TODO: andere Fehlermeldungen schön Ausgeben
+		else
 		{
 			SetErrorMessage(answer);
 		}
