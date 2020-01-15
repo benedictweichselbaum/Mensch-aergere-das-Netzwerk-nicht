@@ -137,6 +137,6 @@ Während gewartet wird, dass andere Spieler ziehen, gibt es die Möglichkeit ein
 Rechts neben dem Spielfeld befindet sich ein kleines Fenster. In diesem kann auf "Neue Aufgabe" geklickt werden, um eine kleine mathematische Aufgabe zu erhalten.<br />
 Die Eingabe des Ergebnisses erfolgt über die Tastatur. <br />
 Ist das Ergebnis korrekt, verfärbt sich es grün.<br />
-Bei manchen Geräten ist es nicht möglich, mit der Rückschritttaste die letze eingegebene Zahl zu löschen. <br />
+Falls es nicht möglich sein sollte, mit der Rückschritttaste die letze eingegebene Zahl zu löschen, kann dies auch über die Tastaur erfolgen:<br />
 Dafür kann entweder die Taste "z" (für zurück) oder "r" (für Rückschritttaste / return) genutzt werden. Mit "l" (für löschen) ist es ebenfalls möglich die gesamte Eingabe zu löschen.<br />
 Da das Minigame lokal läuft, kann eine Rechenaufgabe auch nach Abschießen/Speichern des Spieles gelöst werden. <br />
