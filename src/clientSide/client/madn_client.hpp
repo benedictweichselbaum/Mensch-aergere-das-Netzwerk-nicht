@@ -20,12 +20,12 @@ std::string GetCurrentDateWithTime_client ();
 class ClientMadn {
     private:
         boost::asio::io_service io_service;
-        bool aktiv;
     public:
         ClientMadn ();
         int playerNumber;
         std::string answer;
         std::string message;
+		bool aktiv;
         int statusRunningHandler; //0: warten bis View setzt / 1: View hat message gesetzt -> Client sendet und empf�ngt / 2: Client hat empfangen und View kann answer holen / 0: View hat answer geholt // Sondefall 4: Client hat noch keine Verbindung aufgebaut
         void RunningReadHandler1(connection_madn_ptr connection_ptr);
         void RunningReadHandler2(connection_madn_ptr connection_ptr);

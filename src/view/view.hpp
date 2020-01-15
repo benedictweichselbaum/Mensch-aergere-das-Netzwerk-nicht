@@ -85,7 +85,6 @@ struct View
 	void CheckForAnswer();
 
 	ClientMadnPtr client;
-
 };
 
 using ViewPtr = std::shared_ptr<View>;

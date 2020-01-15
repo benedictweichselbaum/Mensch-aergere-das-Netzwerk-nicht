@@ -824,6 +824,46 @@ void View::setPositions(std::string Coords)
 
 	char dicenumber = Coords.at(61);
 	sidebar.dice.Set(atoi(&dicenumber));
+
+	char activePlayer = Coords.at(60);
+	if (std::atoi(&activePlayer) == client->playerNumber)
+	{
+		SetErrorMessage("Du bist an der Reihe.");
+	}
+
+	char won = Coords.at(62);
+	if (std::atoi(&won) > 0)
+	{
+		if (std::atoi(&won) == client->playerNumber)
+		{
+			SetErrorMessage("Herzlichen Glueckwunsch!\nDu hast gewonnen.");
+		}
+		else
+		{
+			std::string colour = "";
+			switch (std::atoi(&won))
+			{
+			case 1:
+				colour = "gelb";
+				break;
+			case 2:
+				colour = "blau";
+				break;
+			case 3:
+				colour = "rot";
+				break;
+			case 4:
+				colour = "gruen";
+				break;
+			default:
+				colour = "unsichtbar";
+				break;
+			}
+			std::string message("Spieler " + won);
+			SetErrorMessage(message + " (" + colour + ") hat gewonnen!");
+			//?client->aktiv = false;
+		}
+	}
 }
 
 void View::setPositionOfMeeple(int x, int y, int playerNr, int& player1set, int& player2set, int& player3set, int& player4set,int& player1numberForServer,int& player2numberForServer,int& player3numberForServer,int& player4numberForServer)
