@@ -193,7 +193,7 @@ void RunMinigameInput(Minigame& minigame, sf::Event event)
 		minigame.answer.pop_back();
 	}
 
-	if (event.KeyPressed == sf::Keyboard::BackSpace && minigame.answer.size() != 0) {
+	if (event.key.code == sf::Keyboard::BackSpace && minigame.answer.size() != 0) {
 		minigame.answer.pop_back();
 	}
 	else if (event.text.unicode < 128) {
@@ -204,21 +204,24 @@ void RunMinigameInput(Minigame& minigame, sf::Event event)
 	//int i = std::stoi(minigame.answer);
 	const char* str = minigame.answer.c_str();
 	int j;
-
-	if (sscanf_s(str, "%d", &j) != EOF)
-	{
-		if (minigame.result == std::stoi(minigame.answer))
+	try {
+		if (scanf(str, "%d", &j) != EOF)
 		{
-			minigame.task->setFillColor(sf::Color::Green);
+			if (minigame.result == std::stoi(minigame.answer))
+			{
+				minigame.task->setFillColor(sf::Color::Green);
+			}
+			else
+			{
+				minigame.task->setFillColor(MINIGAMETEXTCOLOR);
+			}
 		}
 		else
 		{
 			minigame.task->setFillColor(MINIGAMETEXTCOLOR);
 		}
-	}
-	else
-	{
-		minigame.task->setFillColor(MINIGAMETEXTCOLOR);
+	} catch (...) {
+		std::cout << "OOPs. An error occured! Dont worry about it." << std::endl;
 	}
 		
 	minigame.task->setString(minigame.taskstring + minigame.answer);
@@ -435,7 +438,7 @@ Sidebar InitializeSidebar()
 {
 	Sidebar sidebar;
 	sf::Font* Fontii = new sf::Font;
-	Fontii->loadFromFile("schrift.ttf");
+	Fontii->loadFromFile("../src/view/schrift.ttf");
 	sidebar.font = Fontii;
 	sidebar.dice = InitializeDice();
 	sidebar.rollTheDiceButton = InitRollTheDiceButton(sidebar);

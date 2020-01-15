@@ -10,7 +10,7 @@
  */
 
 void startUserClient (ClientMadnPtr client, std::string ip, std::string port) {
-    client->startClient(ip, port);
+    client->StartClient(ip, port);
 }
 
 void startBoardClient (ClientMadnBoardPtr client, std::string ip, std::string port) {

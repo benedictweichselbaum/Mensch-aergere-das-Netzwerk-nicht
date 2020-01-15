@@ -56,7 +56,7 @@ std::string ServerGameCommunicator::reactToPlayerInput (std::string input) {
         } else if (std::regex_match(realAnswer, playerWantsToQuitExpression)) {
             players[std::stoi(realAnswer.substr(0, 1)) - 1] = 9;
             checkQuitting();
-            return "successfulQuitingOrder";
+            return "Speicherwunsch empfangen.";
         } else return realAnswer;
     } else if (std::regex_match(statePrefix, stateChangeMeeple)) {
         resetPlayersArrayFromQuitting();
@@ -275,7 +275,7 @@ std::string GameStartState::reactToPlayerInput (std::string input, MadnGame_Ptr 
     } else if (std::regex_match(input, startExpression)) {
         return "xx|" + input.substr(0, 1) + "s";
     } else {
-        return "xx|inputDoesNotMatchState";
+        return "xx|Das ist aktuell nicht moeglich";
     }
 }
 
@@ -287,11 +287,11 @@ std::string PlayingPlayerOneDiceState::reactToPlayerInput (std::string input, Ma
         if (input.compare("1D") == 0) {
             game->rollTheDice();
             return "1m|" + game->getBoardAsString();
-        } else return "xx|notYourTurn";
+        } else return "xx|Du bist nicht dran";
     } else if (std::regex_match(input, quitExpression)) {
         std::string quitString = "xx|";
         return quitString.append(input.substr(0, 1)).append("q");
-    } else return "xx|inputDoesNotMatchState";
+    } else return "xx|Das ist aktuell nicht moeglich";
 }
 
 std::string PlayingPlayerTwoDiceState::reactToPlayerInput (std::string input, MadnGame_Ptr game) {
@@ -302,11 +302,11 @@ std::string PlayingPlayerTwoDiceState::reactToPlayerInput (std::string input, Ma
         if (input.compare("2D") == 0) {
             game->rollTheDice();
             return "2m|" + game->getBoardAsString();
-        } else return "xx|notYourTurn";
+        } else return "xx|Du bist nicht dran";
     } else if (std::regex_match(input, quitExpression)) {
         std::string quitString("xx|" + std::stoi(input.substr(0, 1)));
         return quitString.append("q");
-    } else return "xx|inputDoesNotMatchState";
+    } else return "xx|Das ist aktuell nicht moeglich";
 }
 
 std::string PlayingPlayerThreeDiceState::reactToPlayerInput (std::string input, MadnGame_Ptr game) {
@@ -317,11 +317,11 @@ std::string PlayingPlayerThreeDiceState::reactToPlayerInput (std::string input, 
         if (input.compare("3D") == 0) {
             game->rollTheDice();
             return "3m|" + game->getBoardAsString();
-        } else return "xx|notYourTurn";
+        } else return "xx|Du bist nicht dran";
     } else if (std::regex_match(input, quitExpression)) {
         std::string quitString("xx|" + std::stoi(input.substr(0, 1)));
         return quitString.append("q");
-    } else return "xx|inputDoesNotMatchState";
+    } else return "xx|Das ist aktuell nicht moeglich";
 }
 
 std::string PlayingPlayerFourDiceState::reactToPlayerInput (std::string input, MadnGame_Ptr game) {
@@ -332,11 +332,11 @@ std::string PlayingPlayerFourDiceState::reactToPlayerInput (std::string input, M
         if (input.compare("4D") == 0) {
             game->rollTheDice();
             return "4m|" + game->getBoardAsString();
-        } else return "xx|notYourTurn";
+        } else return "xx|Du bist nicht dran";
     } else if (std::regex_match(input, quitExpression)) {
         std::string quitString("xx|" + std::stoi(input.substr(0, 1)));
         return quitString.append("q");
-    } else return "xx|inputDoesNotMatchState";
+    } else return "xx|Das ist aktuell nicht moeglich";
 }
 
 std::string PlayingPlayerOneMeepleState::reactToPlayerInput (std::string input, MadnGame_Ptr game) {
@@ -346,7 +346,7 @@ std::string PlayingPlayerOneMeepleState::reactToPlayerInput (std::string input, 
     else if (std::regex_match(input, chooseMeeple)) {
         int playerNumber = std::stoi(input.substr(0, 1));
         if (playerNumber != 1) { // Right Playernumber for state
-            return "xx|notYourTurn";
+            return "xx|Du bist nicht dran";
         } else {
             std::string moveAnswer = game->movePlayerByPlayerNumberAndDiceNumberAndMeepleNumber(playerNumber, std::stoi(input.substr(1)));
             if (moveAnswer.compare("success") == 0) {
@@ -356,12 +356,12 @@ std::string PlayingPlayerOneMeepleState::reactToPlayerInput (std::string input, 
             } else if (moveAnswer.compare("again") == 0) {
                 return "1h|" + game->getBoardAsString();
             } else {
-                return "xx|moveNotPossible";
+                return "xx|Ungueltiger Zug";
             }
         }
     } else if (std::regex_match(input, skipMove)) {
         return "2n|" + game->getBoardAsString();
-    } else return "xx|inputDoesNotMatchState";
+    } else return "xx|Das ist aktuell nicht moeglich";
 }
 
 std::string PlayingPlayerTwoMeepleState::reactToPlayerInput (std::string input, MadnGame_Ptr game) {
@@ -371,7 +371,7 @@ std::string PlayingPlayerTwoMeepleState::reactToPlayerInput (std::string input, 
     else if (std::regex_match(input, chooseMeeple)) {
         int playerNumber = std::stoi(input.substr(0, 1));
         if (playerNumber != 2) { // Right Playernumber for state
-            return "xx|notYourTurn";
+            return "xx|Du bist nicht dran";
         } else {
             std::string moveAnswer = game->movePlayerByPlayerNumberAndDiceNumberAndMeepleNumber(playerNumber, std::stoi(input.substr(1)));
             if (moveAnswer.compare("success") == 0) {
@@ -381,12 +381,12 @@ std::string PlayingPlayerTwoMeepleState::reactToPlayerInput (std::string input, 
             } else if (moveAnswer.compare("again") == 0) {
                 return "2h|" + game->getBoardAsString();
             } else {
-                return "xx|moveNotPossible";
+                return "xx|Ungueltiger Zug";
             }
         }
     } else if (std::regex_match(input, skipMove)) {
         return "3n|" + game->getBoardAsString();
-    } else return "xx|inputDoesNotMatchState";
+    } else return "xx|Das ist aktuell nicht moeglich";
 }
 
 std::string PlayingPlayerThreeMeepleState::reactToPlayerInput (std::string input, MadnGame_Ptr game) {
@@ -396,7 +396,7 @@ std::string PlayingPlayerThreeMeepleState::reactToPlayerInput (std::string input
     else if (std::regex_match(input, chooseMeeple)) {
         int playerNumber = std::stoi(input.substr(0, 1));
         if (playerNumber != 3) { // Right Playernumber for state
-            return "xx|notYourTurn";
+            return "xx|Du bist nicht dran";
         } else {
             std::string moveAnswer = game->movePlayerByPlayerNumberAndDiceNumberAndMeepleNumber(playerNumber, std::stoi(input.substr(1)));
             if (moveAnswer.compare("success") == 0) {
@@ -406,12 +406,12 @@ std::string PlayingPlayerThreeMeepleState::reactToPlayerInput (std::string input
             } else if (moveAnswer.compare("again") == 0) {
                 return "3h|" + game->getBoardAsString();
             } else {
-                return "xx|moveNotPossible";
+                return "xx|Ungueltiger Zug";
             }
         }
     } else if (std::regex_match(input, skipMove)) {
         return "4n|" + game->getBoardAsString();
-    } else return "xx|inputDoesNotMatchState";
+    } else return "xx|Das ist aktuell nicht moeglich";
 }
 
 std::string PlayingPlayerFourMeepleState::reactToPlayerInput (std::string input, MadnGame_Ptr game) {
@@ -421,7 +421,7 @@ std::string PlayingPlayerFourMeepleState::reactToPlayerInput (std::string input,
     else if (std::regex_match(input, chooseMeeple)) {
         int playerNumber = std::stoi(input.substr(0, 1));
         if (playerNumber != 4) { // Right Playernumber for state
-            return "xx|notYourTurn";
+            return "xx|Du bist nicht dran";
         } else {
             std::string moveAnswer = game->movePlayerByPlayerNumberAndDiceNumberAndMeepleNumber(playerNumber, std::stoi(input.substr(1)));
             if (moveAnswer.compare("success") == 0) {
@@ -431,12 +431,12 @@ std::string PlayingPlayerFourMeepleState::reactToPlayerInput (std::string input,
             } else if (moveAnswer.compare("again") == 0) {
                 return "4h|" + game->getBoardAsString();
             } else {
-                return "xx|moveNotPossible";
+                return "xx|Ungueltiger Zug";
             }
         }
     } else if (std::regex_match(input, skipMove)) {
         return "1n|" + game->getBoardAsString();
-    } else return "xx|inputDoesNotMatchState";
+    } else return "xx|Das ist aktuell nicht moeglich";
 }
 
 /*
@@ -446,22 +446,22 @@ std::string PlayingPlayerFourMeepleState::reactToPlayerInput (std::string input,
 */
 std::string PlayingComOneState::reactToPlayerInput (std::string input, MadnGame_Ptr game) {
     if (input.compare("N") == 0) return "xx|" + game->getBoardAsString();
-    else return "xx|inputDoesNotMatchState";
+    else return "xx|Das ist aktuell nicht moeglich";
 }
 
 std::string PlayingComTwoState::reactToPlayerInput (std::string input, MadnGame_Ptr game) {
     if (input.compare("N") == 0) return "xx|" + game->getBoardAsString();
-    else return "xx|inputDoesNotMatchState";
+    else return "xx|Das ist aktuell nicht moeglich";
 }
 
 std::string PlayingComThreeState::reactToPlayerInput (std::string input, MadnGame_Ptr game) {
     if (input.compare("N") == 0) return "xx|" + game->getBoardAsString();
-    else return "xx|inputDoesNotMatchState";
+    else return "xx|Das ist aktuell nicht moeglich";
 }
 
 std::string PlayingComFourState::reactToPlayerInput (std::string input, MadnGame_Ptr game) {
     if (input.compare("N") == 0) return "xx|" + game->getBoardAsString();
-    else return "xx|inputDoesNotMatchState";
+    else return "xx|Das ist aktuell nicht moeglich";
 }
 
 std::string PlayingPlayerOneDiceOutOfHouseState::reactToPlayerInput (std::string input, MadnGame_Ptr game) {
@@ -474,8 +474,8 @@ std::string PlayingPlayerOneDiceOutOfHouseState::reactToPlayerInput (std::string
             game->rollTheDice();
             game->movePlayerByPlayerNumberAndDiceNumberAndMeepleNumber(playerNumber, 5);
             return "2n|" + game->getBoardAsString();
-        } else return "xx|notYourTurn";
-    } else return "xx|inputDoesNotMatchState";
+        } else return "xx|Du bist nicht dran";
+    } else return "xx|Das ist aktuell nicht moeglich";
 }
 
 std::string PlayingPlayerTwoDiceOutOfHouseState::reactToPlayerInput (std::string input, MadnGame_Ptr game) {
@@ -489,8 +489,8 @@ std::string PlayingPlayerTwoDiceOutOfHouseState::reactToPlayerInput (std::string
             game->rollTheDice();
             game->movePlayerByPlayerNumberAndDiceNumberAndMeepleNumber(playerNumber, 5);
             return "3n|" + game->getBoardAsString();
-        } else return "xx|notYourTurn";
-    } else return "xx|inputDoesNotMatchState";
+        } else return "xx|Du bist nicht dran";
+    } else return "xx|Das ist aktuell nicht moeglich";
 } 
 
 std::string PlayingPlayerThreeDiceOutOfHouseState::reactToPlayerInput (std::string input, MadnGame_Ptr game) {
@@ -504,8 +504,8 @@ std::string PlayingPlayerThreeDiceOutOfHouseState::reactToPlayerInput (std::stri
             game->rollTheDice();
             game->movePlayerByPlayerNumberAndDiceNumberAndMeepleNumber(playerNumber, 5);
             return "4n|" + game->getBoardAsString();
-        } else return "xx|notYourTurn";
-    } else return "xx|inputDoesNotMatchState";
+        } else return "xx|Du bist nicht dran";
+    } else return "xx|Das ist aktuell nicht moeglich";
 } 
 
 std::string PlayingPlayerFourDiceOutOfHouseState::reactToPlayerInput (std::string input, MadnGame_Ptr game) {
@@ -519,8 +519,8 @@ std::string PlayingPlayerFourDiceOutOfHouseState::reactToPlayerInput (std::strin
             game->rollTheDice();
             game->movePlayerByPlayerNumberAndDiceNumberAndMeepleNumber(playerNumber, 5);
             return "1n|" + game->getBoardAsString();
-        } else return "xx|notYourTurn";
-    } else return "xx|inputDoesNotMatchState";
+        } else return "xx|Du bist nicht dran";
+    } else return "xx|Das ist aktuell nicht moeglich";
 } 
 
 void performComMove (MadnGame_Ptr game) {

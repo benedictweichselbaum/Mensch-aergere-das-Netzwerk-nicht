@@ -22,7 +22,7 @@ void ClientMadnBoard::writeHandler (connection_madn_ptr connection_ptr) {
 }
 
 void ClientMadnBoard::readHandler1 (connection_madn_ptr connection_ptr) {
-    std::this_thread::sleep_for(std::chrono::milliseconds(400));
+    std::this_thread::sleep_for(std::chrono::milliseconds(600));
     std:: string request("N");
     char buffer[100];
     strcpy(buffer, request.c_str());

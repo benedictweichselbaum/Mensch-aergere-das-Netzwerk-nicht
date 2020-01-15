@@ -7,7 +7,7 @@
 #include <SFML/System/Sleep.hpp>
 #include "../../client_server_connection/connection.hpp"
 
-#define ERRORANSWERFROMSERVER "refused" // Antwort wenn Spielernummer vergeben
+#define ERRORANSWERFROMSERVER "numberAlreadyTaken" // Antwort wenn Spielernummer vergeben
 
 using tcp = boost::asio::ip::tcp;
 using errorCode = boost::system::error_code;
