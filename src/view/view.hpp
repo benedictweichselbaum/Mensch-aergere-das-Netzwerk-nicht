@@ -38,6 +38,19 @@ struct Dice
 	void Clear();
 };
 
+struct Minigame
+{
+	int result;
+	std::string answer;
+	std::string taskstring;
+	sf::RectangleShape background;
+	sf::Text* text;
+	sf::Text* task;
+	sf::RectangleShape newTaskButton;
+	sf::Text* newTaskButtonText;
+	void NewTask();
+};
+
 struct Sidebar
 {
 	Dice dice;
@@ -51,6 +64,7 @@ struct Sidebar
 	sf::Text* SaveAndCloseButtonText;
 	sf::Text* infotext;
 	sf::Font* font;
+	Minigame minigame;
 };
 
 struct View
@@ -78,6 +92,7 @@ using ViewPtr = std::shared_ptr<View>;
 
 void DrawPlayground(sf::RenderWindow& window, std::vector<std::vector<sf::CircleShape>>& listOfCircles);
 void DrawSidebar(sf::RenderWindow& window, Sidebar sidebar);
+void DrawMinigame(sf::RenderWindow& window, Minigame minigame);
 void DrawDice(sf::RenderWindow& window, Dice dice);
 void DrawPlayers(sf::RenderWindow& window, ViewPtr view);
 void DrawRectangle(sf::RenderWindow& window, sf::RectangleShape rectangle);
@@ -91,6 +106,8 @@ void RunMouseButtonReleased(sf::RenderWindow& window, ViewPtr view);
 void RunMouseButtonReleasedPlayerMeeples(sf::RenderWindow& window, ViewPtr view, sf::Vector2f& mousePosF);
 
 void RunMouseButtonReleasedPlayerMeeple(sf::RenderWindow& window, ViewPtr view, sf::Vector2f& mousePosF, sf::CircleShape& meeple, int playerId, int meepleNr);
+
+void RunMinigameInput(Minigame& minigame, sf::Event event);
 
 std::vector<std::vector<sf::CircleShape>> CreateField();
 
@@ -111,6 +128,8 @@ sf::RectangleShape CreateShowsWhichPlayer(int x, int y);
 sf::RectangleShape CreateRectangleLine(bool horizontal, int startx, int starty, int length);
 
 Sidebar InitializeSidebar();
+
+Minigame InitializeMinigame(Sidebar& sidebar);
 
 ViewPtr InitializeView(ClientMadnPtr client_ptr);
 

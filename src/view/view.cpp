@@ -1,4 +1,5 @@
 #include "view.hpp"
+#include <regex>
 
 void DrawPlayground(sf::RenderWindow& window, std::vector<std::vector<sf::CircleShape>>& listOfCircles)
 {
@@ -23,6 +24,16 @@ void DrawSidebar(sf::RenderWindow& window, Sidebar sidebar)
 	DrawText(window, *sidebar.startButtonText);
 	DrawText(window, *sidebar.rollTheDiceButtonText);
 	DrawText(window, *sidebar.SaveAndCloseButtonText);
+	DrawMinigame(window, sidebar.minigame);
+}
+
+void DrawMinigame(sf::RenderWindow& window, Minigame minigame)
+{
+	window.draw(minigame.background);
+	window.draw(*minigame.task);
+	window.draw(*minigame.text);
+	window.draw(minigame.newTaskButton);
+	window.draw(*minigame.newTaskButtonText);
 }
 
 void DrawDice(sf::RenderWindow& window, Dice dice)
@@ -82,6 +93,12 @@ void RunView(sf::RenderWindow& window, ViewPtr view)
 			case sf::Event::MouseEntered:
 
 				break;
+			case sf::Event::TextEntered:
+				RunMinigameInput(view->sidebar.minigame, event);
+				break;
+			case sf::Event::KeyPressed:
+				RunMinigameInput(view->sidebar.minigame, event);
+				break;
 			}
 			
 		}
@@ -125,6 +142,10 @@ void RunMouseButtonReleased(sf::RenderWindow& window, ViewPtr view)
 	{
 		view->CommunicateWithClient("save");
 	}
+	else if (view->sidebar.minigame.newTaskButton.getGlobalBounds().contains(mousePosF))
+	{
+		view->sidebar.minigame.NewTask();
+	}
 	RunMouseButtonReleasedPlayerMeeples(window, view, mousePosF);
 }
 
@@ -161,6 +182,48 @@ void RunMouseButtonReleasedPlayerMeeple(sf::RenderWindow& window, ViewPtr view, 
 	}
 }
 
+void RunMinigameInput(Minigame& minigame, sf::Event event)
+{
+	if (event.text.unicode == 108)
+	{
+		minigame.answer = "";
+	}
+	else if ((event.text.unicode == 122 || event.text.unicode == 114 ) && minigame.answer.size() != 0)
+	{
+		minigame.answer.pop_back();
+	}
+
+	if (event.KeyPressed == sf::Keyboard::BackSpace && minigame.answer.size() != 0) {
+		minigame.answer.pop_back();
+	}
+	else if (event.text.unicode < 128) {
+		minigame.answer.push_back((char)event.text.unicode);
+	}
+	minigame.answer = std::regex_replace(minigame.answer, std::regex(R"([\D])"), "");
+
+	//int i = std::stoi(minigame.answer);
+	const char* str = minigame.answer.c_str();
+	int j;
+
+	if (sscanf_s(str, "%d", &j) != EOF)
+	{
+		if (minigame.result == std::stoi(minigame.answer))
+		{
+			minigame.task->setFillColor(sf::Color::Green);
+		}
+		else
+		{
+			minigame.task->setFillColor(MINIGAMETEXTCOLOR);
+		}
+	}
+	else
+	{
+		minigame.task->setFillColor(MINIGAMETEXTCOLOR);
+	}
+		
+	minigame.task->setString(minigame.taskstring + minigame.answer);
+}
+
 std::vector<std::vector<sf::CircleShape>> CreateField()
 {
 	std::vector<std::vector<sf::CircleShape>> field;
@@ -172,7 +235,7 @@ std::vector<std::vector<sf::CircleShape>> CreateField()
 			row.push_back(CreateCircle(j, i, sf::Color::Transparent));
 		}
 		field.push_back(row);
-	}
+	} 
 
 	return field;
 }
@@ -387,7 +450,45 @@ Sidebar InitializeSidebar()
 	textbox->setOutlineColor(sf::Color::Green);
 	sidebar.infotext = textbox;
 	sidebar.infotext->setFillColor(sf::Color::White);
+	sidebar.minigame = InitializeMinigame(sidebar);
 	return sidebar;
+}
+
+Minigame InitializeMinigame(Sidebar& sidebar)
+{
+	Minigame minigame;
+	minigame.answer = "";
+	minigame.taskstring = "";
+	sf::RectangleShape background(sf::Vector2f(SIDEPANEL - TOPBUTTONMARGIN * 6, PLAYGROUNDINTERVAL * 1.6));
+	background.setFillColor(MINIGAMEBACKGROUNDCOLOR);
+	background.setPosition(PLAYGROUNDINTERVAL * 11 + TOPBUTTONMARGIN * 3, PLAYGROUNDINTERVAL * 7);
+	minigame.background = background;
+	sf::Text* textbox = new sf::Text;
+	textbox->setFont(*sidebar.font);
+	textbox->setString("Minigame: Kleine Rechenaufgabe");
+	textbox->setPosition(PLAYGROUNDINTERVAL * 11 + TOPBUTTONMARGIN * 6, PLAYGROUNDINTERVAL * 7 + TOPBUTTONMARGIN);
+	textbox->setCharacterSize(TOPBUTTONTEXTSIZE);
+	textbox->setFillColor(MINIGAMETEXTCOLOR);
+	minigame.text = textbox;
+	sf::Text* task = new sf::Text;
+	task->setFont(*sidebar.font);
+	task->setString(minigame.taskstring + minigame.answer);
+	task->setPosition(PLAYGROUNDINTERVAL * 11 + TOPBUTTONMARGIN * 6, PLAYGROUNDINTERVAL * 7 + TOPBUTTONMARGIN + 2 * TOPBUTTONTEXTSIZE);
+	task->setCharacterSize(TOPBUTTONTEXTSIZE);
+	task->setFillColor(MINIGAMETEXTCOLOR);
+	minigame.task = task;
+	sf::RectangleShape newTaskButton(sf::Vector2f(SIDEPANEL - TOPBUTTONMARGIN * 12, ROLLTHEDICEBUTTONHEIGHT));
+	newTaskButton.setFillColor(TOPBUTTONCOLOR);
+	newTaskButton.setPosition(PLAYGROUNDINTERVAL * 11 + TOPBUTTONMARGIN * 6, PLAYGROUNDINTERVAL * 7 + 4 * TOPBUTTONTEXTSIZE);
+	minigame.newTaskButton = newTaskButton;
+	sf::Text* buttonText = new sf::Text;
+	buttonText->setFont(*sidebar.font);
+	buttonText->setString("Neue Aufgabe");
+	buttonText->setPosition(PLAYGROUNDINTERVAL * 11 + TOPBUTTONMARGIN * 6 + MINIGAMEBUTTONLEFTPADDING, PLAYGROUNDINTERVAL * 7 + 4 * TOPBUTTONTEXTSIZE + ((ROLLTHEDICEBUTTONHEIGHT - TOPBUTTONTEXTSIZE) / 2.5));
+	buttonText->setCharacterSize(TOPBUTTONTEXTSIZE);
+	buttonText->setFillColor(MINIGAMETEXTCOLOR);
+	minigame.newTaskButtonText = buttonText;
+	return minigame;
 }
 
 ViewPtr InitializeView(ClientMadnPtr client_ptr)
@@ -804,4 +905,25 @@ void View::CheckForAnswer()
 void View::SetErrorMessage(std::string message)
 {
 	sidebar.infotext->setString(message);
+}
+
+void Minigame::NewTask()
+{
+	srand((time(NULL) % 3 + 46846165165) * 7 + 5544564);
+	for (int i = 0; i < 15; ++i)
+		rand();
+	int first = rand() % 8000;
+	int second = rand() % 5000;
+	if (first > second && rand() % 3 != 0)
+	{
+		result = first - second;
+		taskstring = std::to_string(first) + " - " + std::to_string(second) + " = ";
+	}
+	else
+	{
+		result = first + second;
+		taskstring = std::to_string(first) + " + " + std::to_string(second) + " = ";
+	}
+	task->setString(taskstring);
+	task->setFillColor(MINIGAMETEXTCOLOR);
 }
