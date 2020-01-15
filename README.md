@@ -17,7 +17,7 @@ Abschlussprojekt für die C++-Vorlesung. Ziel ist ein Mensch ärgere dich nicht 
 - [ ] verschlüsselte Speicherstände
 - [X] fancy Grafik
 - [ ] Statistiken
-- [ ] Mini-Game beim Warten
+- [X] Minigame beim Warten
 
 ## Kompilieren und Ausführen
 Um das Programm (die Programme) erfolgreich zu kompilieren, werden zwei Bibliotheken benötigt. Boost und SFML. <br/>
@@ -103,10 +103,21 @@ Infolgedessen schickt der Spieler folgenden Befehl -> '[Spielernummer]P' (P steh
 Diese Aufforderung ist auch möglich, wenn ein Spielzug theoretisch möglich ist. Es muss vorher gewürfelt worden sein.
 
 ## Bedienung der Spieloberfläche
-Zu Beginn jedes Zuges muss der Spieler würfeln, dafür muss aud die Schaltfläche mit der Aufschrift "Würfeln" unter dem Spielwürfel geklickt werden. Das Ergebnis zeigt dann der Spielwürfel an.
-Danach kann der Spieler mit einer Figur seiner Wahl ziehen. Dafür muss diese einfach angeklickt werden. Ist der Zug gültig, wird gezogen und das Spiel geht weiter.
-Ist der Zug nicht erlaubt, erscheint eine Fehlermeldung und eine andere Figur kann ausgewählt werden.
-Ist mit der gewürfelten Zahl kein Zug möglich, kann der Zug über die Taste "Zug weitergeben" übersprungen werden. Der nächste Spieler ist nun an der Reihe.
-Wenn vor Beginn des Spieles noch auf weitere Spieler gewartet wird, kann der Spieler mit einem Klick auf "Starten" dem Server mitteilen, dass er auf keine weiteren Spieler mehr warten möchte.
-Haben alle Mitspieler dies getan, werden die restlichen Spieler mit COMs aufgefüllt und das Spiel gestartet.
-Damit alle Spieler immer auf dem aktuellen Stand gehalten werden, wird das Spielfeld wird auch aktualisiert, wenn der Spieler nicht an der Reihe ist.
+Zu Beginn jedes Zuges muss der Spieler würfeln, dafür muss aud die Schaltfläche mit der Aufschrift "Wuerfeln" unter dem Spielwürfel geklickt werden. Das Ergebnis zeigt dann der Spielwürfel an.<br />
+Danach kann der Spieler mit einer Figur seiner Wahl ziehen. Dafür muss diese einfach angeklickt werden. Ist der Zug gültig, wird gezogen und das Spiel geht weiter.<br />
+Ist der Zug nicht erlaubt, erscheint eine Fehlermeldung und eine andere Figur kann ausgewählt werden.<br />
+Ist mit der gewürfelten Zahl kein Zug möglich, kann der Zug über die Taste "Weitergeben" übersprungen werden. Der nächste Spieler ist nun an der Reihe.<br />
+Wenn vor Beginn des Spieles noch auf weitere Spieler gewartet wird, kann der Spieler mit einem Klick auf "Starten" dem Server mitteilen, dass er auf keine weiteren Spieler mehr warten möchte.<br />
+Haben alle Mitspieler dies getan, werden die restlichen Spieler mit COMs aufgefüllt und das Spiel gestartet.<br />
+Damit alle Spieler immer auf dem aktuellen Stand gehalten werden, wird das Spielfeld wird auch aktualisiert, wenn der Spieler nicht an der Reihe ist.<br />
+Das Spiel kann gespeichert werden. Dafür müssen alle Teilnehmer innerhalb eines Zuges die Taste "Speicheranfrage Senden" betätigen. <br />
+Ist das erfolgt, speichert der Server das Spiel und die Spieler können ihr Programm beenden. Weitere Züge sind erst nach einem erneuten Start des Servers möglich.<br />
+Wollen nicht alle Spieler das Spiel beenden, wird dieses normal fortgeführt.<br />
+
+### Minigame
+Während gewartet wird, dass andere Spieler ziehen, gibt es die Möglichkeit ein kleines Minispiel zu spielen.<br />
+Rechts neben dem Spielfeld befindet sich ein kleines Fenster. In diesem kann auf "Neue Aufgabe" geklickt werden, um eine kleine mathematische Aufgabe zu erhalten.<br />
+Die Eingabe des Ergebnisses erfolgt über die Tastatur. <br />
+Ist das Ergebnis korrekt, verfärbt sich es grün.<br />
+Bei manchen Geräten ist es nicht möglich, mit der Rückschritttaste die letze eingegebene Zahl zu löschen. <br />
+Dafür kann entweder die Taste "z" (für zurück) oder "r" (für Rückschritttaste / return) genutzt werden. Mit "l" (für löschen) ist es ebenfalls möglich die gesamte Eingabe zu löschen.<br />
